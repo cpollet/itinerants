@@ -1,8 +1,9 @@
 package net.cpollet.itinerants.rest.v1.resources;
 
 import net.cpollet.itinerants.core.api.PersonService;
+import net.cpollet.itinerants.core.api.data.Person;
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
-import net.cpollet.itinerants.rest.v1.data.Person;
+import net.cpollet.itinerants.rest.v1.data.PersonData;
 import net.cpollet.itinerants.rest.v1.exceptions.RestException;
 import org.dozer.Mapper;
 
@@ -21,7 +22,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.lang.reflect.Method;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,8 +56,8 @@ public class PersonResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createPerson(Person person) throws URISyntaxException {
-        String identifier = personService.hire(mapper.map(person, net.cpollet.itinerants.core.api.data.Person.class));
+    public Response createPerson(PersonData personData) {
+        String identifier = personService.hire(mapper.map(personData, Person.class));
 
         URI uri = uriInfo.getBaseUriBuilder()
                 .path(PERSONS)
@@ -65,17 +65,17 @@ public class PersonResource {
                 .resolveTemplate("id", identifier)
                 .build();
 
-        person.id = identifier;
+        personData.id = identifier;
 
-        return Response.created(uri).entity(person).build();
+        return Response.created(uri).entity(personData).build();
     }
 
     @GET
-    @Path("/{id}")
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Person getPerson(@PathParam(ID) String id) {
+    public PersonData getPerson(@PathParam(ID) String id) {
         try {
-            return mapper.map(personService.getInformation(id), Person.class);
+            return mapper.map(personService.getInformation(id), PersonData.class);
         }
         catch (PersonNotFoundException e) {
             throw new RestException(e, RestException.ERROR_USER_NOT_FOUND, Response.Status.NOT_FOUND);
@@ -86,19 +86,19 @@ public class PersonResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Person updatePerson(@PathParam(ID) String id, Person person) {
+    public PersonData updatePerson(@PathParam(ID) String id, PersonData personData) {
         return null;
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Person deletePerson(@PathParam(ID) String id) {
+    public PersonData deletePerson(@PathParam(ID) String id) {
         return null;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Person> getAllPersons() {
+    public List<PersonData> getAllPersons() {
         return Collections.emptyList();
     }
 }

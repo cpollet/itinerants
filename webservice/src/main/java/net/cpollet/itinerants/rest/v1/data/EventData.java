@@ -6,7 +6,7 @@ import java.time.LocalTime;
 /**
  * @author Christophe Pollet
  */
-public class Event {
+public class EventData {
     public String id;
     public LocalDate date;
     public LocalTime time;
