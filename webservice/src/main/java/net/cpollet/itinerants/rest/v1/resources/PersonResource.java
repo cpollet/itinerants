@@ -65,7 +65,7 @@ public class PersonResource {
                 .resolveTemplate("id", identifier)
                 .build();
 
-        person.setId(identifier);
+        person.id = identifier;
 
         return Response.created(uri).entity(person).build();
     }

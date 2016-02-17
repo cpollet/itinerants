@@ -7,6 +7,9 @@ import org.dozer.Mapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Christophe Pollet
  */
@@ -14,11 +17,11 @@ import org.springframework.context.annotation.Configuration;
 public class SpringRootContext {
     @Bean
     public Mapper mapper() {
-//        List<String> mappingFiles = new ArrayList();
-//        mappingFiles.add("dozerJdk8Converters.xml");
+        List<String> mappingFiles = new ArrayList<>();
+        mappingFiles.add("dozer/personConverter.xml");
 
         DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
-//        dozerBeanMapper.setMappingFiles(mappingFiles);
+        dozerBeanMapper.setMappingFiles(mappingFiles);
 
         return dozerBeanMapper;
     }

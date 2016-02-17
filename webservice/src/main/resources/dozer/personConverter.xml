@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <configuration>
+        <custom-converters>
+            <converter type="net.cpollet.itinerants.dozer.v1.PersonConverter">
+                <class-a>net.cpollet.itinerants.rest.v1.data.Person</class-a>
+                <class-b>net.cpollet.itinerants.core.api.data.Person</class-b>
+            </converter>
+        </custom-converters>
+    </configuration>
+</mappings>

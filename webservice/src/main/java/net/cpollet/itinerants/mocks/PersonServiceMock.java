@@ -22,10 +22,7 @@ public class PersonServiceMock implements PersonService {
     public String hire(Person person) {
         String id = UUID.randomUUID().toString();
 
-        Person savedPerson = new Person();
-        savedPerson.setId(id);
-        savedPerson.setName(person.getName());
-        savedPerson.setEmail(person.getEmail());
+        Person savedPerson = new Person(id, person.getName(), person.getEmail());
 
         persons.put(id, savedPerson);
 
