@@ -14,7 +14,7 @@ public class PersonConverter extends DozerConverter<PersonData, Person> {
 
     @Override
     public Person convertTo(PersonData from, Person to) {
-        return new net.cpollet.itinerants.core.api.data.Person(from.id, from.name, from.email);
+        return new Person(from.id, from.name, from.email);
     }
 
     @Override
