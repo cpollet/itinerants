@@ -3,6 +3,7 @@ package net.cpollet.itinerants.rest.v1.resources;
 import net.cpollet.itinerants.core.api.PersonService;
 import net.cpollet.itinerants.core.api.data.Person;
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
+import net.cpollet.itinerants.jersey.PATCH;
 import net.cpollet.itinerants.rest.v1.data.PersonData;
 import net.cpollet.itinerants.rest.v1.exceptions.RestException;
 import org.dozer.Mapper;
@@ -24,6 +25,7 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Christophe Pollet
@@ -59,15 +61,17 @@ public class PersonResource {
     public Response createPerson(PersonData personData) {
         String identifier = personService.hire(mapper.map(personData, Person.class));
 
-        URI uri = uriInfo.getBaseUriBuilder()
+        personData.link = personUrl(identifier).toString();
+
+        return Response.created(personUrl(identifier)).entity(personData).build();
+    }
+
+    private URI personUrl(String identifier) {
+        return uriInfo.getBaseUriBuilder()
                 .path(PERSONS)
                 .path(GET_PERSON)
                 .resolveTemplate("id", identifier)
                 .build();
-
-        personData.id = identifier;
-
-        return Response.created(uri).entity(personData).build();
     }
 
     @GET
@@ -75,10 +79,25 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     public PersonData getPerson(@PathParam(ID) String id) {
         try {
-            return mapper.map(personService.getInformation(id), PersonData.class);
+            PersonData person = mapper.map(personService.getProfile(id), PersonData.class);
+            person.link = personUrl(id).toString();
+            return person;
         }
         catch (PersonNotFoundException e) {
-            throw new RestException(e, RestException.ERROR_USER_NOT_FOUND, Response.Status.NOT_FOUND);
+            throw new RestException(e, RestException.ERROR_PERSON_NOT_FOUND, Response.Status.NOT_FOUND);
+        }
+    }
+
+    @PATCH
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response partialUpdatePerson(@PathParam(ID) String id, PersonData personData) {
+        try {
+            personService.updateProfile(id, mapper.map(personData, Person.class));
+            return Response.seeOther(personUrl(id)).build();
+        }
+        catch (PersonNotFoundException e) {
+            throw new RestException(e, RestException.ERROR_PERSON_NOT_FOUND, Response.Status.NOT_FOUND);
         }
     }
 
@@ -86,19 +105,32 @@ public class PersonResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public PersonData updatePerson(@PathParam(ID) String id, PersonData personData) {
-        return null;
+    public Response updatePerson(@PathParam(ID) String id, PersonData personData) {
+        return Response.noContent().build();
     }
 
     @DELETE
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PersonData deletePerson(@PathParam(ID) String id) {
-        return null;
+    public Response deletePerson(@PathParam(ID) String id) {
+        try {
+            personService.delete(id);
+        }
+        catch (PersonNotFoundException e) {
+            throw new RestException(e, RestException.ERROR_PERSON_NOT_FOUND, Response.Status.NOT_FOUND);
+        }
+        return Response.noContent().build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<PersonData> getAllPersons() {
-        return Collections.emptyList();
+        return personService.getAll().stream()
+                .map(e -> {
+                    PersonData person = mapper.map(e, PersonData.class);
+                    person.link = personUrl(e.getId()).toString();
+                    return person;
+                })
+                .collect(Collectors.toList());
     }
 }

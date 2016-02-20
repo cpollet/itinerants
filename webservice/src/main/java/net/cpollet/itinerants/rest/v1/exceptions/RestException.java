@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
  * @author Christophe Pollet
  */
 public class RestException extends WebApplicationException {
-    public static int ERROR_USER_NOT_FOUND = 1000;
+    public static int ERROR_PERSON_NOT_FOUND = 1000;
 
     private final int code;
 

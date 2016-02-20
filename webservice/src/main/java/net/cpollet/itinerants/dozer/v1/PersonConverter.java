@@ -14,7 +14,7 @@ public class PersonConverter extends DozerConverter<PersonData, Person> {
 
     @Override
     public Person convertTo(PersonData from, Person to) {
-        return new Person(from.id, from.name, from.email);
+        return new Person(null, from.name, from.email);
     }
 
     @Override
@@ -23,7 +23,6 @@ public class PersonConverter extends DozerConverter<PersonData, Person> {
             to = new PersonData();
         }
 
-        to.id = from.getId();
         to.name = from.getName();
         to.email = from.getEmail();
 
