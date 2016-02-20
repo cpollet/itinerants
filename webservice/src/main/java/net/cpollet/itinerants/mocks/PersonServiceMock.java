@@ -43,7 +43,13 @@ public class PersonServiceMock implements PersonService {
     public void updateProfile(String id, Person person) throws PersonNotFoundException {
         assertPersonExists(id);
 
-        persons.put(id, persons.get(id).merge(person));
+        Person current = persons.get(id);
+
+        Person updatedPerson = new Person(id,
+                person.getName() == null ? current.getName() : person.getName(),
+                person.getEmail() == null ? current.getEmail() : person.getEmail());
+
+        persons.put(id, updatedPerson);
     }
 
     private void assertPersonExists(String id) throws PersonNotFoundException {
