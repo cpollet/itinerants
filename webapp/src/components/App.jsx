@@ -26,7 +26,7 @@ class App extends React.Component {
     loadCategoriesFromServer() {
         var self = this;
         $.ajax({
-            url: "http://localhost:8080/api/v1/persons"
+            url: "/api/v1/persons"
         }).done(function (data) {
             self.setState({
                 persons: data

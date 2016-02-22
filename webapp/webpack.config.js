@@ -11,6 +11,11 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
+    devServer: {
+        proxy: {
+            '/api/*': 'http://localhost:8080'
+        }
+    },
     devtool: 'source-map',
     module: {
         loaders: [

@@ -106,6 +106,6 @@ public class PersonResource {
                     return person;
                 })
                 .collect(Collectors.toList()))
-                .header("Access-Control-Allow-Origin", "*").build();
+                .build();
     }
 }
