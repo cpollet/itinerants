@@ -15,8 +15,9 @@ import java.util.Map;
  */
 @Provider
 public class ExceptionMapper extends BaseExceptionMapper<Exception> {
+    private final Logger LOGGER = LoggerFactory.getLogger(ExceptionMapper.class);
+
     private final Map<Class<? extends Exception>, RestProperty> properties;
-    private Logger LOGGER = LoggerFactory.getLogger(ExceptionMapper.class);
 
     public ExceptionMapper() {
         this.properties = new HashMap<>();

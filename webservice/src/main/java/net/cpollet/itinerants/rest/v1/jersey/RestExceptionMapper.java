@@ -15,6 +15,7 @@ import javax.ws.rs.ext.Provider;
 public class RestExceptionMapper extends BaseExceptionMapper<RestException> {
     private static final Logger LOGGER = LoggerFactory.getLogger(RestExceptionMapper.class);
 
+    @Override
     public Response toResponse(RestException exception) {
         LOGGER.info("We got an exception with message: '{}'", exception.getMessage(), exception);
         return Response.status(exception.getResponse().getStatus()).
