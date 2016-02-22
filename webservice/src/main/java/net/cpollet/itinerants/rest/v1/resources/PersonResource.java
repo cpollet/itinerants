@@ -5,7 +5,6 @@ import net.cpollet.itinerants.core.api.data.Person;
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
 import net.cpollet.itinerants.jersey.PATCH;
 import net.cpollet.itinerants.rest.v1.data.PersonData;
-import net.cpollet.itinerants.rest.v1.exceptions.RestException;
 import org.dozer.Mapper;
 
 import javax.inject.Inject;
@@ -23,7 +22,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.lang.reflect.Method;
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,28 +75,18 @@ public class PersonResource {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public PersonData getPerson(@PathParam(ID) String id) {
-        try {
-            PersonData person = mapper.map(personService.getProfile(id), PersonData.class);
-            person.link = personUrl(id).toString();
-            return person;
-        }
-        catch (PersonNotFoundException e) {
-            throw new RestException(e, RestException.ERROR_PERSON_NOT_FOUND, Response.Status.NOT_FOUND);
-        }
+    public PersonData getPerson(@PathParam(ID) String id) throws PersonNotFoundException {
+        PersonData person = mapper.map(personService.getProfile(id), PersonData.class);
+        person.link = personUrl(id).toString();
+        return person;
     }
 
     @PATCH
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response partialUpdatePerson(@PathParam(ID) String id, PersonData personData) {
-        try {
-            personService.updateProfile(id, mapper.map(personData, Person.class));
-            return Response.seeOther(personUrl(id)).build();
-        }
-        catch (PersonNotFoundException e) {
-            throw new RestException(e, RestException.ERROR_PERSON_NOT_FOUND, Response.Status.NOT_FOUND);
-        }
+    public Response partialUpdatePerson(@PathParam(ID) String id, PersonData personData) throws PersonNotFoundException {
+        personService.updateProfile(id, mapper.map(personData, Person.class));
+        return Response.seeOther(personUrl(id)).build();
     }
 
     @PUT
@@ -112,13 +100,8 @@ public class PersonResource {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePerson(@PathParam(ID) String id) {
-        try {
-            personService.delete(id);
-        }
-        catch (PersonNotFoundException e) {
-            throw new RestException(e, RestException.ERROR_PERSON_NOT_FOUND, Response.Status.NOT_FOUND);
-        }
+    public Response deletePerson(@PathParam(ID) String id) throws PersonNotFoundException {
+        personService.delete(id);
         return Response.noContent().build();
     }
 
