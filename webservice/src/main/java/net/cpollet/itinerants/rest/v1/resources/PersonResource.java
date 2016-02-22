@@ -89,13 +89,6 @@ public class PersonResource {
         return Response.seeOther(personUrl(id)).build();
     }
 
-    @PUT
-    @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePerson(@PathParam(ID) String id, PersonData personData) {
-        return Response.noContent().build();
-    }
 
     @DELETE
     @Path("{id}")
