@@ -12,7 +12,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -22,7 +21,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.lang.reflect.Method;
 import java.net.URI;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -100,13 +98,14 @@ public class PersonResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PersonData> getAllPersons() {
-        return personService.getAll().stream()
+    public Response getAllPersons() {
+        return Response.ok(personService.getAll().stream()
                 .map(e -> {
                     PersonData person = mapper.map(e, PersonData.class);
                     person.link = personUrl(e.getId()).toString();
                     return person;
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()))
+                .header("Access-Control-Allow-Origin", "*").build();
     }
 }

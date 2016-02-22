@@ -1,0 +1,48 @@
+{
+  "name": "itinerants",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --port 8081 --inline --hot --progress --colors --content-base public",
+    "deploy": "NODE_ENV=production webpack -p --display-chunks --display-reasons"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpollet/itinerants.git"
+  },
+  "author": "Christophe Pollet",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/cpollet/itinerants/issues"
+  },
+  "homepage": "https://github.com/cpollet/itinerants#readme",
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "css-loader": "^0.23.0",
+    "file-loader": "^0.8.5",
+    "imports-loader": "^0.6.5",
+    "node-sass": "^3.4.2",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.8",
+    "webpack-dev-server": "^1.12.1"
+  },
+  "dependencies": {
+    "alt": "^0.17.9",
+    "history": "^1.13.1",
+    "jquery": "^2.1.4",
+    "lodash": "^3.10.1",
+    "moment": "^2.10.6",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-router": "^1.0.2",
+    "react-semantify": "^0.4.1",
+    "semantic-ui": "^2.1.6"
+  }
+}
