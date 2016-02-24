@@ -1,20 +1,24 @@
-var path = require('path');
+'use strict';
 
+var path = require('path');
 var webpack = require('webpack');
 
-module.exports = {
-    entry: './src/main.js',
+var proxy = process.env.DEV_PROXY || 'docker';
+var env = process.env.NODE_ENV || 'development';
+
+console.log('env:   ' + env);
+console.log('proxy: ' + proxy);
+
+var config = {
+    entry: [
+        './src/main.js'
+    ],
     output: {
         path: path.join(__dirname, '/public'),
         filename: 'bundle.js'
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
-    },
-    devServer: {
-        proxy: {
-            '/api/*': 'http://localhost:8080'
-        }
     },
     devtool: 'source-map',
     module: {
@@ -50,3 +54,29 @@ module.exports = {
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
     ]
 };
+
+if (env == 'development') {
+    config.entry.push('webpack/hot/only-dev-server');
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
+
+    if (proxy == 'docker') {
+        config.entry.push('webpack-dev-server/client?http://0.0.0.0:8000'); // 8000 corresponds to docker exported port
+    } else if (proxy='webpack') {
+        config.entry.push('webpack-dev-server/client?http://0.0.0.0:8080'); // 8080 corresponds to webpack-dev-server port
+
+        config.devServer = {
+            proxy: {
+                '/api/*': {
+                    target: 'http://localhost:9000',
+                    rewrite: function(req) {
+                        req.url = req.url.replace(/^\/api(.+)$/,'$1');
+                    }
+                }
+            }
+        }
+    } else {
+        console.log('No proxy is configured');
+    }
+}
+
+module.exports = config;

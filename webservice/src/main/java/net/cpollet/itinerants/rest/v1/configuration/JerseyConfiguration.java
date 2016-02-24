@@ -8,7 +8,7 @@ import javax.ws.rs.ApplicationPath;
 /**
  * @author Christophe Pollet
  */
-@ApplicationPath("/api/v1")
+@ApplicationPath("/v1")
 public class JerseyConfiguration extends ResourceConfig {
     public JerseyConfiguration() {
         packages("net.cpollet.itinerants.rest.v1.resources", "net.cpollet.itinerants.rest.v1.jersey");

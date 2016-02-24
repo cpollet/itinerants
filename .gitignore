@@ -17,3 +17,4 @@ gen
 
 webapp/node_modules
 webapp/semantic/dist
+npm-debug.log
