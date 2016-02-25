@@ -4,8 +4,13 @@ import net.cpollet.itinerants.core.api.PersonService;
 import net.cpollet.itinerants.core.api.data.Person;
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
 import net.cpollet.itinerants.jersey.PATCH;
+import net.cpollet.itinerants.rest.Version;
 import net.cpollet.itinerants.rest.v1.data.PersonData;
+import net.cpollet.itinerants.rest.v1.jersey.filters.RequestVersionFilter;
 import org.dozer.Mapper;
+import org.glassfish.jersey.server.ContainerRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -17,6 +22,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.lang.reflect.Method;
@@ -26,8 +32,11 @@ import java.util.stream.Collectors;
 /**
  * @author Christophe Pollet
  */
+
 @Path("persons")
 public class PersonResource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonResource.class);
+
     private static final String ID = "id";
 
     private static final Class PERSONS = PersonResource.class;
@@ -43,13 +52,16 @@ public class PersonResource {
     }
 
     @Inject
-    PersonService personService;
+    private PersonService personService;
 
     @Inject
-    Mapper mapper;
+    private Mapper mapper;
 
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    private Request request;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -68,6 +80,10 @@ public class PersonResource {
                 .path(GET_PERSON)
                 .resolveTemplate("id", identifier)
                 .build();
+    }
+
+    private Version getVersion() {
+        return (Version) ((ContainerRequest) request).getProperty(RequestVersionFilter.PROPERTY_VERSION);
     }
 
     @GET
@@ -99,6 +115,7 @@ public class PersonResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPersons() {
+        LOGGER.info("Handling version {}", getVersion());
         return Response.ok(personService.getAll().stream()
                 .map(e -> {
                     PersonData person = mapper.map(e, PersonData.class);

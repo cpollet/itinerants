@@ -1,10 +1,10 @@
-package net.cpollet.itinerants.rest.v1.jersey;
+package net.cpollet.itinerants.rest.v1.jersey.mappers;
 
 import net.cpollet.itinerants.rest.v1.data.ErrorResponse;
-import net.cpollet.itinerants.rest.v1.exceptions.RestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
@@ -12,16 +12,15 @@ import javax.ws.rs.ext.Provider;
  * @author Christophe Pollet
  */
 @Provider
-public class RestExceptionMapper extends BaseExceptionMapper<RestException> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestExceptionMapper.class);
+public class WebApplicationExceptionMapper extends BaseExceptionMapper<WebApplicationException> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebApplicationExceptionMapper.class);
 
     @Override
-    public Response toResponse(RestException exception) {
+    public Response toResponse(WebApplicationException exception) {
         LOGGER.info("We got an exception with message: '{}'", exception.getMessage(), exception);
         return Response.status(exception.getResponse().getStatus()).
-                entity(new ErrorResponse(exception.getMessage(), exception.getCode()))
+                entity(new ErrorResponse(exception.getMessage(), exception.getResponse().getStatus()))
                 .type(getMediaType())
                 .build();
     }
 }
-

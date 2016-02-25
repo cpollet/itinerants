@@ -17,6 +17,7 @@ public class PersonServiceMock implements PersonService {
 
     public PersonServiceMock() {
         this.persons = new HashMap<>();
+        hire(new Person(null, "First", "first@example.com"));
     }
 
     @Override

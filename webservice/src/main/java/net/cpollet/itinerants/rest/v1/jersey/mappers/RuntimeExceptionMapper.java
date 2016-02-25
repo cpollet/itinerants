@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.rest.v1.jersey;
+package net.cpollet.itinerants.rest.v1.jersey.mappers;
 
 import net.cpollet.itinerants.rest.v1.data.ErrorResponse;
 import org.slf4j.Logger;

@@ -6,7 +6,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="net.cpollet" level="info" additivity="false">
+        <Logger name="net.cpollet" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Root level="warn">
