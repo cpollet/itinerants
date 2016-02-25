@@ -11,7 +11,7 @@ import javax.ws.rs.ApplicationPath;
 @ApplicationPath("/")
 public class JerseyConfiguration extends ResourceConfig {
     public JerseyConfiguration() {
-        packages("net.cpollet.itinerants.rest.resources", "net.cpollet.itinerants.rest.v1.jersey");
+        packages("net.cpollet.itinerants.rest");
         register(JacksonFeature.class);
     }
 }

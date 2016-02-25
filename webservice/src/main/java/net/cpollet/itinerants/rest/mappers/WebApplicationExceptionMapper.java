@@ -18,8 +18,8 @@ public class WebApplicationExceptionMapper extends BaseExceptionMapper<WebApplic
     @Override
     public Response toResponse(WebApplicationException exception) {
         LOGGER.info("We got an exception with message: '{}'", exception.getMessage(), exception);
-        return Response.status(exception.getResponse().getStatus()).
-                entity(new ErrorResponse(exception.getMessage(), exception.getResponse().getStatus()))
+        return Response.status(exception.getResponse().getStatus())
+                .entity(new ErrorResponse(exception.getMessage(), exception.getResponse().getStatus()))
                 .type(getMediaType())
                 .build();
     }

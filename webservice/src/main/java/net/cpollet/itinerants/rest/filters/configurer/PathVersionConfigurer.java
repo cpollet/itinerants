@@ -22,7 +22,7 @@ public class PathVersionConfigurer extends BaseVersionConfigurer {
     public void configure(ContainerRequestContext requestContext, VersionConfigurerChain chain) {
         List<PathSegment> segments = requestContext.getUriInfo().getPathSegments();
 
-        Version version = decodeVersion(segments.get(0).getPath());
+        Version version = decodeVersionIfPossible(segments.get(0).getPath());
         if (version == null) {
             chain.configure(requestContext);
             return;

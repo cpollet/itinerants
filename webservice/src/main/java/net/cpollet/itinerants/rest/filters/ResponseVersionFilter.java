@@ -22,7 +22,9 @@ public class ResponseVersionFilter implements ContainerResponseFilter {
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
         Version version = (Version) requestContext.getProperty(RequestVersionFilter.PROPERTY_VERSION);
 
-        responseContext.getHeaders().put("X-Version", Collections.singletonList(version.version));
+        if (version != null) {
+            responseContext.getHeaders().put("X-Version", Collections.singletonList(version.version));
+        }
 
         if (requestContext.getProperty(VERSION_HEADERS) != null) {
             @SuppressWarnings("unchecked")

@@ -17,8 +17,8 @@ public class RuntimeExceptionMapper extends BaseExceptionMapper<RuntimeException
     @Override
     public Response toResponse(RuntimeException exception) {
         LOGGER.error("We got an exception with message: '{}'", exception.getMessage(), exception);
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
-                entity(new ErrorResponse("Internal server error", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()))
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity(new ErrorResponse("Internal server error", Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()))
                 .type(getMediaType())
                 .build();
     }

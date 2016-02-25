@@ -30,8 +30,8 @@ public class ExceptionMapper extends BaseExceptionMapper<Exception> {
 
         RestProperty property = properties.get(exception.getClass());
 
-        return Response.status(property.httpResponseStatus).
-                entity(new ErrorResponse(exception.getMessage(), property.code))
+        return Response.status(property.httpResponseStatus)
+                .entity(new ErrorResponse(exception.getMessage(), property.code))
                 .type(getMediaType())
                 .build();
     }
