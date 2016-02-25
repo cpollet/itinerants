@@ -20,7 +20,7 @@ public abstract class BaseVersionConfigurer implements VersionConfigurer {
         return Arrays.stream(Version.values())
                 .filter(v -> v.version.equals(version))
                 .findFirst()
-                .orElseThrow(() -> new WebApplicationException(String.format(VERSION_NOT_SUPPORTED, version, Arrays.toString(Version.values())),
+                .orElseThrow(() -> new WebApplicationException(String.format(VERSION_NOT_SUPPORTED, version, Arrays.toString(Version.orderedValues())),
                         Response.status(406).build()));
     }
 
