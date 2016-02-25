@@ -1,12 +1,12 @@
-package net.cpollet.itinerants.rest.v1.resources;
+package net.cpollet.itinerants.rest.resources;
 
 import net.cpollet.itinerants.core.api.PersonService;
 import net.cpollet.itinerants.core.api.data.Person;
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
 import net.cpollet.itinerants.jersey.PATCH;
 import net.cpollet.itinerants.rest.Version;
-import net.cpollet.itinerants.rest.v1.data.PersonData;
-import net.cpollet.itinerants.rest.v1.jersey.filters.RequestVersionFilter;
+import net.cpollet.itinerants.rest.data.v1.PersonData;
+import net.cpollet.itinerants.rest.filters.RequestVersionFilter;
 import org.dozer.Mapper;
 import org.glassfish.jersey.server.ContainerRequest;
 import org.slf4j.Logger;

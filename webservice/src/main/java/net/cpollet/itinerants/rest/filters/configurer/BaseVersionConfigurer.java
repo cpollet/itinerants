@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.rest.v1.jersey.filters.configurer;
+package net.cpollet.itinerants.rest.filters.configurer;
 
 import net.cpollet.itinerants.rest.Version;
 

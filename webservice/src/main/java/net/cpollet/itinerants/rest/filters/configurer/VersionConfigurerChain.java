@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.rest.v1.jersey.filters.configurer;
+package net.cpollet.itinerants.rest.filters.configurer;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import java.util.Arrays;

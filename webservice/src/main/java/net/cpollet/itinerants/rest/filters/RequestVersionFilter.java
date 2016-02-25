@@ -1,10 +1,10 @@
-package net.cpollet.itinerants.rest.v1.jersey.filters;
+package net.cpollet.itinerants.rest.filters;
 
-import net.cpollet.itinerants.rest.v1.jersey.filters.configurer.AcceptVersionConfigurer;
-import net.cpollet.itinerants.rest.v1.jersey.filters.configurer.DefaultVersionConfigurer;
-import net.cpollet.itinerants.rest.v1.jersey.filters.configurer.HttpHeaderVersionConfigurer;
-import net.cpollet.itinerants.rest.v1.jersey.filters.configurer.PathVersionConfigurer;
-import net.cpollet.itinerants.rest.v1.jersey.filters.configurer.VersionConfigurerChain;
+import net.cpollet.itinerants.rest.filters.configurer.AcceptVersionConfigurer;
+import net.cpollet.itinerants.rest.filters.configurer.DefaultVersionConfigurer;
+import net.cpollet.itinerants.rest.filters.configurer.HttpHeaderVersionConfigurer;
+import net.cpollet.itinerants.rest.filters.configurer.PathVersionConfigurer;
+import net.cpollet.itinerants.rest.filters.configurer.VersionConfigurerChain;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;

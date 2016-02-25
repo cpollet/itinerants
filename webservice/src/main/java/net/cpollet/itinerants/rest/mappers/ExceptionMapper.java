@@ -1,7 +1,7 @@
-package net.cpollet.itinerants.rest.v1.jersey.mappers;
+package net.cpollet.itinerants.rest.mappers;
 
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
-import net.cpollet.itinerants.rest.v1.data.ErrorResponse;
+import net.cpollet.itinerants.rest.data.v1.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

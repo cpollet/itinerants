@@ -1,7 +1,7 @@
-package net.cpollet.itinerants.rest.v1.jersey.filters.configurer;
+package net.cpollet.itinerants.rest.filters.configurer;
 
 import net.cpollet.itinerants.rest.Version;
-import net.cpollet.itinerants.rest.v1.jersey.filters.RequestVersionFilter;
+import net.cpollet.itinerants.rest.filters.RequestVersionFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

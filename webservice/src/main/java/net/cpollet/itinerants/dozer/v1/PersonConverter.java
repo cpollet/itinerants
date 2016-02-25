@@ -1,7 +1,7 @@
 package net.cpollet.itinerants.dozer.v1;
 
 import net.cpollet.itinerants.core.api.data.Person;
-import net.cpollet.itinerants.rest.v1.data.PersonData;
+import net.cpollet.itinerants.rest.data.v1.PersonData;
 import org.dozer.DozerConverter;
 
 /**

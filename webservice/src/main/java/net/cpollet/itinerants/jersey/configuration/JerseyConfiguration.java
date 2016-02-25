@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.rest.v1.configuration;
+package net.cpollet.itinerants.jersey.configuration;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -11,7 +11,7 @@ import javax.ws.rs.ApplicationPath;
 @ApplicationPath("/")
 public class JerseyConfiguration extends ResourceConfig {
     public JerseyConfiguration() {
-        packages("net.cpollet.itinerants.rest.v1.resources", "net.cpollet.itinerants.rest.v1.jersey");
+        packages("net.cpollet.itinerants.rest.resources", "net.cpollet.itinerants.rest.v1.jersey");
         register(JacksonFeature.class);
     }
 }

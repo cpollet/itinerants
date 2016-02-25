@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.rest.v1.data;
+package net.cpollet.itinerants.rest.data.v1;
 
 /**
  * @author Christophe Pollet

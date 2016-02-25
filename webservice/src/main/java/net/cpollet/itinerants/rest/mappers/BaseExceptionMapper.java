@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.rest.v1.jersey.mappers;
+package net.cpollet.itinerants.rest.mappers;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;

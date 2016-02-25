@@ -1,14 +1,13 @@
-package net.cpollet.itinerants.rest.v1.jersey.filters.configurer;
+package net.cpollet.itinerants.rest.filters.configurer;
 
 import net.cpollet.itinerants.rest.Version;
-import net.cpollet.itinerants.rest.v1.jersey.filters.RequestVersionFilter;
-import net.cpollet.itinerants.rest.v1.jersey.filters.ResponseVersionFilter;
+import net.cpollet.itinerants.rest.filters.RequestVersionFilter;
+import net.cpollet.itinerants.rest.filters.ResponseVersionFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
