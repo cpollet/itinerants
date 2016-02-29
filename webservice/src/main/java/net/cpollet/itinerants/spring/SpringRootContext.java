@@ -2,6 +2,8 @@ package net.cpollet.itinerants.spring;
 
 import net.cpollet.itinerants.core.api.PersonService;
 import net.cpollet.itinerants.mocks.PersonServiceMock;
+import net.cpollet.itinerants.services.InMemorySessionService;
+import net.cpollet.itinerants.services.SessionService;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.context.annotation.Bean;
@@ -29,5 +31,10 @@ public class SpringRootContext {
     @Bean
     public PersonService personService() {
         return new PersonServiceMock();
+    }
+
+    @Bean
+    public SessionService sessionService() {
+        return new InMemorySessionService(personService());
     }
 }

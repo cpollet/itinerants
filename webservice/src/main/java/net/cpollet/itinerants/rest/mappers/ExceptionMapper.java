@@ -1,6 +1,7 @@
 package net.cpollet.itinerants.rest.mappers;
 
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
+import net.cpollet.itinerants.exceptions.InvalidCredentialsException;
 import net.cpollet.itinerants.rest.data.v1.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class ExceptionMapper extends BaseExceptionMapper<Exception> {
     public ExceptionMapper() {
         this.properties = new HashMap<>();
         properties.put(PersonNotFoundException.class, new RestProperty(404, 1000));
+        properties.put(InvalidCredentialsException.class, new RestProperty(401, 1001));
     }
 
     @Override

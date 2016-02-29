@@ -66,12 +66,16 @@ public class PersonResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createPerson(PersonData personData) {
+    public Response createPerson(PersonData personData) throws PersonNotFoundException {
         String identifier = personService.hire(mapper.map(personData, Person.class));
+        personService.setPassword(identifier, personData.password);
 
         personData.link = personUrl(identifier).toString();
 
-        return Response.created(personUrl(identifier)).entity(personData).build();
+        return Response
+                .created(personUrl(identifier))
+                .entity(personData)
+                .build();
     }
 
     private URI personUrl(String identifier) {

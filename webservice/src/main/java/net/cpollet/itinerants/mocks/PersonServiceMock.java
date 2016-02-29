@@ -13,11 +13,19 @@ import java.util.UUID;
  * @author Christophe Pollet
  */
 public class PersonServiceMock implements PersonService {
-    Map<String, Person> persons;
+    private final Map<String, Person> persons;
+    private final Map<String, String> passwords;
 
     public PersonServiceMock() {
         this.persons = new HashMap<>();
-        hire(new Person(null, "First", "first@example.com"));
+        this.passwords = new HashMap<>();
+        String personId = hire(new Person(null, "First", "first@example.com"));
+        try {
+            setPassword(personId, "password");
+        }
+        catch (PersonNotFoundException e) {
+            throw new IllegalStateException();
+        }
     }
 
     @Override
@@ -33,11 +41,9 @@ public class PersonServiceMock implements PersonService {
 
     @Override
     public Person getProfile(String id) throws PersonNotFoundException {
-        if (persons.containsKey(id)) {
-            return persons.get(id);
-        }
+        assertPersonExists(id);
 
-        throw new PersonNotFoundException("Person with id [" + id + "] not found.");
+        return persons.get(id);
     }
 
     @Override
@@ -71,5 +77,32 @@ public class PersonServiceMock implements PersonService {
         return persons.values();
     }
 
+    @Override
+    public void setPassword(String identifier, String password) throws PersonNotFoundException {
+        assertPersonExists(identifier);
+        passwords.put(identifier, password);
+    }
 
+    @Override
+    public boolean isPasswordValid(String username, String password) throws PersonNotFoundException {
+        for (Map.Entry<String, Person> personEntry : persons.entrySet()) {
+            if (personEntry.getValue().getEmail().equals(username)) {
+                if (passwords.get(personEntry.getKey()).equals(password)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public Person getProfileByUsername(String username) throws PersonNotFoundException {
+        for (Map.Entry<String, Person> personEntry : persons.entrySet()) {
+            if (personEntry.getValue().getEmail().equals(username)) {
+                return personEntry.getValue();
+            }
+        }
+        throw new PersonNotFoundException("Person with username [" + username + "] not found");
+    }
 }

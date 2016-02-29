@@ -19,4 +19,10 @@ public interface PersonService {
     void delete(String id) throws PersonNotFoundException;
 
     Collection<Person> getAll();
+
+    void setPassword(String identifier, String password) throws PersonNotFoundException;
+
+    boolean isPasswordValid(String username, String password) throws PersonNotFoundException;
+
+    Person getProfileByUsername(String username) throws PersonNotFoundException;
 }
