@@ -20,7 +20,7 @@ public class SpringRootContext {
     @Bean
     public Mapper mapper() {
         List<String> mappingFiles = new ArrayList<>();
-        mappingFiles.add("dozer/personConverter.xml");
+        mappingFiles.add("dozer/converter.xml");
 
         DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
         dozerBeanMapper.setMappingFiles(mappingFiles);

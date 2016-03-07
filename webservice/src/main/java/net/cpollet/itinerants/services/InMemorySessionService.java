@@ -3,8 +3,11 @@ package net.cpollet.itinerants.services;
 import net.cpollet.itinerants.core.api.PersonService;
 import net.cpollet.itinerants.core.api.data.Person;
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
-import net.cpollet.itinerants.exceptions.InvalidCredentialsException;
+import net.cpollet.itinerants.services.exceptions.InvalidCredentialsException;
+import net.cpollet.itinerants.services.data.Session;
+import net.cpollet.itinerants.services.exceptions.SessionDoesNotExistException;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,12 +38,15 @@ public class InMemorySessionService implements SessionService {
     }
 
     @Override
-    public void destroy(String sessionId) {
-        sessions.remove(sessionId);
+    public Session sessionDetail(String sessionId) throws SessionDoesNotExistException {
+        if (!sessions.containsKey(sessionId)){
+            throw new SessionDoesNotExistException();
+        }
+        return new Session(Arrays.asList("READ_OWN", "WRITE_OWN"));
     }
 
     @Override
-    public boolean retrieve(String sessionId) {
-        return sessions.containsKey(sessionId);
+    public void destroy(String sessionId) {
+        sessions.remove(sessionId);
     }
 }

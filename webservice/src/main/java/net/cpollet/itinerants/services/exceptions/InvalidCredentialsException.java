@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.exceptions;
+package net.cpollet.itinerants.services.exceptions;
 
 /**
  * @author Christophe Pollet

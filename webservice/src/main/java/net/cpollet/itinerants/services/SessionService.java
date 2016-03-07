@@ -1,16 +1,17 @@
 package net.cpollet.itinerants.services;
 
 import net.cpollet.itinerants.core.api.exceptions.PersonNotFoundException;
-import net.cpollet.itinerants.exceptions.InvalidCredentialsException;
+import net.cpollet.itinerants.services.exceptions.InvalidCredentialsException;
+import net.cpollet.itinerants.services.data.Session;
+import net.cpollet.itinerants.services.exceptions.SessionDoesNotExistException;
 
 /**
  * @author Christophe Pollet
  */
 public interface SessionService {
-
     String create(String username, String password) throws InvalidCredentialsException, PersonNotFoundException;
 
-    void destroy(String sessionId);
+    Session sessionDetail(String sessionId) throws SessionDoesNotExistException;
 
-    boolean retrieve(String sessionId);
+    void destroy(String sessionId);
 }

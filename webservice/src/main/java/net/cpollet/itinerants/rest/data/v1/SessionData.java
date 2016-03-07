@@ -6,7 +6,7 @@ import java.util.List;
  * @author Christophe Pollet
  */
 public class SessionData {
-    public String token;
+    public String sessionId;
     public boolean isValid;
     public List<String> rights;
 }
