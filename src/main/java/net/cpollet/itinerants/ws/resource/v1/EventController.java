@@ -9,9 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by cpollet on 11.02.17.
@@ -19,6 +24,13 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/events")
 public class EventController {
+    private static final Map<String, EventService.SortOrder> stringSortOrderMap = new HashMap<>();
+
+    static {
+        stringSortOrderMap.put("asc", EventService.SortOrder.ASCENDING);
+        stringSortOrderMap.put("desc", EventService.SortOrder.DESCENDING);
+    }
+
     private final EventService eventService;
 
     public EventController(EventService eventService) {
@@ -29,6 +41,28 @@ public class EventController {
     public EventResponse get(@PathVariable("id") long id) {
         Event e = eventService.getById(id);
         return new EventResponse(e);
+    }
+
+    @GetMapping(value = "/future")
+    public List<EventResponse> futur(@RequestParam(name = "sort", required = false, defaultValue = "asc") String sort) {
+        if (!stringSortOrderMap.containsKey(sort.toLowerCase())) {
+            throw new IllegalArgumentException("Sort order " + sort + " is not a valid order");
+        }
+
+        return eventService.future(stringSortOrderMap.get(sort.toLowerCase())).stream()
+                .map(EventResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping(value="/past")
+    public List<EventResponse> past(@RequestParam(name = "sort", required = false, defaultValue = "desc") String sort) {
+        if (!stringSortOrderMap.containsKey(sort.toLowerCase())) {
+            throw new IllegalArgumentException("Sort order " + sort + " is not a valid order");
+        }
+
+        return eventService.past(stringSortOrderMap.get(sort.toLowerCase())).stream()
+                .map(EventResponse::new)
+                .collect(Collectors.toList());
     }
 
     @PostMapping(value = "")
