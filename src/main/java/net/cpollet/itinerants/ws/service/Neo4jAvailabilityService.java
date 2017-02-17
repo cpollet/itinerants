@@ -28,4 +28,13 @@ public class Neo4jAvailabilityService implements AvailabilityService {
         event.availablePeople().add(person);
         eventRepository.save(event);
     }
+
+    @Override
+    public void delete(InputAvailability availability) {
+        Neo4jEvent event = (Neo4jEvent) eventService.getById(availability.getEventId());
+        Neo4jPerson person = (Neo4jPerson) personService.getById(availability.getPersonId());
+
+        event.availablePeople().remove(person);
+        eventRepository.save(event);
+    }
 }

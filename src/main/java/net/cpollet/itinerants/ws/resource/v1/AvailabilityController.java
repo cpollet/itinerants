@@ -7,6 +7,7 @@ import net.cpollet.itinerants.ws.api.v1.data.PersonResponse;
 import net.cpollet.itinerants.ws.service.AvailabilityService;
 import net.cpollet.itinerants.ws.service.EventService;
 import net.cpollet.itinerants.ws.service.PersonService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,21 @@ public class AvailabilityController {
                 new PersonResponse(personService.getById(availability.getPersonId())),
                 new EventResponse(eventService.getById(availability.getEventId()))
         );
+    }
+
+    @DeleteMapping(value = "")
+    public void delete(@RequestBody AvailabilityPayload availability) {
+        availabilityService.delete(new AvailabilityService.InputAvailability(){
+            @Override
+            public long getPersonId() {
+                return availability.getPersonId();
+            }
+
+            @Override
+            public long getEventId() {
+                return availability.getEventId();
+            }
+        });
     }
 
 }

@@ -6,6 +6,8 @@ package net.cpollet.itinerants.ws.service;
 public interface AvailabilityService {
     void create(InputAvailability availability);
 
+    void delete(InputAvailability availability);
+
     interface InputAvailability {
         long getPersonId();
 
