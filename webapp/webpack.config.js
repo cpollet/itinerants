@@ -1,8 +1,10 @@
 const path = require('path');
- 
+const webpack = require('webpack');
+
 module.exports = {
   context: path.join(__dirname, 'src'),
   entry: [
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
     './main.js',
   ],
   output: {
@@ -15,7 +17,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
-          'babel-loader',
+          'react-hot-loader', 'babel-loader',
         ],
       },
     ],
@@ -25,4 +27,8 @@ module.exports = {
       path.join(__dirname, 'node_modules'),
     ],
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ],
 };
