@@ -1,7 +1,6 @@
 import React from 'react';
 
 import styles from './Counter.css';
-console.log(styles);
 
 /**
  * A counter button: tap the button to increase the count.
