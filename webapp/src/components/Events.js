@@ -9,14 +9,15 @@ class Events extends React.Component {
         return (
             <div>
                 <h3>Événements</h3>
-                {this.props.when} Events
+                {this.props.len} {this.props.when} Events
             </div>
         );
     }
 }
 
 Events.propTypes = {
-    when: React.PropTypes.string
+    when: React.PropTypes.string.isRequired,
+    len: React.PropTypes.number
 };
 
 export default Events;

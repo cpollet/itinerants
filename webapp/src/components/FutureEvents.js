@@ -1,5 +1,7 @@
 import React from 'react';
 import Events from './Events';
+import {loadFutureEvents} from '../reducers/actions';
+import {connect} from 'react-redux';
 
 class FutureEvents extends React.Component {
     constructor() {
@@ -7,9 +9,34 @@ class FutureEvents extends React.Component {
     }
 
     render() {
+        let self = this;
+
         return (
-            <Events when="future"/>
+            <div>
+                <button onClick={self.props.load}>
+                    refresh
+                </button>
+                <Events when="future" len={this.props.events}/>
+            </div>
         );
     }
 }
-export default FutureEvents;
+
+FutureEvents.propTypes = {
+    load: React.PropTypes.func.isRequired,
+    events: React.PropTypes.number.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    events: state.futureEvents.length
+});
+
+var mapDispatchToProps = function (dispatch) {
+    return {
+        load: function () {
+            dispatch(loadFutureEvents());
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FutureEvents);
