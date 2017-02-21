@@ -1,4 +1,5 @@
 const express = require('express');
+const proxy = require('express-http-proxy');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const webpack = require('webpack');
@@ -6,6 +7,12 @@ const webpackConfig = require('./webpack.config.js');
 const app = express();
 
 const compiler = webpack(webpackConfig);
+
+app.use('/api', proxy('localhost:8080', {
+    forwardPath: function (req, res) {
+        return require('url').parse(req.url).path;
+    }
+}));
 
 app.use(webpackDevMiddleware(compiler, {
     hot: true,
