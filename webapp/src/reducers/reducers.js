@@ -1,4 +1,4 @@
-import {LOAD_FUTURE_EVENTS} from './actions';
+import {LOAD_FUTURE_EVENTS, RESET} from './actions';
 
 const initialState = {
     pastEvents: [],
@@ -16,7 +16,10 @@ export default function reducer(state = initialState, action) {
                     availablePeople: []
                 }]
             });
-
+        case RESET:
+            return Object.assign({}, state, {
+                futureEvents: []
+            });
         default:
             return state;
     }
