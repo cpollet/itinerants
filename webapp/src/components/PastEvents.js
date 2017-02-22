@@ -8,7 +8,7 @@ class PastEvents extends React.Component {
 
     render() {
         return (
-            <Events when="past" len={0}/>
+            <Events when="past" events={[]}/>
         );
     }
 }

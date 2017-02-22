@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import FutureEvents from './components/FutureEvents';
@@ -6,11 +7,12 @@ import NoMatch from './components/NoMatch';
 import App from './components/App';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import reducer from './reducers/reducers';
+import thunkMiddleware from 'redux-thunk';
 
 document.addEventListener('DOMContentLoaded', function () {
-    const store = createStore(reducer);
+    const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
     ReactDOM.render((
         <Provider store={store}>

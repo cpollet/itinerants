@@ -1,6 +1,6 @@
 import React from 'react';
 import Events from './Events';
-import {loadFutureEvents, resetEvents} from '../reducers/actions';
+import {fetchFutureEvents, resetEvents} from '../reducers/actions';
 import {connect} from 'react-redux';
 
 class FutureEvents extends React.Component {
@@ -11,27 +11,29 @@ class FutureEvents extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={this.props.load}>refresh</button>
+                <button onClick={this.props.request}>refresh</button>
                 <button onClick={this.props.reset}>reset</button>
-                <Events when="future" len={this.props.events}/>
+                <Events when="future" events={this.props.events}/>
             </div>
         );
     }
 }
 
 FutureEvents.propTypes = {
-    load: React.PropTypes.func.isRequired,
+    request: React.PropTypes.func.isRequired,
     reset: React.PropTypes.func.isRequired,
-    events: React.PropTypes.number.isRequired
+    events: React.PropTypes.array.isRequired
 };
 
-const mapStateToProps = (state) => ({
-    events: state.futureEvents.length
-});
-
-var mapDispatchToProps = function (dispatch) {
+const mapStateToProps = function(state) {
     return {
-        load: () => dispatch(loadFutureEvents()),
+        events: state.futureEvents.items
+    };
+};
+
+var mapDispatchToProps = function(dispatch) {
+    return {
+        request: () => dispatch(fetchFutureEvents()),
         reset: () => dispatch(resetEvents())
     };
 };

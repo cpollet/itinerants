@@ -1,9 +1,30 @@
-export const LOAD_FUTURE_EVENTS = 'LOAD_FUTURE_EVENTS';
+import fetch from 'isomorphic-fetch';
+
+export const REQUEST_FUTURE_EVENTS = 'REQUEST_FUTURE_EVENTS';
+export const RECEIVE_FUTURE_EVENTS = 'RECEIVE_FUTURE_EVENTS';
 export const RESET = 'RESET';
 
-export function loadFutureEvents() {
+function requestFutureEvents() {
     return {
-        type: LOAD_FUTURE_EVENTS
+        type: REQUEST_FUTURE_EVENTS
+    };
+}
+
+function receiveFutureEvents(items) {
+    return {
+        type: RECEIVE_FUTURE_EVENTS,
+        items: items,
+        receivedAt: Date.now()
+    };
+}
+
+export function fetchFutureEvents() {
+    return function (dispatch) {
+        dispatch(requestFutureEvents());
+
+        return fetch('/api/events/future')
+            .then(response => response.json())
+            .then(json => dispatch(receiveFutureEvents(json)));
     };
 }
 

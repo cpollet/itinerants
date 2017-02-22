@@ -8,8 +8,12 @@ class Events extends React.Component {
     render() {
         return (
             <div>
-                <h3>Événements</h3>
-                {this.props.len} {this.props.when} Events
+                <h3>{this.props.when} événements</h3>
+                <ul>
+                    {this.props.events.map((e) => {
+                        return <li key={e.eventId}>{e.name}</li>;
+                    })}
+                </ul>
             </div>
         );
     }
@@ -17,7 +21,7 @@ class Events extends React.Component {
 
 Events.propTypes = {
     when: React.PropTypes.string.isRequired,
-    len: React.PropTypes.number
+    events: React.PropTypes.array.isRequired
 };
 
 export default Events;
