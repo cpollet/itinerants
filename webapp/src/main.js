@@ -10,8 +10,11 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import reducer from './reducers/reducers';
 import thunkMiddleware from 'redux-thunk';
+import moment from 'moment';
 
 document.addEventListener('DOMContentLoaded', function () {
+    moment.locale('fr');
+
     const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
     ReactDOM.render((

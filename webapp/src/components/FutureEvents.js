@@ -25,17 +25,17 @@ FutureEvents.propTypes = {
     events: React.PropTypes.array.isRequired
 };
 
-const mapStateToProps = function(state) {
+function mapStateToProps(state) {
     return {
         events: state.futureEvents.items
     };
-};
+}
 
-var mapDispatchToProps = function(dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         request: () => dispatch(fetchFutureEvents()),
         reset: () => dispatch(resetEvents())
     };
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(FutureEvents);

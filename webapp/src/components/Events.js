@@ -1,4 +1,5 @@
 import React from 'react';
+import Event from './event';
 
 class Events extends React.Component {
     constructor() {
@@ -9,11 +10,9 @@ class Events extends React.Component {
         return (
             <div>
                 <h3>{this.props.when} événements</h3>
-                <ul>
-                    {this.props.events.map((e) => {
-                        return <li key={e.eventId}>{e.name}</li>;
-                    })}
-                </ul>
+                {this.props.events.map((e, i) => {
+                    return <Event key={i} event={e}/>;
+                })}
             </div>
         );
     }
