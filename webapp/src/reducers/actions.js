@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 
 export const REQUEST_FUTURE_EVENTS = 'REQUEST_FUTURE_EVENTS';
 export const RECEIVE_FUTURE_EVENTS = 'RECEIVE_FUTURE_EVENTS';
+export const TOGGLE_AVAILABILITY   = 'TOGGLE_AVAILABILITY';
 export const RESET = 'RESET';
 
 function requestFutureEvents() {
@@ -31,5 +32,12 @@ export function fetchFutureEvents() {
 export function resetEvents() {
     return {
         type: RESET
+    };
+}
+
+export function toggleAvailability(eventId) {
+    return {
+        type: TOGGLE_AVAILABILITY,
+        eventId: eventId
     };
 }

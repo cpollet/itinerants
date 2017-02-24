@@ -39,6 +39,9 @@ module.exports = {
         ],
         "no-debugger": [
             "warn"
+        ],
+        "no-unused-vars": [
+            "warn"
         ]
     }
 };

@@ -1,5 +1,10 @@
 import React from 'react';
 import moment from 'moment';
+import Checkbox from './Checkbox';
+import {toggleAvailability} from '../reducers/actions';
+import styles from './Event.css';
+import {connect} from 'react-redux';
+
 
 class Event extends React.Component {
     constructor() {
@@ -7,19 +12,33 @@ class Event extends React.Component {
     }
 
     render() {
+        //console.log('render Event', this.props);
         const date = moment(this.props.event.dateTime);
+
         return (
-            <div>
-                <input type="checkbox"/>
-                <input type="checkbox" disabled="disabled"/>
-                {this.props.event.name} {date.format('D MMMM YYYY, HH:mm')}
-            </div>
+            <tr className={styles.component}>
+                <td>
+                    <Checkbox checked={this.props.available}
+                              onClick={this.props.toggle.bind(this, this.props.event.eventId)}/>
+                </td>
+                <td><Checkbox checked={false}/></td>
+                <td>{date.format('D MMMM, HH:mm')}</td>
+                <td>{this.props.event.name}</td>
+            </tr>
         );
     }
 }
 
 Event.propTypes = {
-    event: React.PropTypes.object.isRequired
+    event: React.PropTypes.object.isRequired,
+    available: React.PropTypes.bool.isRequired,
+    toggle: React.PropTypes.func.isRequired,
 };
 
-export default Event;
+function mapDispatchToProps(dispatch) {
+    return {
+        toggle: (eventId) => dispatch(toggleAvailability(eventId))
+    };
+}
+
+export default connect(() => ({}), mapDispatchToProps)(Event);

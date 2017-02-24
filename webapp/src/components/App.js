@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import styles from './App.css';
 
 class App extends React.Component {
     constructor() {
@@ -8,7 +9,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={styles.component}>
                 <h1>Itinérants</h1>
                 <h2>Menu</h2>
                 <ul>

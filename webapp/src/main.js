@@ -7,7 +7,7 @@ import NoMatch from './components/NoMatch';
 import App from './components/App';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import reducer from './reducers/reducers';
 import thunkMiddleware from 'redux-thunk';
 import moment from 'moment';
@@ -15,7 +15,10 @@ import moment from 'moment';
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
 
-    const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+    const store = createStore(reducer, compose(
+        applyMiddleware(thunkMiddleware),
+        window.devToolsExtension ? window.devToolsExtension() : f => f
+    ));
 
     ReactDOM.render((
         <Provider store={store}>
