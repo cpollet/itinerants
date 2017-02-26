@@ -10,7 +10,7 @@ class Checkbox extends React.Component {
         //console.log('render Checkbox', this.props);
         return (
             <div onClick={this.props.onClick}>
-                <div className={styles.component}>
+                <div className={styles.component + (this.props.disabled ? ' ' + styles.disabled : '')}>
                     {this.props.checked &&
                     <div>
                         <div className={styles.inner}></div>
@@ -25,6 +25,7 @@ class Checkbox extends React.Component {
 
 Checkbox.propTypes = {
     checked: React.PropTypes.bool.isRequired,
+    disabled: React.PropTypes.bool,
     onClick: React.PropTypes.func,
 };
 
