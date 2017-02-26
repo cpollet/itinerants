@@ -1,8 +1,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FutureEvents from './components/FutureEvents';
-import PastEvents from './components/PastEvents';
+import FutureEvents from './containers/FutureEvents';
 import NoMatch from './components/NoMatch';
 import App from './components/App';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <Route path="/" component={App}>
                     <IndexRoute component={FutureEvents}/>
                     <Route path="future" component={FutureEvents}/>
-                    <Route path="past" component={PastEvents}/>
+                    <Route path="past" component={NoMatch}/>
                     <Route path="settings" component={NoMatch}/>
                     <Route path="*" component={NoMatch}/>
                 </Route>

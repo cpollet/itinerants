@@ -1,5 +1,5 @@
 import React from 'react';
-import Event from './event';
+import Event from './Event';
 import styles from './Events.css';
 
 class Events extends React.Component {
@@ -11,7 +11,7 @@ class Events extends React.Component {
         //console.log('render Events', this.props);
         return (
             <div>
-                <h3>{this.props.when} événements</h3>
+                <h3>{this.props.title}</h3>
                 <table className={styles.component}>
                     <thead>
                     <tr>
@@ -22,22 +22,22 @@ class Events extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.events.map((e, i) => {
-                        return <Event key={i}
-                                      event={e}
-                                      available={this.props.availabilities.indexOf(e.eventId) > -1}/>;
-                    })}
+                    {this.props.events.map((e, i) => <Event key={i} event={e}/>)}
                     </tbody>
                 </table>
+                <button onClick={this.props.request}>refresh</button>
+                <button onClick={this.props.reset}>reset</button>
             </div>
         );
     }
 }
 
 Events.propTypes = {
-    when: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string.isRequired,
     events: React.PropTypes.array.isRequired,
-    availabilities: React.PropTypes.array.isRequired,
+
+    request: React.PropTypes.func.isRequired,
+    reset: React.PropTypes.func.isRequired,
 };
 
 export default Events;
