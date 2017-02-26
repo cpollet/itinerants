@@ -1,7 +1,7 @@
 .component {
     width: 16px;
     height: 16px;
-    border: 1px solid #666;
+    border: 1px solid #aaa;
     display: inline-block;
     margin: 0 5px;
     cursor: pointer;
@@ -37,13 +37,13 @@
 
 .disabled, .disabled:hover {
     cursor: default;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
 }
 
 .disabled .inner {
-    background-color: #ccc;
+    background-color: #ddd;
 }
 
 .disabled .outer {
-    border-color: #ccc;
+    border-color: #ddd;
 }
