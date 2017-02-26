@@ -1,5 +1,5 @@
 import React from 'react';
-import Event from './Event';
+import EventContainer from '../containers/EventContainer';
 import styles from './Events.css';
 
 class Events extends React.Component {
@@ -8,7 +8,6 @@ class Events extends React.Component {
     }
 
     render() {
-        //console.log('render Events', this.props);
         return (
             <div>
                 <h3>{this.props.title}</h3>
@@ -22,7 +21,7 @@ class Events extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.events.map((e, i) => <Event key={i} event={e}/>)}
+                    {this.props.events.map((e, i) => <EventContainer key={i} event={e}/>)}
                     </tbody>
                 </table>
                 <button onClick={this.props.request}>refresh</button>

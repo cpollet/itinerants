@@ -7,7 +7,6 @@ class Checkbox extends React.Component {
     }
 
     render() {
-        //console.log('render Checkbox', this.props);
         return (
             <div onClick={this.props.onClick}>
                 <div className={styles.component + (this.props.disabled ? ' ' + styles.disabled : '')}>

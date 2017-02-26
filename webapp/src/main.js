@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FutureEvents from './containers/FutureEvents';
+import FutureEvents from './containers/FutureEventsContainer';
 import NoMatch from './components/NoMatch';
 import App from './components/App';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
