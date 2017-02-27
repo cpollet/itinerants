@@ -1,0 +1,64 @@
+.component {
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-radius: 2px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.component .icon {
+    margin-right: 5px;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.component .icon::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.component.success {
+    background-color: #ddffef;
+    border: solid 1px #02c66c;
+    color: #3c763d;
+}
+
+.component.success .icon::before {
+    content: "\f00c";
+}
+
+.component.info {
+    background-color: #ddf4fb;
+    border: solid 1px #54c8eb;
+    color: #31708f;
+}
+
+.component.info .icon::before {
+    content: "\f129";
+}
+
+.component.warn {
+    background-color: #fceedb;
+    border: solid 1px #f0ad4e;
+    color: #8a6d3b;
+}
+
+.component.warn .icon::before {
+    content: "\f071";
+}
+
+.component.error {
+    background-color: #f4cecd;
+    border: solid 1px #d9534f;
+    color: #a94442;
+}
+
+.component.error .icon::before {
+    content: "\f00d";
+}
+

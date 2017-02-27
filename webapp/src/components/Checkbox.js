@@ -2,10 +2,6 @@ import React from 'react';
 import styles from './Checkbox.css';
 
 class Checkbox extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <div onClick={this.props.onClick}>

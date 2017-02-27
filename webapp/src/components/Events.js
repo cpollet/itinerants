@@ -3,10 +3,6 @@ import EventContainer from '../containers/EventContainer';
 import styles from './Events.css';
 
 class Events extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <div>
@@ -24,8 +20,6 @@ class Events extends React.Component {
                     {this.props.events.map((e, i) => <EventContainer key={i} event={e}/>)}
                     </tbody>
                 </table>
-                <button onClick={this.props.request}>refresh</button>
-                <button onClick={this.props.reset}>reset</button>
             </div>
         );
     }
@@ -34,9 +28,6 @@ class Events extends React.Component {
 Events.propTypes = {
     title: React.PropTypes.string.isRequired,
     events: React.PropTypes.array.isRequired,
-
-    request: React.PropTypes.func.isRequired,
-    reset: React.PropTypes.func.isRequired,
 };
 
 export default Events;

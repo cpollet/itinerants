@@ -3,10 +3,6 @@ import Checkbox from './Checkbox';
 import styles from './Event.css';
 
 class Event extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <tr className={styles.component}>

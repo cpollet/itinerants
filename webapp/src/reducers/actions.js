@@ -2,30 +2,23 @@ import fetch from 'isomorphic-fetch';
 
 export const REQUEST_FUTURE_EVENTS = 'REQUEST_FUTURE_EVENTS';
 export const RECEIVE_FUTURE_EVENTS = 'RECEIVE_FUTURE_EVENTS';
-export const TOGGLE_AVAILABILITY   = 'TOGGLE_AVAILABILITY';
+export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
 export const RESET = 'RESET';
-
-function requestFutureEvents() {
-    return {
-        type: REQUEST_FUTURE_EVENTS
-    };
-}
-
-function receiveFutureEvents(items) {
-    return {
-        type: RECEIVE_FUTURE_EVENTS,
-        items: items,
-        receivedAt: Date.now()
-    };
-}
+export const INVALIDATE_STATE = 'INVALIDATE_STATE';
 
 export function fetchFutureEvents() {
     return function (dispatch) {
-        dispatch(requestFutureEvents());
+        dispatch({
+            type: REQUEST_FUTURE_EVENTS
+        });
 
         return fetch('/api/events/future')
             .then(response => response.json())
-            .then(json => dispatch(receiveFutureEvents(json)));
+            .then(json => dispatch({
+                type: RECEIVE_FUTURE_EVENTS,
+                items: json,
+                receivedAt: Date.now()
+            }));
     };
 }
 
@@ -36,8 +29,13 @@ export function resetEvents() {
 }
 
 export function toggleAvailability(eventId) {
-    return {
-        type: TOGGLE_AVAILABILITY,
-        eventId: eventId
+    return function (dispatch) {
+        dispatch({
+            type: TOGGLE_AVAILABILITY,
+            eventId: eventId
+        });
+        dispatch({
+            type: INVALIDATE_STATE
+        });
     };
 }

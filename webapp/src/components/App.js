@@ -1,15 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router';
+
+import AlertStaleState from '../containers/AlertStaleState';
+
 import styles from './App.css';
 
 class App extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <div className={styles.component}>
+
                 <h1>Itinérants</h1>
                 <h2>Menu</h2>
                 <ul>
@@ -17,6 +17,7 @@ class App extends React.Component {
                     <li><Link to={'/future'}>Future</Link></li>
                     <li><Link to={'/settings'}>Settings</Link></li>
                 </ul>
+                <AlertStaleState title="Attention" text="toutes les modifications ne sont pas enregistrées."/>
                 <h2>Content</h2>
                 {this.props.children}
             </div>

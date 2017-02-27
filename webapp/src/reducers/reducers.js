@@ -1,4 +1,4 @@
-import {REQUEST_FUTURE_EVENTS, RECEIVE_FUTURE_EVENTS, RESET, TOGGLE_AVAILABILITY} from './actions';
+import {REQUEST_FUTURE_EVENTS, RECEIVE_FUTURE_EVENTS, RESET, TOGGLE_AVAILABILITY, INVALIDATE_STATE} from './actions';
 
 const initialState = {
     futureEvents: {
@@ -17,12 +17,13 @@ const initialState = {
     availabilities: [
 //      eventId, ...
     ],
+    stale: false
 };
 
 function availabilityReducer(state, action) {
     switch (action.type) {
         case TOGGLE_AVAILABILITY:
-            if (state.indexOf(action.eventId)==-1) {
+            if (state.indexOf(action.eventId) == -1) {
                 return [...state, action.eventId];
             }
 
@@ -60,9 +61,19 @@ function futureEventsReducer(state, action) {
     }
 }
 
+function stateReducer(action) {
+    switch (action.type) {
+        case INVALIDATE_STATE:
+            return true;
+        default:
+            return false;
+    }
+}
+
 export default function reducer(state = initialState, action) {
     return {
         futureEvents: futureEventsReducer(state.futureEvents, action),
         availabilities: availabilityReducer(state.availabilities, action),
+        stale: stateReducer(action),
     };
 }
