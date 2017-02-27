@@ -1,4 +1,4 @@
-import {REQUEST_FUTURE_EVENTS, RECEIVE_FUTURE_EVENTS, RESET, TOGGLE_AVAILABILITY, INVALIDATE_STATE} from './actions';
+import {REQUEST_FUTURE_EVENTS, RECEIVE_FUTURE_EVENTS, SYNCHRONIZE_STATE, TOGGLE_AVAILABILITY, INVALIDATE_STATE} from './actions';
 
 const initialState = {
     futureEvents: {
@@ -49,13 +49,6 @@ function futureEventsReducer(state, action) {
                 lastUpdated: action.receivedAt,
                 items: action.items
             });
-        case RESET:
-            return Object.assign({}, state, {
-                isFetching: true,
-                didInvalidate: false,
-                lastUpdated: 0,
-                items: []
-            });
         default:
             return state;
     }
@@ -65,6 +58,8 @@ function stateReducer(action) {
     switch (action.type) {
         case INVALIDATE_STATE:
             return true;
+        case SYNCHRONIZE_STATE:
+            return false;
         default:
             return false;
     }

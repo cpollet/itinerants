@@ -1,0 +1,33 @@
+.component {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border-radius: 2px;
+    font-size: 14px;
+}
+
+.component.primary {
+    color: #fff;
+    background: linear-gradient(to bottom, #0099da 5%, #0087c1 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@primary-color', endColorstr='darken(@primary-color, 5%)', GradientType=0);
+    background-color: #0099da;
+    border: 1px solid #0087c1;
+}
+
+.component.primary:active {
+    background-color: #0087c1;
+    background: linear-gradient(to bottom, #0087c1 5%, #0099da 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken(@primary-color, 8%)', endColorstr='@primary-color', GradientType=0);
+}

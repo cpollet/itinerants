@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch';
 export const REQUEST_FUTURE_EVENTS = 'REQUEST_FUTURE_EVENTS';
 export const RECEIVE_FUTURE_EVENTS = 'RECEIVE_FUTURE_EVENTS';
 export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
-export const RESET = 'RESET';
+export const SYNCHRONIZE_STATE = 'SYNCHRONIZE_STATE';
 export const INVALIDATE_STATE = 'INVALIDATE_STATE';
 
 export function fetchFutureEvents() {
@@ -22,9 +22,9 @@ export function fetchFutureEvents() {
     };
 }
 
-export function resetEvents() {
+export function saveEvents() {
     return {
-        type: RESET
+        type: SYNCHRONIZE_STATE
     };
 }
 
