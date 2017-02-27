@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import AlertStaleState from '../containers/AlertStaleState';
+import AlertStaleState from './containers/AlertStaleState';
 
 import styles from './App.css';
 

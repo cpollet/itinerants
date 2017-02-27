@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import Events from '../components/Events';
-import {fetchFutureEvents, resetEvents} from '../reducers/actions';
+import Events from '../Events';
+import {fetchFutureEvents, resetEvents} from '../../reducers/actions';
 import {connect} from 'react-redux';
 
 class FutureEventsContainer extends React.Component {

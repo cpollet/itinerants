@@ -1,5 +1,5 @@
-import Event from '../components/Event';
-import {toggleAvailability} from '../reducers/actions';
+import Event from '../Event';
+import {toggleAvailability} from '../../reducers/actions';
 import {connect} from 'react-redux';
 
 function mapDispatchToProps(dispatch) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Checkbox from './Checkbox';
+import Checkbox from './core/Checkbox';
 import styles from './Event.css';
 
 class Event extends React.Component {

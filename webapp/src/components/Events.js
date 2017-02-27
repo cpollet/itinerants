@@ -1,5 +1,5 @@
 import React from 'react';
-import EventContainer from '../containers/EventContainer';
+import EventContainer from './containers/EventContainer';
 import styles from './Events.css';
 
 class Events extends React.Component {

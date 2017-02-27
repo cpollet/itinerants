@@ -1,5 +1,5 @@
 import React from 'react';
-import FadeInAlert from '../components/FadeInAlert';
+import FadeInAlert from '../FadeInAlert';
 import {connect} from 'react-redux';
 
 class AlertStaleState extends React.Component {
