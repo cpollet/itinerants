@@ -19,7 +19,7 @@ AlertStaleState.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        stale: state.stale,
+        stale: state.serverSync.stale || state.serverSync.syncPending,
     };
 }
 

@@ -1,4 +1,13 @@
-import {REQUEST_FUTURE_EVENTS, RECEIVE_FUTURE_EVENTS, SYNCHRONIZE_STATE, TOGGLE_AVAILABILITY, INVALIDATE_STATE} from './actions';
+import {
+    REQUEST_FUTURE_EVENTS,
+    RECEIVE_FUTURE_EVENTS,
+    SYNCHRONIZE_STATE,
+    SYNCHRONIZED_STATE_SUCCESS,
+    SYNCHRONIZED_STATE_ERROR,
+    TOGGLE_AVAILABILITY,
+    INVALIDATE_STATE,
+    DECREASE_SYNC_TIMEOUT
+} from './actions';
 
 const initialState = {
     futureEvents: {
@@ -17,7 +26,11 @@ const initialState = {
     availabilities: [
 //      eventId, ...
     ],
-    stale: false
+    serverSync: {
+        stale: false,
+        syncPending: false,
+        syncTimeoutMs: 0,
+    },
 };
 
 function availabilityReducer(state, action) {
@@ -54,14 +67,36 @@ function futureEventsReducer(state, action) {
     }
 }
 
-function stateReducer(action) {
+function serverSyncReducer(state, action) {
     switch (action.type) {
         case INVALIDATE_STATE:
-            return true;
+            return Object.assign({}, state, {
+                stale: true,
+                syncTimeoutMs: 3000,
+            });
         case SYNCHRONIZE_STATE:
-            return false;
+            return Object.assign({}, state, {
+                stale: false,
+                syncPending: true,
+            });
+        case SYNCHRONIZED_STATE_SUCCESS:
+            return Object.assign({}, state, {
+                syncPending: false,
+            });
+        case SYNCHRONIZED_STATE_ERROR:
+            return Object.assign({}, state, {
+                stale: true,
+                syncPending: false,
+            });
+        case DECREASE_SYNC_TIMEOUT:
+            if (state.syncTimeoutMs > 0) {
+                return Object.assign({}, state, {
+                    syncTimeoutMs: Math.max(0, state.syncTimeoutMs - 1000),
+                });
+            }
+            return state;
         default:
-            return false;
+            return state;
     }
 }
 
@@ -69,6 +104,6 @@ export default function reducer(state = initialState, action) {
     return {
         futureEvents: futureEventsReducer(state.futureEvents, action),
         availabilities: availabilityReducer(state.availabilities, action),
-        stale: stateReducer(action),
+        serverSync: serverSyncReducer(state.serverSync, action),
     };
 }

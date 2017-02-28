@@ -10,6 +10,8 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import reducer from './reducers/reducers';
 import thunkMiddleware from 'redux-thunk';
 import moment from 'moment';
+import {saveEvents, decreaseSyncTimeout} from './reducers/actions';
+import SyncManager from './SyncManager';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
@@ -18,6 +20,16 @@ document.addEventListener('DOMContentLoaded', function () {
         applyMiddleware(thunkMiddleware),
         window.devToolsExtension ? window.devToolsExtension() : f => f
     ));
+
+    const syncManager = new SyncManager({
+        syncTimerInterval: 1000,
+        stale: () => store.getState().serverSync.stale,
+        syncPending: () => store.getState().serverSync.syncPending,
+        syncTimedOut: () => store.getState().serverSync.syncTimeoutMs === 0,
+        onTick: () => store.dispatch(decreaseSyncTimeout()),
+        sync: () => store.dispatch(saveEvents()),
+    });
+    store.subscribe(syncManager.listenerFactory());
 
     ReactDOM.render((
         <Provider store={store}>
