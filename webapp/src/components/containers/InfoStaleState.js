@@ -2,7 +2,7 @@ import React from 'react';
 import FadeInAlert from '../FadeInAlert';
 import {connect} from 'react-redux';
 
-class AlertStaleState extends React.Component {
+class InfoStaleState extends React.Component {
     render() {
         return !this.props.stale ? null :
             (
@@ -11,7 +11,7 @@ class AlertStaleState extends React.Component {
     }
 }
 
-AlertStaleState.propTypes = {
+InfoStaleState.propTypes = {
     stale: React.PropTypes.bool.isRequired,
     text: React.PropTypes.string.isRequired,
     title: React.PropTypes.string,
@@ -19,8 +19,8 @@ AlertStaleState.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        stale: state.serverSync.stale || state.serverSync.syncPending,
+        stale: state.serverSync.retryCount > 0 && (state.serverSync.stale || state.serverSync.syncPending),
     };
 }
 
-export default connect(mapStateToProps)(AlertStaleState);
+export default connect(mapStateToProps)(InfoStaleState);

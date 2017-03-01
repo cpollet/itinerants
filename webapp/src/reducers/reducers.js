@@ -4,6 +4,7 @@ import {
     SYNC_START,
     SYNC_SUCCESS,
     SYNC_ERROR,
+    SYNC_FAILURE,
     TOGGLE_AVAILABILITY,
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT
@@ -11,7 +12,7 @@ import {
 
 const initialState = {
     auth: {
-        personId: 5,
+        personId: 6,
     },
     futureEvents: {
         isFetching: false,
@@ -30,6 +31,7 @@ const initialState = {
 //      eventId, ...
     ],
     serverSync: {
+        retryCount: 4,
         stale: false,
         syncPending: false,
         syncTimeoutMs: 0,
@@ -84,10 +86,12 @@ function serverSyncReducer(state, action) {
             });
         case SYNC_SUCCESS:
             return Object.assign({}, state, {
+                retryCount: initialState.serverSync.retryCount,
                 syncPending: false,
             });
         case SYNC_ERROR:
             return Object.assign({}, state, {
+                retryCount: Math.max(0, state.retryCount - 1),
                 stale: true,
                 syncPending: false,
             });

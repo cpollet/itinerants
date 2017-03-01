@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import AlertStaleState from './containers/AlertStaleState';
+import InfoStaleState from './containers/InfoStaleState';
+import AlertSyncFail from './containers/AlertSyncFail';
 
 import styles from './App.css';
 
@@ -17,7 +18,8 @@ class App extends React.Component {
                     <li><Link to={'/future'}>Future</Link></li>
                     <li><Link to={'/settings'}>Settings</Link></li>
                 </ul>
-                <AlertStaleState text="Sauvegarde en cours..."/>
+                <InfoStaleState text="Sauvegarde en cours..."/>
+                <AlertSyncFail title="Erreur" text="impossible de sauvegarder"/>
                 <h2>Content</h2>
                 {this.props.children}
             </div>

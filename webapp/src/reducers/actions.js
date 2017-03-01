@@ -6,6 +6,7 @@ export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
 export const SYNC_START = 'SYNC_START';
 export const SYNC_SUCCESS = 'SYNC_SUCCESS';
 export const SYNC_ERROR = 'SYNC_ERROR';
+export const SYNC_FAILURE = 'SYNC_FAILURE';
 export const INVALIDATE_STATE = 'INVALIDATE_STATE';
 export const DECREASE_SYNC_TIMEOUT = 'DECREASE_SYNC_TIMEOUT';
 
@@ -32,7 +33,7 @@ export function sync() {
             type: SYNC_START,
         });
 
-        const {futureEvents, availabilities, auth} = getState();
+        const {futureEvents, availabilities, auth, serverSync} = getState();
 
         Promise.all([]
             .concat(futureEvents.items
@@ -77,10 +78,15 @@ export function sync() {
                 });
             })
             .catch((error) => {
-                console.log('error, retry in 10sec', error);
-                setTimeout(() => dispatch({
-                    type: SYNC_ERROR,
-                }), 10 * 1000);
+                console.log('error', error);
+                if (serverSync.retryCount === 0) {
+                    console.log('tried max amount of times');
+                } else {
+                    console.log('retry in 5sec');
+                    setTimeout(() => dispatch({
+                        type: SYNC_ERROR,
+                    }), 5 * 1000);
+                }
             });
     };
 }
