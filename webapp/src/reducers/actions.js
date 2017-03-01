@@ -34,64 +34,42 @@ export function sync() {
 
         const {futureEvents, availabilities, auth} = getState();
 
-        // delete availabilities
-        const deletePromises = futureEvents.items
-            .map((e) => e.eventId)
-            .filter((e) => availabilities.indexOf(e) < 0)
-            .map((e) => ({
-                eventId: e,
-                personId: auth.personId
-            }))
-            .map((e) =>
+        Promise.all([]
+            .concat(futureEvents.items
+                .map((e) => e.eventId)
+                .filter((eventId) => availabilities.indexOf(eventId) < 0)
+                .map((eventId) => ({
+                    action: 'DELETE',
+                    data: {
+                        eventId: eventId,
+                        personId: auth.personId,
+                    }
+                })))
+            .concat(availabilities
+                .map((eventId) => ({
+                    action: 'PUT',
+                    data: {
+                        eventId: eventId,
+                        personId: auth.personId,
+                    }
+                })))
+            .map((action) =>
                 new Promise(function (resolve, reject) {
                     fetch('/api/availabilities', {
-                        method: 'DELETE',
-                        body: JSON.stringify(e),
+                        method: action.action,
+                        body: JSON.stringify(action.data),
                         headers: {
                             'Content-Type': 'application/json',
                         },
                     }).then((response) => {
                         if (response.ok) {
-                            resolve(Object.assign({'action': 'delete'}, e));
+                            resolve(action);
                         } else {
-                            response.json().then((msg) => {
-                                reject(msg);
-                            });
+                            response.json().then((msg) => reject(msg));
                         }
-                    }).catch((ex) => {
-                        reject(ex);
-                    });
+                    }).catch((ex) => reject(ex));
                 })
-            );
-
-        const createPromises = availabilities
-            .map((e) => ({
-                eventId: e,
-                personId: auth.personId
-            }))
-            .map((e) =>
-                new Promise(function (resolve, reject) {
-                    fetch('/api/availabilities', {
-                        method: 'PUT',
-                        body: JSON.stringify(e),
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then((response) => {
-                        if (response.ok) {
-                            resolve(Object.assign({'action': 'create'}, e));
-                        } else {
-                            response.json().then((msg) => {
-                                reject(msg);
-                            });
-                        }
-                    }).catch((ex) => {
-                        reject(ex);
-                    });
-                })
-            );
-
-        Promise.all([].concat(deletePromises, createPromises))
+            ))
             .then((response) => {
                 console.log('ok', response);
                 dispatch({
