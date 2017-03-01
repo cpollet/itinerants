@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import Events from '../Events';
-import {fetchFutureEvents, saveEvents} from '../../reducers/actions';
+import {fetchFutureEvents} from '../../reducers/actions';
 import {connect} from 'react-redux';
 
 class FutureEventsContainer extends React.Component {
@@ -33,7 +33,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         request: () => dispatch(fetchFutureEvents()),
-        save: () => dispatch(saveEvents()),
     };
 }
 

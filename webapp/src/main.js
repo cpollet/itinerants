@@ -10,7 +10,7 @@ import {createStore, applyMiddleware, compose} from 'redux';
 import reducer from './reducers/reducers';
 import thunkMiddleware from 'redux-thunk';
 import moment from 'moment';
-import {saveEvents, decreaseSyncTimeout} from './reducers/actions';
+import {sync, decreaseSyncTimeout} from './reducers/actions';
 import SyncManager from './SyncManager';
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         syncPending: () => store.getState().serverSync.syncPending,
         syncTimedOut: () => store.getState().serverSync.syncTimeoutMs === 0,
         onTick: () => store.dispatch(decreaseSyncTimeout()),
-        sync: () => store.dispatch(saveEvents()),
+        sync: () => store.dispatch(sync()),
     });
     store.subscribe(syncManager.listenerFactory());
 

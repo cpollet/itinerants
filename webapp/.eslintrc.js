@@ -35,7 +35,7 @@ module.exports = {
             "always"
         ],
         "no-console": [
-            "warn"
+            "off"
         ],
         "no-debugger": [
             "warn"

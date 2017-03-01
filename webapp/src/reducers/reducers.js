@@ -1,15 +1,18 @@
 import {
     REQUEST_FUTURE_EVENTS,
     RECEIVE_FUTURE_EVENTS,
-    SYNCHRONIZE_STATE,
-    SYNCHRONIZED_STATE_SUCCESS,
-    SYNCHRONIZED_STATE_ERROR,
+    SYNC_START,
+    SYNC_SUCCESS,
+    SYNC_ERROR,
     TOGGLE_AVAILABILITY,
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT
 } from './actions';
 
 const initialState = {
+    auth: {
+        personId: 5,
+    },
     futureEvents: {
         isFetching: false,
         didInvalidate: false,
@@ -74,16 +77,16 @@ function serverSyncReducer(state, action) {
                 stale: true,
                 syncTimeoutMs: 3000,
             });
-        case SYNCHRONIZE_STATE:
+        case SYNC_START:
             return Object.assign({}, state, {
                 stale: false,
                 syncPending: true,
             });
-        case SYNCHRONIZED_STATE_SUCCESS:
+        case SYNC_SUCCESS:
             return Object.assign({}, state, {
                 syncPending: false,
             });
-        case SYNCHRONIZED_STATE_ERROR:
+        case SYNC_ERROR:
             return Object.assign({}, state, {
                 stale: true,
                 syncPending: false,
@@ -102,6 +105,7 @@ function serverSyncReducer(state, action) {
 
 export default function reducer(state = initialState, action) {
     return {
+        auth: state.auth,
         futureEvents: futureEventsReducer(state.futureEvents, action),
         availabilities: availabilityReducer(state.availabilities, action),
         serverSync: serverSyncReducer(state.serverSync, action),

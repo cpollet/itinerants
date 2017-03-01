@@ -1,6 +1,5 @@
 import React from 'react';
 import EventContainer from './containers/EventContainer';
-import Button from './core/Button';
 import styles from './Events.css';
 
 class Events extends React.Component {
@@ -21,7 +20,6 @@ class Events extends React.Component {
                     {this.props.events.map((e, i) => <EventContainer key={i} event={e}/>)}
                     </tbody>
                 </table>
-                <Button type="primary" onClick={this.props.save}>Save</Button>
             </div>
         );
     }
@@ -30,7 +28,6 @@ class Events extends React.Component {
 Events.propTypes = {
     title: React.PropTypes.string.isRequired,
     events: React.PropTypes.array.isRequired,
-    save: React.PropTypes.func.isRequired,
 };
 
 export default Events;
