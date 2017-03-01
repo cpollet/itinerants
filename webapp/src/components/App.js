@@ -17,7 +17,7 @@ class App extends React.Component {
                     <li><Link to={'/future'}>Future</Link></li>
                     <li><Link to={'/settings'}>Settings</Link></li>
                 </ul>
-                <AlertStaleState title="Attention" text="toutes les modifications ne sont pas enregistrées."/>
+                <AlertStaleState text="Sauvegarde en cours..."/>
                 <h2>Content</h2>
                 {this.props.children}
             </div>

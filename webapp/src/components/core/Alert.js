@@ -15,7 +15,7 @@ class Alert extends React.Component {
 
 Alert.propTypes = {
     text: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string,
     type: React.PropTypes.oneOf(['success', 'info', 'warn', 'error']).isRequired,
 };
 

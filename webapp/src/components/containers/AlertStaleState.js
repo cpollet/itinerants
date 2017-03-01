@@ -6,15 +6,15 @@ class AlertStaleState extends React.Component {
     render() {
         return !this.props.stale ? null :
             (
-                <FadeInAlert type="warn" {...this.props} />
+                <FadeInAlert type="info" {...this.props} />
             );
     }
 }
 
 AlertStaleState.propTypes = {
-    stale: React.PropTypes.bool,
+    stale: React.PropTypes.bool.isRequired,
     text: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string,
 };
 
 function mapStateToProps(state) {
