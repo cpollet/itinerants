@@ -19,7 +19,7 @@ AlertSyncFail.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        syncFail: state.serverSync.retryCount === 0,
+        syncFail: state.serverSync.syncFailure,
     };
 }
 

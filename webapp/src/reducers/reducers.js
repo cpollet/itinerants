@@ -35,6 +35,7 @@ const initialState = {
         stale: false,
         syncPending: false,
         syncTimeoutMs: 0,
+        syncFailure: false,
     },
 };
 
@@ -77,6 +78,7 @@ function serverSyncReducer(state, action) {
         case INVALIDATE_STATE:
             return Object.assign({}, state, {
                 stale: true,
+                syncFailure: false,
                 syncTimeoutMs: 3000,
             });
         case SYNC_START:
@@ -93,6 +95,13 @@ function serverSyncReducer(state, action) {
             return Object.assign({}, state, {
                 retryCount: Math.max(0, state.retryCount - 1),
                 stale: true,
+                syncPending: false,
+            });
+        case SYNC_FAILURE:
+            return Object.assign({}, state, {
+                retryCount: initialState.serverSync.retryCount,
+                syncFailure: true,
+                stale: false,
                 syncPending: false,
             });
         case DECREASE_SYNC_TIMEOUT:

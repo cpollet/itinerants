@@ -7,7 +7,7 @@ class SyncManager {
     listenerFactory() {
         return function () {
             if (this.context.stale() && this.syncTimer == undefined && !this.context.syncPending()) {
-                this.syncTimer = setInterval(this.context.onTick, this.context.syncTimerInterval);
+                this.syncTimer = setInterval(this.context.decreaseSyncTimeout, this.context.syncTimerInterval);
             }
 
             if (!this.context.stale() && this.syncTimer != undefined) {

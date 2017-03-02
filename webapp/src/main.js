@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         stale: () => store.getState().serverSync.stale,
         syncPending: () => store.getState().serverSync.syncPending,
         syncTimedOut: () => store.getState().serverSync.syncTimeoutMs === 0,
-        onTick: () => store.dispatch(decreaseSyncTimeout()),
+        decreaseSyncTimeout: () => store.dispatch(decreaseSyncTimeout()),
         sync: () => store.dispatch(sync()),
     });
     store.subscribe(syncManager.listenerFactory());

@@ -81,6 +81,9 @@ export function sync() {
                 console.log('error', error);
                 if (serverSync.retryCount === 0) {
                     console.log('tried max amount of times');
+                    dispatch({
+                        type: SYNC_FAILURE,
+                    });
                 } else {
                     console.log('retry in 5sec');
                     setTimeout(() => dispatch({
