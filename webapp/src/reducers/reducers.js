@@ -12,7 +12,7 @@ import {
 
 const initialState = {
     auth: {
-        personId: 6,
+        personId: 1,
     },
     futureEvents: {
         isFetching: false,

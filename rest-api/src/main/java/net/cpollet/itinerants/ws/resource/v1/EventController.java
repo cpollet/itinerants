@@ -44,7 +44,7 @@ public class EventController {
     }
 
     @GetMapping(value = "/future")
-    public List<EventResponse> futur(@RequestParam(name = "sort", required = false, defaultValue = "asc") String sort) {
+    public List<EventResponse> future(@RequestParam(name = "sort", required = false, defaultValue = "asc") String sort) {
         if (!stringSortOrderMap.containsKey(sort.toLowerCase())) {
             throw new IllegalArgumentException("Sort order " + sort + " is not a valid order");
         }
