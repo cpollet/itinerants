@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.ws.spring;
+package net.cpollet.itinerants.ws.context;
 
 import net.cpollet.itinerants.ws.da.neo4j.data.Neo4jEntityPackage;
 import net.cpollet.itinerants.ws.da.neo4j.repositories.Neo4jRepositoriesPackage;
