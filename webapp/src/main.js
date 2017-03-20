@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import FutureEventsContainer from './components/containers/FutureEventsContainer';
 import NoMatch from './components/NoMatch';
 import App from './components/App';
+import Login from './components/Login';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, compose} from 'redux';
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <Router history={browserHistory}>
                 <Route path="/" component={App}>
                     <IndexRoute component={FutureEventsContainer}/>
+                    <Route path="login" component={Login}/>
                     <Route path="future" component={FutureEventsContainer}/>
                     <Route path="past" component={NoMatch}/>
                     <Route path="settings" component={NoMatch}/>

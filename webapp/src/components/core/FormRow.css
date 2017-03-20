@@ -1,0 +1,16 @@
+.component {
+    /*margin-right: -15px;*/
+    /*margin-left: -15px;*/
+    margin-bottom: 15px
+}
+
+.component:before {
+    display: table;
+    content: " ";
+}
+
+.component:after {
+    display: table;
+    content: " ";
+    clear: both;
+}
