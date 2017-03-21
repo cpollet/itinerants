@@ -19,7 +19,7 @@ InfoStaleState.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        stale: state.serverSync.retryCount > 0 && (state.serverSync.stale || state.serverSync.syncPending),
+        stale: state.app.serverSync.retryCount > 0 && (state.app.serverSync.stale || state.app.serverSync.syncPending),
     };
 }
 

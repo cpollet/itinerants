@@ -6,33 +6,40 @@ import FormField from './core/FormField';
 import TextInput from './core/TextInput';
 import PasswordInput from './core/PasswordInput';
 import Button from './core/Button';
+import {FormContainer} from '../lib/form/FormContainer';
+import FormFieldContainer from '../lib/form/FormFieldContainer';
 
 class Login extends React.Component {
     render() {
         return (
-            <Form onSubmit={(e) => {
-                console.log('submit');
-                e.preventDefault();
+            <FormContainer name="login" onSubmit={(data) => {
+                console.log('FormContainer got form data:', data);
             }}>
-                <FormRow>
-                    <FormLabel>Nom d'utilisateur</FormLabel>
-                    <FormField>
-                        <TextInput placeholder="Nom d'utilisateur"/>
-                    </FormField>
-                </FormRow>
-                <FormRow>
-                    <FormLabel>Mot de passe</FormLabel>
-                    <FormField>
-                        <PasswordInput placeholder="Mot de passe"/>
-                    </FormField>
-                </FormRow>
-                <FormRow>
-                    <FormLabel>&nbsp;</FormLabel>
-                    <FormField>{/* TODO create a FormButtons component? */}
-                        <Button type="primary" submit={true}>Connexion</Button>
-                    </FormField>
-                </FormRow>
-            </Form>
+                <Form>
+                    <FormRow>
+                        <FormLabel>Nom d'utilisateur</FormLabel>
+                        <FormField>
+                            <FormFieldContainer name="username">
+                                <TextInput placeholder="Nom d'utilisateur"/>
+                            </FormFieldContainer>
+                        </FormField>
+                    </FormRow>
+                    <FormRow>
+                        <FormLabel>Mot de passe</FormLabel>
+                        <FormField>
+                            <FormFieldContainer name="password">
+                                <PasswordInput placeholder="Mot de passe"/>
+                            </FormFieldContainer>
+                        </FormField>
+                    </FormRow>
+                    <FormRow>
+                        <FormLabel>&nbsp;</FormLabel>
+                        <FormField>{/* TODO create a FormButtons component? */}
+                            <Button type="primary" submit={true}>Connexion</Button>
+                        </FormField>
+                    </FormRow>
+                </Form>
+            </FormContainer>
         );
     }
 }

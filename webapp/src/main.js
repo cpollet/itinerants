@@ -7,26 +7,35 @@ import App from './components/App';
 import Login from './components/Login';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware, compose} from 'redux';
-import reducer from './reducers/reducers';
+import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
+import {logger} from 'redux-logger';
+import appReducer from './reducers/reducers';
 import thunkMiddleware from 'redux-thunk';
 import moment from 'moment';
 import {sync, decreaseSyncTimeout} from './reducers/actions';
 import SyncManager from './SyncManager';
+import {reducer as formReducer} from './lib/form/FormContainer';
+import FormProvider from './lib/form/FormProvider';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
 
+    const reducer = combineReducers({
+        app: appReducer,
+        forms: formReducer
+    });
+
     const store = createStore(reducer, compose(
         applyMiddleware(thunkMiddleware),
+        applyMiddleware(logger),
         window.devToolsExtension ? window.devToolsExtension() : f => f
     ));
 
     const syncManager = new SyncManager({
         syncTimerInterval: 1000,
-        stale: () => store.getState().serverSync.stale,
-        syncPending: () => store.getState().serverSync.syncPending,
-        syncTimedOut: () => store.getState().serverSync.syncTimeoutMs === 0,
+        stale: () => store.getState().app.serverSync.stale,
+        syncPending: () => store.getState().app.serverSync.syncPending,
+        syncTimedOut: () => store.getState().app.serverSync.syncTimeoutMs === 0,
         decreaseSyncTimeout: () => store.dispatch(decreaseSyncTimeout()),
         sync: () => store.dispatch(sync()),
     });
@@ -34,16 +43,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     ReactDOM.render((
         <Provider store={store}>
-            <Router history={browserHistory}>
-                <Route path="/" component={App}>
-                    <IndexRoute component={FutureEventsContainer}/>
-                    <Route path="login" component={Login}/>
-                    <Route path="future" component={FutureEventsContainer}/>
-                    <Route path="past" component={NoMatch}/>
-                    <Route path="settings" component={NoMatch}/>
-                    <Route path="*" component={NoMatch}/>
-                </Route>
-            </Router>
+            <FormProvider stateKey="forms">
+                <Router history={browserHistory}>
+                    <Route path="/" component={App}>
+                        <IndexRoute component={FutureEventsContainer}/>
+                        <Route path="login" component={Login}/>
+                        <Route path="future" component={FutureEventsContainer}/>
+                        <Route path="past" component={NoMatch}/>
+                        <Route path="settings" component={NoMatch}/>
+                        <Route path="*" component={NoMatch}/>
+                    </Route>
+                </Router>
+            </FormProvider>
         </Provider>
     ), document.getElementById('root'));
 });

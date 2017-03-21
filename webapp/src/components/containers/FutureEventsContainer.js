@@ -25,7 +25,7 @@ function mapStateToProps(state) {
             name: e.name,
             dateTime: moment(e.dateTime),
             available: availabilities.indexOf(e.eventId) > -1,
-        })))(state.futureEvents.items, state.availabilities),
+        })))(state.app.futureEvents.items, state.app.availabilities),
         title: 'Événement futurs',
     };
 }

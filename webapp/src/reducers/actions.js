@@ -33,7 +33,7 @@ export function sync() {
             type: SYNC_START,
         });
 
-        const {futureEvents, availabilities, auth, serverSync} = getState();
+        const {futureEvents, availabilities, auth, serverSync} = getState().app;
 
         Promise.all([]
             .concat(futureEvents.items

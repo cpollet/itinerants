@@ -19,7 +19,7 @@ AlertSyncFail.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        syncFail: state.serverSync.syncFailure,
+        syncFail: state.app.serverSync.syncFailure,
     };
 }
 
