@@ -1,14 +1,22 @@
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
+# Maven files
+**/target/
+**/pom.xml.tag
+**/pom.xml.releaseBackup
+**/pom.xml.versionsBackup
+**/pom.xml.next
+**/release.properties
+**/dependency-reduced-pom.xml
+**/buildNumber.properties
+**/.mvn/timing.properties
 
-.idea
-*.iml
+# IntelliJ project files
+**/.idea
+**/*.iml
+**/out
+**/gen
 
-node_modules
-webapp/www/bundle.js
+# Javascript
+**/node_modules
+**/bundle.js
+**/semantic/dist
+**/npm-debug.log
