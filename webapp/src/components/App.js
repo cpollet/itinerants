@@ -14,6 +14,7 @@ class App extends React.Component {
                 <h1>Itinérants</h1>
                 <h2>Menu</h2>
                 <ul>
+                    <li><Link to={'/login'}>Login</Link></li>
                     <li><Link to={'/past'}>Past</Link></li>
                     <li><Link to={'/future'}>Future</Link></li>
                     <li><Link to={'/settings'}>Settings</Link></li>

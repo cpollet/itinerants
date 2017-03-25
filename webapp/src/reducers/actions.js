@@ -9,6 +9,9 @@ export const SYNC_ERROR = 'SYNC_ERROR';
 export const SYNC_FAILURE = 'SYNC_FAILURE';
 export const INVALIDATE_STATE = 'INVALIDATE_STATE';
 export const DECREASE_SYNC_TIMEOUT = 'DECREASE_SYNC_TIMEOUT';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_INVALID = 'LOGIN_INVALID';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export function fetchFutureEvents() {
     return function (dispatch) {
@@ -28,7 +31,7 @@ export function fetchFutureEvents() {
 
 export function sync() {
     return function (dispatch, getState) {
-        console.log('sync...');
+        // console.log('sync...');
         dispatch({
             type: SYNC_START,
         });
@@ -71,21 +74,21 @@ export function sync() {
                     }).catch((ex) => reject(ex));
                 })
             ))
-            .then((response) => {
-                console.log('ok', response);
+            .then((/* response */) => {
+                // console.log('ok', response);
                 dispatch({
                     type: SYNC_SUCCESS,
                 });
             })
-            .catch((error) => {
-                console.log('error', error);
+            .catch((/* error */) => {
+                // console.log('error', error);
                 if (serverSync.retryCount === 0) {
-                    console.log('tried max amount of times');
+                    // console.log('tried max amount of times');
                     dispatch({
                         type: SYNC_FAILURE,
                     });
                 } else {
-                    console.log('retry in 5sec');
+                    // console.log('retry in 5sec');
                     setTimeout(() => dispatch({
                         type: SYNC_ERROR,
                     }), 5 * 1000);
@@ -108,6 +111,42 @@ export function toggleAvailability(eventId) {
         });
         dispatch({
             type: INVALIDATE_STATE,
+        });
+    };
+}
+
+export function login(username, password) {
+    return function (dispatch/* , getState */) {
+        fetch('/api/sessions', {
+            method: 'PUT',
+            body: JSON.stringify({
+                username,
+                password
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => {
+            response.json().then((msg) => {
+                switch (msg.result) {
+                    case 'INVALID_CREDENTIALS':
+                        dispatch({
+                            type: LOGIN_INVALID
+                        });
+                        break;
+                    case 'SUCCESS':
+                        dispatch({
+                            type: LOGIN_SUCCESS,
+                            username: username,
+                            token: msg.token
+                        });
+                        break;
+                }
+            });
+        }).catch((/* ex */) => {
+            dispatch({
+                type: LOGIN_ERROR
+            });
         });
     };
 }

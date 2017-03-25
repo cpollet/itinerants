@@ -7,12 +7,17 @@ import {
     SYNC_FAILURE,
     TOGGLE_AVAILABILITY,
     INVALIDATE_STATE,
-    DECREASE_SYNC_TIMEOUT
+    DECREASE_SYNC_TIMEOUT,
+    LOGIN_SUCCESS,
+    LOGIN_INVALID
 } from './actions';
 
 const initialState = {
     auth: {
-        personId: 1,
+        personId: null,
+        token: null,
+        username: null,
+        error: 'NOT_AUTHENTICATED'
     },
     futureEvents: {
         isFetching: false,
@@ -116,9 +121,30 @@ function serverSyncReducer(state, action) {
     }
 }
 
+function authReducer(state, action) {
+    switch (action.type) {
+        case LOGIN_SUCCESS:
+            return Object.assign({}, state, {
+                personId: 1,
+                username: action.username,
+                token: action.token,
+                error: null
+            });
+        case LOGIN_INVALID:
+            console.log('invalid login');
+            return Object.assign({}, state, {
+                personId: null,
+                username: null,
+                token: null,
+                error: 'INVALID_CREDENTIALS'
+            });
+    }
+    return state;
+}
+
 export default function reducer(state = initialState, action) {
     return {
-        auth: state.auth,
+        auth: authReducer(state.auth, action),
         futureEvents: futureEventsReducer(state.futureEvents, action),
         availabilities: availabilityReducer(state.availabilities, action),
         serverSync: serverSyncReducer(state.serverSync, action),

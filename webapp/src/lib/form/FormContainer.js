@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 
 class FormContainer extends React.Component {
     onSubmit(event) {
-        this.props.onSubmit(this.props.state[this.context.formStateKey][this.props.name]);
-        event.preventDefault();
+        this.props.onSubmit(event, this.props.state[this.context.formStateKey][this.props.name]);
     }
 
     render() {
