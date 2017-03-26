@@ -16,20 +16,27 @@ import {sync, decreaseSyncTimeout} from './reducers/actions';
 import SyncManager from './SyncManager';
 import {reducer as formReducer} from './lib/form/FormContainer';
 import FormProvider from './lib/form/FormProvider';
+import {routerReducer, routerMiddleware, routerActions, syncHistoryWithStore} from 'react-router-redux';
+import {UserAuthWrapper} from 'redux-auth-wrapper';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
 
     const reducer = combineReducers({
+        routing: routerReducer,
         app: appReducer,
         forms: formReducer
     });
 
+    const routingMiddleware = routerMiddleware(browserHistory);
+
     const store = createStore(reducer, compose(
         applyMiddleware(thunkMiddleware),
         applyMiddleware(logger),
+        applyMiddleware(routingMiddleware),
         window.devToolsExtension ? window.devToolsExtension() : f => f
     ));
+    const history = syncHistoryWithStore(browserHistory, store);
 
     const syncManager = new SyncManager({
         syncTimerInterval: 1000,
@@ -41,16 +48,46 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     store.subscribe(syncManager.listenerFactory());
 
+    function authData(state) {
+        if (state.app.auth.token !== null) {
+            return {
+                token: state.app.auth.token
+            };
+        } else {
+            return {
+                token: null
+            };
+        }
+    }
+
+    const UserIsAuthenticated = UserAuthWrapper({
+        authSelector: state => authData(state),
+        predicate: user => user.token !== null,
+        redirectAction: routerActions.replace
+    });
+    const Authenticated = UserIsAuthenticated((props) => React.cloneElement(props.children, props));
+
+    const UserIsNotAuthenticated = UserAuthWrapper({
+        authSelector: state => authData(state),
+        redirectAction: routerActions.replace,
+        wrapperDisplayName: 'UserIsNotAuthenticated',
+        predicate: user => user.token === null,
+        failureRedirectPath: (state, ownProps) => ownProps.location.query.redirect || '/',
+        allowRedirectBack: false
+    });
+
     ReactDOM.render((
         <Provider store={store}>
             <FormProvider stateKey="forms">
-                <Router history={browserHistory}>
+                <Router history={history}>
                     <Route path="/" component={App}>
-                        <IndexRoute component={FutureEventsContainer}/>
-                        <Route path="login" component={LoginContainer}/>
-                        <Route path="future" component={FutureEventsContainer}/>
-                        <Route path="past" component={NoMatch}/>
-                        <Route path="settings" component={NoMatch}/>
+                        <Route path="login" component={UserIsNotAuthenticated(LoginContainer)}/>
+                        <Route component={Authenticated}>
+                            <IndexRoute component={FutureEventsContainer}/>
+                            <Route path="future" component={FutureEventsContainer}/>
+                            <Route path="past" component={NoMatch}/>
+                            <Route path="settings" component={NoMatch}/>
+                        </Route>
                         <Route path="*" component={NoMatch}/>
                     </Route>
                 </Router>

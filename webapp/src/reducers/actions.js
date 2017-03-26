@@ -13,13 +13,33 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_INVALID = 'LOGIN_INVALID';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
+function authenticatedFetch(url, state, options = {}) {
+    function extractOr(object, key, defaultValue) {
+        if (typeof object[key] !== 'undefined') {
+            return object[key];
+        }
+
+        return defaultValue;
+    }
+
+    if (state.app.auth.token !== null) {
+        options = Object.assign({}, options, {
+            headers: Object.assign({}, extractOr(options, 'headers', {}), {
+                'X-Auth-Token': state.app.auth.token
+            })
+        });
+    }
+
+    return fetch(url, options);
+}
+
 export function fetchFutureEvents() {
-    return function (dispatch) {
+    return function (dispatch, getState) {
         dispatch({
             type: REQUEST_FUTURE_EVENTS
         });
 
-        return fetch('/api/events/future')
+        return authenticatedFetch('/api/events/future', getState())
             .then(response => response.json())
             .then(json => dispatch({
                 type: RECEIVE_FUTURE_EVENTS,
@@ -59,7 +79,7 @@ export function sync() {
                 })))
             .map((action) =>
                 new Promise(function (resolve, reject) {
-                    fetch('/api/availabilities', {
+                    authenticatedFetch('/api/availabilities', getState(), {
                         method: action.action,
                         body: JSON.stringify(action.data),
                         headers: {
