@@ -2,6 +2,8 @@ package net.cpollet.itinerants.ws.api.v1.data;
 
 import lombok.Data;
 
+import java.util.Set;
+
 /**
  * Created by cpollet on 18.03.17.
  */
@@ -18,14 +20,16 @@ public class LoginResponse {
     }
 
     private String token;
+    private Set<String> roles;
     private String result;
 
     private LoginResponse() {
         // nothing to do
     }
 
-    public LoginResponse(String token) {
+    public LoginResponse(String token, Set<String> roles) {
         this.token = token;
+        this.roles = roles;
         this.result = CODE_SUCCESS;
     }
 }

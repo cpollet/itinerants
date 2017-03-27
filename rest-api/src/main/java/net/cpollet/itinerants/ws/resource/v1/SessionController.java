@@ -6,14 +6,14 @@ import net.cpollet.itinerants.ws.authentication.TokenService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import java.util.UUID;
 
 /**
@@ -30,7 +30,7 @@ public class SessionController {
 
     @PutMapping(value = "")
     public LoginResponse create(@RequestBody LoginPayload credentials) {
-        if (!credentials.getUsername().equals("username")) {
+        if (!credentials.getUsername().equals("user") && !credentials.getUsername().equals("admin")) {
             return LoginResponse.INVALID_CREDENTIALS;
         }
 
@@ -43,6 +43,14 @@ public class SessionController {
 
         tokenService.store(token, authentication);
 
-        return new LoginResponse(token);
+        if (credentials.getUsername().equals("user")) {
+            return new LoginResponse(token, new HashSet<>(Collections.singleton("user")));
+        }
+
+        if (credentials.getUsername().equals("admin")) {
+            return new LoginResponse(token, new HashSet<>(Arrays.asList("user", "admin")));
+        }
+
+        throw new IllegalStateException();
     }
 }
