@@ -12,6 +12,7 @@ export const DECREASE_SYNC_TIMEOUT = 'DECREASE_SYNC_TIMEOUT';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_INVALID = 'LOGIN_INVALID';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGOUT = 'LOGOUT';
 
 function authenticatedFetch(url, state, options = {}) {
     function extractOr(object, key, defaultValue) {
@@ -169,5 +170,11 @@ export function login(username, password) {
                 type: LOGIN_ERROR
             });
         });
+    };
+}
+
+export function logout() {
+    return {
+        type: LOGOUT
     };
 }

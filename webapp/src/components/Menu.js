@@ -8,6 +8,7 @@ class Menu extends React.Component {
         return (
             <ul>
                 {renderIf(!this.props.isAuthenticated, <li><Link to={'/login'}>Login</Link></li>)}
+                {renderIf(this.props.isAuthenticated, <li><Link to={'/logout'}>Logout</Link></li>)}
                 {renderIf(this.props.isAuthenticated, <li><Link to={'/past'}>Past</Link></li>)}
                 {renderIf(this.props.isAuthenticated, <li><Link to={'/future'}>Future</Link></li>)}
                 {renderIf(this.props.isAuthenticated, <li><Link to={'/settings'}>Settings</Link></li>)}

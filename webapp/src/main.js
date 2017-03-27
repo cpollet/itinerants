@@ -5,6 +5,7 @@ import FutureEventsContainer from './components/containers/FutureEventsContainer
 import NoMatch from './components/NoMatch';
 import App from './components/App';
 import LoginContainer from './components/containers/LoginContainer';
+import LogoutContainer from './components/containers/LogoutContainer';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
@@ -18,6 +19,7 @@ import {reducer as formReducer} from './lib/form/FormContainer';
 import FormProvider from './lib/form/FormProvider';
 import {routerReducer, routerMiddleware, routerActions, syncHistoryWithStore} from 'react-router-redux';
 import {UserAuthWrapper} from 'redux-auth-wrapper';
+import {LOGOUT}  from './reducers/actions';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
@@ -28,9 +30,19 @@ document.addEventListener('DOMContentLoaded', function () {
         forms: formReducer
     });
 
+    const rootReducer = (state, action) => {
+        // http://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store
+        if (action.type === LOGOUT) {
+            const { routing } = state;
+            state = { routing };
+        }
+
+        return reducer(state, action);
+    };
+
     const routingMiddleware = routerMiddleware(browserHistory);
 
-    const store = createStore(reducer, compose(
+    const store = createStore(rootReducer, compose(
         applyMiddleware(thunkMiddleware),
         applyMiddleware(logger),
         applyMiddleware(routingMiddleware),
@@ -82,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <Router history={history}>
                     <Route path="/" component={App}>
                         <Route path="login" component={UserIsNotAuthenticated(LoginContainer)}/>
+                        <Route path="logout" component={LogoutContainer}/>
                         <Route component={Authenticated}>
                             <IndexRoute component={FutureEventsContainer}/>
                             <Route path="future" component={FutureEventsContainer}/>
