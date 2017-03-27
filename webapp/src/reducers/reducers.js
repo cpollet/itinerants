@@ -9,7 +9,7 @@ import {
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT,
     LOGIN_SUCCESS,
-    LOGIN_INVALID
+    LOGIN_INVALID,
 } from './actions';
 
 const initialState = {
@@ -17,6 +17,7 @@ const initialState = {
         personId: null,
         token: null,
         username: null,
+        roles: [],
         error: 'NOT_AUTHENTICATED'
     },
     futureEvents: {
@@ -128,10 +129,10 @@ function authReducer(state, action) {
                 personId: 1,
                 username: action.username,
                 token: action.token,
+                roles: action.roles,
                 error: null
             });
         case LOGIN_INVALID:
-            console.log('invalid login');
             return Object.assign({}, state, {
                 personId: null,
                 username: null,
