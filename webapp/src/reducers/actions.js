@@ -105,7 +105,7 @@ export function sync() {
                 })))
             .map((action) =>
                 new Promise(function (resolve, reject) {
-                    authenticatedFetch('/api/availabilities', getState(), {
+                    authenticatedFetch('/api/availabilities', dispatch, getState(), {
                         method: action.action,
                         body: JSON.stringify(action.data),
                         headers: {
