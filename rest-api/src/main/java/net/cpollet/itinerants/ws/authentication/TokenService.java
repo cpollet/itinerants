@@ -1,12 +1,7 @@
 package net.cpollet.itinerants.ws.authentication;
 
 import org.ehcache.Cache;
-import org.ehcache.CacheManager;
 import org.springframework.security.core.Authentication;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by cpollet on 15.03.17.
@@ -19,7 +14,9 @@ public class TokenService {
     }
 
     public void store(String token, Authentication authentication) {
-        tokenCache.put(token, authentication);
+        if (!authentication.getPrincipal().equals("expires")) {
+            tokenCache.put(token, authentication);
+        }
     }
 
     public boolean isTokenValid(String token) {

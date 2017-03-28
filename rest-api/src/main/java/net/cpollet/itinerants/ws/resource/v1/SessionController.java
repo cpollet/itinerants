@@ -30,7 +30,7 @@ public class SessionController {
 
     @PutMapping(value = "")
     public LoginResponse create(@RequestBody LoginPayload credentials) {
-        if (!credentials.getUsername().equals("user") && !credentials.getUsername().equals("admin")) {
+        if (!credentials.getUsername().equals("expires") && !credentials.getUsername().equals("user") && !credentials.getUsername().equals("admin")) {
             return LoginResponse.INVALID_CREDENTIALS;
         }
 
@@ -43,7 +43,7 @@ public class SessionController {
 
         tokenService.store(token, authentication);
 
-        if (credentials.getUsername().equals("user")) {
+        if (credentials.getUsername().equals("user")||credentials.getUsername().equals("expires")) {
             return new LoginResponse(token, new HashSet<>(Collections.singleton("user")));
         }
 
