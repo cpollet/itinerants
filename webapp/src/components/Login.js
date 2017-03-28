@@ -31,7 +31,7 @@ class Login extends React.Component {
                             <FormLabel>Nom d'utilisateur</FormLabel>
                             <FormField>
                                 <FormFieldContainer name="username">
-                                    <TextInput placeholder="Nom d'utilisateur"/>
+                                    <TextInput placeholder="Nom d'utilisateur" value={this.props.username}/>
                                 </FormFieldContainer>
                             </FormField>
                         </FormRow>
@@ -59,7 +59,8 @@ class Login extends React.Component {
 Login.propTypes = {
     login: React.PropTypes.func.isRequired,
     invalidCredentials: React.PropTypes.bool,
-    loginExpired: React.PropTypes.bool
+    loginExpired: React.PropTypes.bool,
+    username: React.PropTypes.string
 };
 
 export default Login;

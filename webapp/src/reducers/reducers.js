@@ -147,6 +147,7 @@ function authReducer(state, action) {
                 personId: null,
                 username: null,
                 token: null,
+                roles: [],
                 error: constants.login.invalidCredentials
             });
         case LOGIN_EXPIRED:
