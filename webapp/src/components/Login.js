@@ -9,18 +9,17 @@ import Button from './core/Button';
 import {FormContainer} from '../lib/form/FormContainer';
 import FormFieldContainer from '../lib/form/FormFieldContainer';
 import Alert from './core/Alert';
+import {renderIf} from '../lib/helpers';
 
 class Login extends React.Component {
     render() {
-        if (this.props.invalidCredentials) {
-            var message = (
-                <Alert  type="error" text="Nom d'utilisateur ou mot de passe invalide."/>
-            );
-        }
-
         return (
             <div>
-                {message}
+                {renderIf(this.props.invalidCredentials,
+                    <Alert type="error" text="Nom d'utilisateur ou mot de passe invalide."/>)}
+                {renderIf(this.props.loginExpired,
+                    <Alert type="info" text="Session expirée."/>)}
+
                 <FormContainer name="login" onSubmit={(e, data) => {
                     if (typeof data !== 'undefined') {
                         this.props.login(data.username, data.password);
@@ -59,7 +58,8 @@ class Login extends React.Component {
 
 Login.propTypes = {
     login: React.PropTypes.func.isRequired,
-    invalidCredentials: React.PropTypes.bool
+    invalidCredentials: React.PropTypes.bool,
+    loginExpired: React.PropTypes.bool
 };
 
 export default Login;

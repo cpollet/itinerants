@@ -1,7 +1,9 @@
 import fetch from 'isomorphic-fetch';
+import {push} from 'react-router-redux';
 
 export const REQUEST_FUTURE_EVENTS = 'REQUEST_FUTURE_EVENTS';
 export const RECEIVE_FUTURE_EVENTS = 'RECEIVE_FUTURE_EVENTS';
+export const FAIL_FUTURE_EVENTS = 'FAIL_FUTURE_EVENTS';
 export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
 export const SYNC_START = 'SYNC_START';
 export const SYNC_SUCCESS = 'SYNC_SUCCESS';
@@ -10,11 +12,12 @@ export const SYNC_FAILURE = 'SYNC_FAILURE';
 export const INVALIDATE_STATE = 'INVALIDATE_STATE';
 export const DECREASE_SYNC_TIMEOUT = 'DECREASE_SYNC_TIMEOUT';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_EXPIRED = 'LOGIN_EXPIRED';
 export const LOGIN_INVALID = 'LOGIN_INVALID';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT = 'LOGOUT';
 
-function authenticatedFetch(url, state, options = {}) {
+function authenticatedFetch(url, dispatch, state, options = {}) {
     function extractOr(object, key, defaultValue) {
         if (typeof object[key] !== 'undefined') {
             return object[key];
@@ -31,7 +34,16 @@ function authenticatedFetch(url, state, options = {}) {
         });
     }
 
-    return fetch(url, options);
+    return fetch(url, options)
+        .then(response => {
+            if (response.status === 401) {
+                dispatch({
+                    type: LOGIN_EXPIRED
+                });
+                dispatch(push('/login'));
+            }
+            return response;
+        });
 }
 
 export function fetchFutureEvents() {
@@ -40,13 +52,26 @@ export function fetchFutureEvents() {
             type: REQUEST_FUTURE_EVENTS
         });
 
-        return authenticatedFetch('/api/events/future', getState())
-            .then(response => response.json())
-            .then(json => dispatch({
-                type: RECEIVE_FUTURE_EVENTS,
-                items: json,
-                receivedAt: Date.now()
-            }));
+        return authenticatedFetch('/api/events/future', dispatch, getState())
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                return null;
+            })
+            .then(json => {
+                if (json !== null) {
+                    return dispatch({
+                        type: RECEIVE_FUTURE_EVENTS,
+                        items: json,
+                        receivedAt: Date.now()
+                    });
+                } else {
+                    return dispatch({
+                        type: FAIL_FUTURE_EVENTS
+                    });
+                }
+            });
     };
 }
 

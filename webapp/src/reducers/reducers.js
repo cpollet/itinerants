@@ -1,6 +1,7 @@
 import {
     REQUEST_FUTURE_EVENTS,
     RECEIVE_FUTURE_EVENTS,
+    FAIL_FUTURE_EVENTS,
     SYNC_START,
     SYNC_SUCCESS,
     SYNC_ERROR,
@@ -9,8 +10,10 @@ import {
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT,
     LOGIN_SUCCESS,
-    LOGIN_INVALID,
+    LOGIN_EXPIRED,
+    LOGIN_INVALID
 } from './actions';
+import constants from '../constants';
 
 const initialState = {
     auth: {
@@ -73,6 +76,13 @@ function futureEventsReducer(state, action) {
                 didInvalidate: false,
                 lastUpdated: action.receivedAt,
                 items: action.items
+            });
+        case FAIL_FUTURE_EVENTS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                didInvalidate: false,
+                lastUpdated: 0,
+                items: []
             });
         default:
             return state;
@@ -137,7 +147,12 @@ function authReducer(state, action) {
                 personId: null,
                 username: null,
                 token: null,
-                error: 'INVALID_CREDENTIALS'
+                error: constants.login.invalidCredentials
+            });
+        case LOGIN_EXPIRED:
+            return Object.assign({}, state, {
+                token: null,
+                error: constants.login.sessionExpired
             });
     }
     return state;
