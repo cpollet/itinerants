@@ -44,11 +44,11 @@ public class SessionController {
         tokenService.store(token, authentication);
 
         if (credentials.getUsername().equals("user")||credentials.getUsername().equals("expires")) {
-            return new LoginResponse(token, new HashSet<>(Collections.singleton("user")));
+            return new LoginResponse(token, 1, new HashSet<>(Collections.singleton("user")));
         }
 
         if (credentials.getUsername().equals("admin")) {
-            return new LoginResponse(token, new HashSet<>(Arrays.asList("user", "admin")));
+            return new LoginResponse(token, 1, new HashSet<>(Arrays.asList("user", "admin")));
         }
 
         throw new IllegalStateException();
