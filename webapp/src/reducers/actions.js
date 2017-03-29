@@ -184,6 +184,7 @@ export function login(username, password) {
                         dispatch({
                             type: LOGIN_SUCCESS,
                             username: username,
+                            personId: msg.personId,
                             token: msg.token,
                             roles: msg.roles
                         });

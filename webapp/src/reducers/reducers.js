@@ -136,7 +136,7 @@ function authReducer(state, action) {
     switch (action.type) {
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {
-                personId: 1,
+                personId: action.personId,
                 username: action.username,
                 token: action.token,
                 roles: action.roles,
