@@ -1,8 +1,8 @@
 package net.cpollet.itinerants.ws.da.neo4j.data;
 
 import lombok.Data;
-import net.cpollet.itinerants.ws.service.data.Event;
-import net.cpollet.itinerants.ws.service.data.Person;
+import net.cpollet.itinerants.ws.domain.data.EventData;
+import net.cpollet.itinerants.ws.domain.data.PersonData;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 
@@ -11,7 +11,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
  */
 @Data
 @NodeEntity(label = "Person")
-public class Neo4jPerson implements Person {
+public class Neo4JPersonData implements PersonData {
     @GraphId
     private Long id;
     private String username;
@@ -19,7 +19,7 @@ public class Neo4jPerson implements Person {
     private String password;
 
     @Override
-    public void availableFor(Event event) {
-        ((Neo4jEvent) event).availablePeople().add(this);
+    public void availableFor(EventData eventData) {
+        ((Neo4JEventData) eventData).availablePeople().add(this);
     }
 }

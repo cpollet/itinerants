@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.ws.api.v1.data.LoginPayload;
 import net.cpollet.itinerants.ws.api.v1.data.LoginResponse;
 import net.cpollet.itinerants.ws.authentication.TokenService;
+import net.cpollet.itinerants.ws.domain.Person;
+import net.cpollet.itinerants.ws.domain.data.PersonData;
 import net.cpollet.itinerants.ws.service.PersonService;
-import net.cpollet.itinerants.ws.service.data.Person;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,22 +28,25 @@ import java.util.UUID;
 public class SessionController {
     private final TokenService tokenService;
     private final PersonService personService;
+    private final Person.Factory personFactory;
 
-    public SessionController(TokenService tokenService, PersonService personService) {
+    public SessionController(TokenService tokenService, PersonService personService, Person.Factory personFactory) {
         this.tokenService = tokenService;
         this.personService = personService;
+        this.personFactory = personFactory;
     }
 
     @PutMapping(value = "")
     public LoginResponse create(@RequestBody LoginPayload credentials) {
-        Person person = personService.getByUsername(credentials.getUsername());
+        PersonData personData = personService.getByUsername(credentials.getUsername());
 
-        if (person == null) {
+        if (personData == null) {
             return LoginResponse.INVALID_CREDENTIALS;
         }
 
-        // TODO move this to proper service...
-        if (!person.getPassword().equals(credentials.getPassword())) {
+        Person person = personFactory.create(personData);
+
+        if (!person.password().matches(credentials.getPassword())) {
             return LoginResponse.INVALID_CREDENTIALS;
         }
 
@@ -55,6 +59,6 @@ public class SessionController {
 
         tokenService.store(token, authentication);
 
-        return new LoginResponse(token, person.getId(), new HashSet<>(Collections.singleton("user")));
+        return new LoginResponse(token, personData.getId(), new HashSet<>(Collections.singleton("user")));
     }
 }

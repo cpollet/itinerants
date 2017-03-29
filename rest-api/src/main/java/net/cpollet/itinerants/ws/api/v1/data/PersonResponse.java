@@ -1,7 +1,7 @@
 package net.cpollet.itinerants.ws.api.v1.data;
 
 import lombok.Data;
-import net.cpollet.itinerants.ws.service.data.Person;
+import net.cpollet.itinerants.ws.domain.data.PersonData;
 
 /**
  * Created by cpollet on 13.02.17.
@@ -22,7 +22,7 @@ public class PersonResponse {
         this(personId, name, null);
     }
 
-    public PersonResponse(Person person) {
-        this(person.getId(), person.getName(), person.getUsername());
+    public PersonResponse(PersonData personData) {
+        this(personData.getId(), personData.getName(), personData.getUsername());
     }
 }

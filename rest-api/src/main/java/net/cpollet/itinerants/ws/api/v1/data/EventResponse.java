@@ -2,7 +2,7 @@ package net.cpollet.itinerants.ws.api.v1.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import net.cpollet.itinerants.ws.service.data.Event;
+import net.cpollet.itinerants.ws.domain.data.EventData;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,12 +26,12 @@ public class EventResponse {
         this.availablePeople = availablePeople;
     }
 
-    public EventResponse(Event event) {
+    public EventResponse(EventData eventData) {
         this(
-                event.getId(),
-                event.getName(),
-                event.getDateTime(),
-                event.availablePeople().stream()
+                eventData.getId(),
+                eventData.getName(),
+                eventData.getDateTime(),
+                eventData.availablePeople().stream()
                         .map(p -> new PersonResponse(p.getId(), p.getName()))
                         .collect(Collectors.toList())
         );

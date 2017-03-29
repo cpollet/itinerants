@@ -1,13 +1,12 @@
 package net.cpollet.itinerants.ws.service;
 
-import net.cpollet.itinerants.ws.da.neo4j.data.Neo4jEvent;
+import net.cpollet.itinerants.ws.da.neo4j.data.Neo4JEventData;
 import net.cpollet.itinerants.ws.da.neo4j.repositories.EventRepository;
-import net.cpollet.itinerants.ws.service.data.Event;
+import net.cpollet.itinerants.ws.domain.data.EventData;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.HashMap;
@@ -33,36 +32,36 @@ public class Neo4jEventService implements EventService {
     }
 
     @Override
-    public Event getById(long id) {
-        Neo4jEvent event = eventRepository.findOne(id);
+    public EventData getById(long id) {
+        Neo4JEventData eventData = eventRepository.findOne(id);
 
-        if (event == null) {
-            throw new IllegalArgumentException("No node of type " + Neo4jEvent.class.getAnnotation(NodeEntity.class).label() + " found for id " + id);
+        if (eventData == null) {
+            throw new IllegalArgumentException("No node of type " + Neo4JEventData.class.getAnnotation(NodeEntity.class).label() + " found for id " + id);
         }
 
-        return event;
+        return eventData;
     }
 
     @Override
-    public long create(Event event) {
-        Neo4jEvent neo4jEvent = new Neo4jEvent();
-        neo4jEvent.setName(event.getName());
-        neo4jEvent.setDateTime(event.getDateTime());
+    public long create(EventData eventData) {
+        Neo4JEventData neo4jEvent = new Neo4JEventData();
+        neo4jEvent.setName(eventData.getName());
+        neo4jEvent.setDateTime(eventData.getDateTime());
 
         return eventRepository.save(neo4jEvent).getId();
     }
 
     @Override
-    public List<Event> future(SortOrder sortOrder) {
+    public List<EventData> future(SortOrder sortOrder) {
         long fromTimestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0));
-        //noinspection unchecked
-        return (List<Event>) (List<?>) eventRepository.future(fromTimestamp, sortOrderNeo4jMap.get(sortOrder));
+        // noinspection unchecked
+        return (List<EventData>) (List<?>) eventRepository.future(fromTimestamp, sortOrderNeo4jMap.get(sortOrder));
     }
 
     @Override
-    public List<Event> past(SortOrder sortOrder) {
+    public List<EventData> past(SortOrder sortOrder) {
         long toTimestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0));
         //noinspection unchecked
-        return (List<Event>) (List<?>) eventRepository.past(toTimestamp, sortOrderNeo4jMap.get(sortOrder));
+        return (List<EventData>) (List<?>) eventRepository.past(toTimestamp, sortOrderNeo4jMap.get(sortOrder));
     }
 }

@@ -3,7 +3,7 @@ package net.cpollet.itinerants.ws.resource.v1;
 import net.cpollet.itinerants.ws.api.v1.data.EventPayload;
 import net.cpollet.itinerants.ws.api.v1.data.EventResponse;
 import net.cpollet.itinerants.ws.service.EventService;
-import net.cpollet.itinerants.ws.service.data.Event;
+import net.cpollet.itinerants.ws.domain.data.EventData;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +39,7 @@ public class EventController {
 
     @GetMapping(value = "/{id}")
     public EventResponse get(@PathVariable("id") long id) {
-        Event e = eventService.getById(id);
+        EventData e = eventService.getById(id);
         return new EventResponse(e);
     }
 
@@ -67,7 +67,7 @@ public class EventController {
 
     @PostMapping(value = "")
     public EventResponse create(@RequestBody EventPayload event) {
-        long eventId = eventService.create(new EventService.InputEvent() {
+        long eventId = eventService.create(new EventService.InputEventData() {
             @Override
             public String getName() {
                 return event.getName();

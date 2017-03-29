@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import net.cpollet.itinerants.ws.service.data.Event;
+import net.cpollet.itinerants.ws.domain.data.EventData;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -20,7 +20,7 @@ import java.util.Set;
  */
 @Data
 @NodeEntity(label = "Event")
-public class Neo4jEvent implements Event {
+public class Neo4JEventData implements EventData {
     @GraphId
     private Long id;
     private String name;
@@ -30,7 +30,7 @@ public class Neo4jEvent implements Event {
     private Long timestamp;
 
     @Relationship(direction = Relationship.INCOMING, type = "IS_AVAILABLE")
-    private Set<Neo4jPerson> availablePeople;
+    private Set<Neo4JPersonData> availablePeople;
 
     @Override
     public LocalDateTime getDateTime() {
@@ -43,7 +43,7 @@ public class Neo4jEvent implements Event {
     }
 
     @Override
-    public Set<Neo4jPerson> availablePeople() {
+    public Set<Neo4JPersonData> availablePeople() {
         if (availablePeople == null) {
             return availablePeople = new HashSet<>();
         }

@@ -2,8 +2,9 @@ package net.cpollet.itinerants.ws.resource.v1;
 
 import net.cpollet.itinerants.ws.api.v1.data.CreatePersonPayload;
 import net.cpollet.itinerants.ws.api.v1.data.PersonResponse;
+import net.cpollet.itinerants.ws.domain.Password;
+import net.cpollet.itinerants.ws.domain.Person;
 import net.cpollet.itinerants.ws.service.PersonService;
-import net.cpollet.itinerants.ws.service.data.Event;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,14 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/people")
 public class PersonController {
     private final PersonService personService;
+    private final Password.Factory passwordFactory;
 
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, Password.Factory passwordFactory) {
         this.personService = personService;
+        this.passwordFactory = passwordFactory;
     }
 
     @PostMapping(value = "")
     public PersonResponse create(@RequestBody CreatePersonPayload person) {
-        long personId = personService.create(new PersonService.InputPerson() {
+        long personId = personService.create(new PersonService.InputPersonData() {
             @Override
             public String getName() {
                 return person.getName();
@@ -36,12 +39,7 @@ public class PersonController {
 
             @Override
             public String getPassword() {
-                return person.getPassword();
-            }
-
-            @Override
-            public void availableFor(Event event) {
-                throw new IllegalStateException();
+                return passwordFactory.hash(person.getPassword()).toString();
             }
         });
 

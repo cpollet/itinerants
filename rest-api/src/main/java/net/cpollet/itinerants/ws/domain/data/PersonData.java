@@ -1,9 +1,9 @@
-package net.cpollet.itinerants.ws.service.data;
+package net.cpollet.itinerants.ws.domain.data;
 
 /**
  * Created by cpollet on 13.02.17.
  */
-public interface Person {
+public interface PersonData {
     Long getId();
 
     String getName();
@@ -12,5 +12,5 @@ public interface Person {
 
     String getPassword();
 
-    void availableFor(Event event);
+    void availableFor(EventData eventData);
 }

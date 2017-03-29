@@ -1,8 +1,8 @@
 package net.cpollet.itinerants.ws.service;
 
 
-import net.cpollet.itinerants.ws.service.data.Event;
-import net.cpollet.itinerants.ws.service.data.Person;
+import net.cpollet.itinerants.ws.domain.data.EventData;
+import net.cpollet.itinerants.ws.domain.data.PersonData;
 
 import java.util.List;
 import java.util.Set;
@@ -11,26 +11,26 @@ import java.util.Set;
  * Created by cpollet on 11.02.17.
  */
 public interface EventService {
-    Event getById(long id);
+    EventData getById(long id);
 
-    long create(Event event);
+    long create(EventData eventData);
 
-    List<Event> future(SortOrder sortOrder);
+    List<EventData> future(SortOrder sortOrder);
 
-    List<Event> past(SortOrder sortOrder);
+    List<EventData> past(SortOrder sortOrder);
 
     enum SortOrder {
         ASCENDING, DESCENDING
     }
 
-    abstract class InputEvent implements Event {
+    abstract class InputEventData implements EventData {
         @Override
         public Long getId() {
             throw new IllegalStateException();
         }
 
         @Override
-        public Set<? extends Person> availablePeople() {
+        public Set<? extends PersonData> availablePeople() {
             throw new IllegalStateException();
         }
     }

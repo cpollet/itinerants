@@ -1,8 +1,8 @@
 package net.cpollet.itinerants.ws.service;
 
-import net.cpollet.itinerants.ws.da.neo4j.data.Neo4jPerson;
+import net.cpollet.itinerants.ws.da.neo4j.data.Neo4JPersonData;
 import net.cpollet.itinerants.ws.da.neo4j.repositories.PersonRepository;
-import net.cpollet.itinerants.ws.service.data.Person;
+import net.cpollet.itinerants.ws.domain.data.PersonData;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,29 +18,29 @@ public class Neo4jPersonService implements PersonService {
     }
 
     @Override
-    public Person getById(long id) {
-        Neo4jPerson event = personRepository.findOne(id);
+    public PersonData getById(long id) {
+        Neo4JPersonData personData = personRepository.findOne(id);
 
-        if (event == null) {
-            throw new IllegalArgumentException("No node of type " + Neo4jPerson.class.getAnnotation(NodeEntity.class).label() + " found for id " + id);
+        if (personData == null) {
+            throw new IllegalArgumentException("No node of type " + Neo4JPersonData.class.getAnnotation(NodeEntity.class).label() + " found for id " + id);
         }
 
-        return event;
+        return personData;
     }
 
     @Override
-    public long create(Person person) {
-        Neo4jPerson neo4jPerson = new Neo4jPerson();
-        neo4jPerson.setName(person.getName());
-        neo4jPerson.setUsername(person.getUsername());
-        neo4jPerson.setPassword(person.getPassword());
+    public long create(PersonData personData) {
+        // FIXME fails with a nasty exception when username already exists...
+        Neo4JPersonData neo4jPerson = new Neo4JPersonData();
+        neo4jPerson.setName(personData.getName());
+        neo4jPerson.setUsername(personData.getUsername());
+        neo4jPerson.setPassword(personData.getPassword());
 
         return personRepository.save(neo4jPerson).getId();
     }
 
     @Override
-    public Person getByUsername(String username) {
+    public PersonData getByUsername(String username) {
         return personRepository.findByUsername(username);
     }
-
 }

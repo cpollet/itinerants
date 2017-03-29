@@ -1,20 +1,26 @@
 package net.cpollet.itinerants.ws.service;
 
-import net.cpollet.itinerants.ws.service.data.Person;
+import net.cpollet.itinerants.ws.domain.data.EventData;
+import net.cpollet.itinerants.ws.domain.data.PersonData;
 
 /**
  * Created by cpollet on 13.02.17.
  */
 public interface PersonService {
-    Person getById(long id);
+    PersonData getById(long id);
 
-    long create(Person person);
+    long create(PersonData personData);
 
-    Person getByUsername(String username);
+    PersonData getByUsername(String username);
 
-    abstract class InputPerson implements Person {
+    abstract class InputPersonData implements PersonData {
         @Override
         public Long getId() {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        public void availableFor(EventData eventData) {
             throw new IllegalStateException();
         }
     }

@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.ws.service.data;
+package net.cpollet.itinerants.ws.domain.data;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -6,12 +6,12 @@ import java.util.Set;
 /**
  * Created by cpollet on 11.02.17.
  */
-public interface Event {
+public interface EventData {
     Long getId();
 
     String getName();
 
     LocalDateTime getDateTime();
 
-    Set<? extends Person> availablePeople();
+    Set<? extends PersonData> availablePeople();
 }
