@@ -10,6 +10,8 @@ public interface PersonService {
 
     long create(Person person);
 
+    Person getByUsername(String username);
+
     abstract class InputPerson implements Person {
         @Override
         public Long getId() {

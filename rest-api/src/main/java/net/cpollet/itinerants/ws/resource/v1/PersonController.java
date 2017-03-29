@@ -1,6 +1,6 @@
 package net.cpollet.itinerants.ws.resource.v1;
 
-import net.cpollet.itinerants.ws.api.v1.data.PersonPayload;
+import net.cpollet.itinerants.ws.api.v1.data.CreatePersonPayload;
 import net.cpollet.itinerants.ws.api.v1.data.PersonResponse;
 import net.cpollet.itinerants.ws.service.PersonService;
 import net.cpollet.itinerants.ws.service.data.Event;
@@ -22,11 +22,21 @@ public class PersonController {
     }
 
     @PostMapping(value = "")
-    public PersonResponse create(@RequestBody PersonPayload person) {
+    public PersonResponse create(@RequestBody CreatePersonPayload person) {
         long personId = personService.create(new PersonService.InputPerson() {
             @Override
             public String getName() {
                 return person.getName();
+            }
+
+            @Override
+            public String getUsername() {
+                return person.getUsername();
+            }
+
+            @Override
+            public String getPassword() {
+                return person.getPassword();
             }
 
             @Override

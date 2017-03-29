@@ -14,7 +14,9 @@ import org.neo4j.ogm.annotation.NodeEntity;
 public class Neo4jPerson implements Person {
     @GraphId
     private Long id;
+    private String username;
     private String name;
+    private String password;
 
     @Override
     public void availableFor(Event event) {

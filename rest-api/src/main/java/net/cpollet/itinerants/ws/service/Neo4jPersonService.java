@@ -32,8 +32,15 @@ public class Neo4jPersonService implements PersonService {
     public long create(Person person) {
         Neo4jPerson neo4jPerson = new Neo4jPerson();
         neo4jPerson.setName(person.getName());
+        neo4jPerson.setUsername(person.getUsername());
+        neo4jPerson.setPassword(person.getPassword());
 
         return personRepository.save(neo4jPerson).getId();
+    }
+
+    @Override
+    public Person getByUsername(String username) {
+        return personRepository.findByUsername(username);
     }
 
 }

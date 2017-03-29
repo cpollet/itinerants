@@ -8,5 +8,9 @@ public interface Person {
 
     String getName();
 
+    String getUsername();
+
+    String getPassword();
+
     void availableFor(Event event);
 }
