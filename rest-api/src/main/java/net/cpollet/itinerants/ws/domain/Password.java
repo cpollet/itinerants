@@ -5,16 +5,16 @@ package net.cpollet.itinerants.ws.domain;
  */
 public class Password {
     private final String password;
-    private final PasswordHashingStrategy passwordHashingStrategy;
+    private final PasswordHashingService passwordHashingService;
 
-    public Password(String password, PasswordHashingStrategy passwordHashingStrategy) {
+    public Password(String password, PasswordHashingService passwordHashingService) {
         this.password = password;
-        this.passwordHashingStrategy = passwordHashingStrategy;
+        this.passwordHashingService = passwordHashingService;
     }
 
     public boolean matches(String clearPassword) {
-        String salt = passwordHashingStrategy.extractSalt(password);
-        String hashedPassword = passwordHashingStrategy.hash(clearPassword, salt);
+        String salt = passwordHashingService.extractSalt(password);
+        String hashedPassword = passwordHashingService.hash(clearPassword, salt);
 
         return password.equals(hashedPassword);
     }
@@ -24,7 +24,7 @@ public class Password {
         return password;
     }
 
-    public interface PasswordHashingStrategy {
+    public interface PasswordHashingService {
         String hash(String password);
 
         String hash(String password, String salt);

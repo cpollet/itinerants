@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Created by cpollet on 29.03.17.
  */
-public class SaltedSha256PasswordHashingStrategy implements Password.PasswordHashingStrategy {
+public class SaltedSha256PasswordHashingService implements Password.PasswordHashingService {
     private static final String SEPARATOR = "!";
 
     @Override

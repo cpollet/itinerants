@@ -2,7 +2,7 @@ package net.cpollet.itinerants.ws.context;
 
 import net.cpollet.itinerants.ws.domain.Password;
 import net.cpollet.itinerants.ws.domain.Person;
-import net.cpollet.itinerants.ws.strategies.SaltedSha256PasswordHashingStrategy;
+import net.cpollet.itinerants.ws.strategies.SaltedSha256PasswordHashingService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationContext {
     @Bean
-    public Password.PasswordHashingStrategy passwordHashStrategy() {
-        return new SaltedSha256PasswordHashingStrategy();
+    public Password.PasswordHashingService passwordHashStrategy() {
+        return new SaltedSha256PasswordHashingService();
     }
 
     @Bean

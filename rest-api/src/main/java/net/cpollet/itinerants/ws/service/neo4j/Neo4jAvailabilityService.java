@@ -1,8 +1,11 @@
-package net.cpollet.itinerants.ws.service;
+package net.cpollet.itinerants.ws.service.neo4j;
 
 import net.cpollet.itinerants.ws.da.neo4j.data.Neo4JEventData;
 import net.cpollet.itinerants.ws.da.neo4j.data.Neo4JPersonData;
 import net.cpollet.itinerants.ws.da.neo4j.repositories.EventRepository;
+import net.cpollet.itinerants.ws.service.AvailabilityService;
+import net.cpollet.itinerants.ws.service.EventService;
+import net.cpollet.itinerants.ws.service.PersonService;
 import org.springframework.stereotype.Service;
 
 /**

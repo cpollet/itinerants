@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.ws.api.v1.data;
+package net.cpollet.itinerants.ws.rest.data;
 
 import lombok.Data;
 import net.cpollet.itinerants.ws.domain.data.PersonData;

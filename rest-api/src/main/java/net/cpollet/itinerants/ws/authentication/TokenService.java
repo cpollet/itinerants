@@ -1,29 +1,15 @@
 package net.cpollet.itinerants.ws.authentication;
 
-import org.ehcache.Cache;
 import org.springframework.security.core.Authentication;
 
 /**
  * Created by cpollet on 15.03.17.
  */
-public class TokenService {
-    private final Cache<String, Authentication> tokenCache;
+public interface TokenService {
 
-    public TokenService(Cache<String, Authentication> tokenCache) {
-        this.tokenCache = tokenCache;
-    }
+    void store(String token, Authentication authentication);
 
-    public void store(String token, Authentication authentication) {
-        if (!authentication.getPrincipal().equals("expires")) {
-            tokenCache.put(token, authentication);
-        }
-    }
+    boolean isTokenValid(String token);
 
-    public boolean isTokenValid(String token) {
-        return tokenCache.containsKey(token);
-    }
-
-    public Authentication retrieve(String token) {
-        return tokenCache.get(token);
-    }
+    Authentication retrieve(String token);
 }

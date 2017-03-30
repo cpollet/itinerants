@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.ws.api.v1.data;
+package net.cpollet.itinerants.ws.rest.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

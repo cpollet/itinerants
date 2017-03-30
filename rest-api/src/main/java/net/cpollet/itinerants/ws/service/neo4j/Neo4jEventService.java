@@ -1,8 +1,9 @@
-package net.cpollet.itinerants.ws.service;
+package net.cpollet.itinerants.ws.service.neo4j;
 
 import net.cpollet.itinerants.ws.da.neo4j.data.Neo4JEventData;
 import net.cpollet.itinerants.ws.da.neo4j.repositories.EventRepository;
 import net.cpollet.itinerants.ws.domain.data.EventData;
+import net.cpollet.itinerants.ws.service.EventService;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

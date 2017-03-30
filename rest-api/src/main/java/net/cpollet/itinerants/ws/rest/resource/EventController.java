@@ -1,7 +1,7 @@
-package net.cpollet.itinerants.ws.resource.v1;
+package net.cpollet.itinerants.ws.rest.resource;
 
-import net.cpollet.itinerants.ws.api.v1.data.EventPayload;
-import net.cpollet.itinerants.ws.api.v1.data.EventResponse;
+import net.cpollet.itinerants.ws.rest.data.EventPayload;
+import net.cpollet.itinerants.ws.rest.data.EventResponse;
 import net.cpollet.itinerants.ws.service.EventService;
 import net.cpollet.itinerants.ws.domain.data.EventData;
 import org.springframework.web.bind.annotation.GetMapping;

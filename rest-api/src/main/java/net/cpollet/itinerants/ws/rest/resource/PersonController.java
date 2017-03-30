@@ -1,9 +1,8 @@
-package net.cpollet.itinerants.ws.resource.v1;
+package net.cpollet.itinerants.ws.rest.resource;
 
-import net.cpollet.itinerants.ws.api.v1.data.CreatePersonPayload;
-import net.cpollet.itinerants.ws.api.v1.data.PersonResponse;
+import net.cpollet.itinerants.ws.rest.data.CreatePersonPayload;
+import net.cpollet.itinerants.ws.rest.data.PersonResponse;
 import net.cpollet.itinerants.ws.domain.Password;
-import net.cpollet.itinerants.ws.domain.Person;
 import net.cpollet.itinerants.ws.service.PersonService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

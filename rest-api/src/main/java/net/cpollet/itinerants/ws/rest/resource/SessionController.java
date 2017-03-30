@@ -1,8 +1,8 @@
-package net.cpollet.itinerants.ws.resource.v1;
+package net.cpollet.itinerants.ws.rest.resource;
 
 import lombok.extern.slf4j.Slf4j;
-import net.cpollet.itinerants.ws.api.v1.data.LoginPayload;
-import net.cpollet.itinerants.ws.api.v1.data.LoginResponse;
+import net.cpollet.itinerants.ws.rest.data.LoginPayload;
+import net.cpollet.itinerants.ws.rest.data.LoginResponse;
 import net.cpollet.itinerants.ws.authentication.TokenService;
 import net.cpollet.itinerants.ws.domain.Person;
 import net.cpollet.itinerants.ws.domain.data.PersonData;

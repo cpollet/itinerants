@@ -3,6 +3,7 @@ package net.cpollet.itinerants.ws.context;
 import net.cpollet.itinerants.ws.authentication.AuthenticationFilter;
 import net.cpollet.itinerants.ws.authentication.TokenAuthenticationProvider;
 import net.cpollet.itinerants.ws.authentication.TokenService;
+import net.cpollet.itinerants.ws.service.EhcacheTokenService;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.CacheConfiguration;
@@ -67,7 +68,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 
     @Bean
     public TokenService tokenService() {
-        return new TokenService(tokenCache());
+        return new EhcacheTokenService(tokenCache());
     }
 
     @Bean

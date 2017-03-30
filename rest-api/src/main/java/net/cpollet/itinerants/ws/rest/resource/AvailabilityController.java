@@ -1,9 +1,9 @@
-package net.cpollet.itinerants.ws.resource.v1;
+package net.cpollet.itinerants.ws.rest.resource;
 
-import net.cpollet.itinerants.ws.api.v1.data.AvailabilityPayload;
-import net.cpollet.itinerants.ws.api.v1.data.AvailabilityResponse;
-import net.cpollet.itinerants.ws.api.v1.data.EventResponse;
-import net.cpollet.itinerants.ws.api.v1.data.PersonResponse;
+import net.cpollet.itinerants.ws.rest.data.AvailabilityPayload;
+import net.cpollet.itinerants.ws.rest.data.AvailabilityResponse;
+import net.cpollet.itinerants.ws.rest.data.EventResponse;
+import net.cpollet.itinerants.ws.rest.data.PersonResponse;
 import net.cpollet.itinerants.ws.service.AvailabilityService;
 import net.cpollet.itinerants.ws.service.EventService;
 import net.cpollet.itinerants.ws.service.PersonService;
