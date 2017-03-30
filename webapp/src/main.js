@@ -11,15 +11,15 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import {logger} from 'redux-logger';
 import appReducer from './reducers/reducers';
-import thunkMiddleware from 'redux-thunk';
+import thunk from 'redux-thunk';
 import moment from 'moment';
 import {sync, decreaseSyncTimeout} from './reducers/actions';
+import {LOGOUT} from './reducers/actions';
 import SyncManager from './SyncManager';
 import {reducer as formReducer} from './lib/form/FormContainer';
 import FormProvider from './lib/form/FormProvider';
 import {routerReducer, routerMiddleware, routerActions, syncHistoryWithStore} from 'react-router-redux';
 import {UserAuthWrapper} from 'redux-auth-wrapper';
-import {LOGOUT}  from './reducers/actions';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const rootReducer = (state, action) => {
         // http://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store
         if (action.type === LOGOUT) {
-            const { routing } = state;
-            state = { routing };
+            const {routing} = state;
+            state = {routing};
         }
 
         return reducer(state, action);
@@ -43,10 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const routingMiddleware = routerMiddleware(browserHistory);
 
     const store = createStore(rootReducer, compose(
-        applyMiddleware(thunkMiddleware),
-        applyMiddleware(logger),
+        applyMiddleware(thunk),
         applyMiddleware(routingMiddleware),
-        window.devToolsExtension ? window.devToolsExtension() : f => f
+        window.devToolsExtension ? window.devToolsExtension() : f => f,
+        applyMiddleware(logger)
     ));
     const history = syncHistoryWithStore(browserHistory, store);
 
