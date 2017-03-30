@@ -4,12 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.cpollet.itinerants</groupId>
-    <artifactId>aggregator</artifactId>
+    <artifactId>webapp</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
-    <modules>
-        <module>webservice</module>
-        <module>webapp</module>
-    </modules>
 </project>
