@@ -11,7 +11,8 @@ class Event extends React.Component {
                               onClick={this.props.toggle.bind(this, this.props.event.id)}/>
                 </td>
                 <td><Checkbox checked={this.props.event.id === 4} disabled={true}/></td>
-                <td>{this.props.event.dateTime.format('D MMMM, HH:mm')}</td>
+                <td>{this.props.event.dateTime.format('D MMMM YYYY')}</td>
+                <td>{this.props.event.dateTime.format('HH:mm')}</td>
                 <td>{this.props.event.name}</td>
             </tr>
         );

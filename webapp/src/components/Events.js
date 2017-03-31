@@ -13,6 +13,7 @@ class Events extends React.Component {
                         <th>O</th>
                         <th>C</th>
                         <th>Date</th>
+                        <th>&nbsp;</th>
                         <th>Événement</th>
                     </tr>
                     </thead>

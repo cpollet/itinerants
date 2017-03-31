@@ -19,7 +19,11 @@
 }
 
 .component tr > th:nth-child(3) {
-    width: 8em;
+    width: 9em;
+}
+
+.component tr > th:nth-child(4) {
+    width: 2em;
 }
 
 .component th {
