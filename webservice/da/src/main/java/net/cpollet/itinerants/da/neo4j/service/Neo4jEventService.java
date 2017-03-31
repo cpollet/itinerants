@@ -60,6 +60,13 @@ public class Neo4jEventService implements EventService {
     }
 
     @Override
+    public List<EventData> future(String username, SortOrder sortOrder) {
+        long fromTimestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0));
+        // noinspection unchecked
+        return (List<EventData>) (List<?>) eventRepository.future(fromTimestamp, username, sortOrderNeo4jMap.get(sortOrder));
+    }
+
+    @Override
     public List<EventData> past(SortOrder sortOrder) {
         long toTimestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0));
         //noinspection unchecked

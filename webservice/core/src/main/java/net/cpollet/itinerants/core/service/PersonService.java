@@ -23,5 +23,10 @@ public interface PersonService {
         public void availableFor(EventData eventData) {
             throw new IllegalStateException();
         }
+
+        @Override
+        public String getRoles() {
+            throw new IllegalStateException();
+        }
     }
 }

@@ -79,7 +79,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     private CacheConfiguration<String, Authentication> tokenCacheConfiguration() {
         return CacheConfigurationBuilder
                 .newCacheConfigurationBuilder(String.class, Authentication.class, ResourcePoolsBuilder.heap(100))
-                .withExpiry(Expirations.timeToIdleExpiration(new Duration(15, TimeUnit.MINUTES)))
+                .withExpiry(Expirations.timeToIdleExpiration(new Duration(15, TimeUnit.HOURS)))
                 .build();
     }
 

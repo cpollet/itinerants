@@ -29,7 +29,7 @@ public class Neo4JEventData implements EventData {
     @Setter(AccessLevel.NONE)
     private Long timestamp;
 
-    @Relationship(direction = Relationship.INCOMING, type = "IS_AVAILABLE")
+    @Relationship(direction = Relationship.UNDIRECTED, type = "IS_AVAILABLE")
     private Set<Neo4JPersonData> availablePeople;
 
     @Override

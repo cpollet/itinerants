@@ -16,6 +16,8 @@ public interface EventService {
 
     List<EventData> future(SortOrder sortOrder);
 
+    List<EventData> future(String username, SortOrder sortOrder);
+
     List<EventData> past(SortOrder sortOrder);
 
     enum SortOrder {

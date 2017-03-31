@@ -12,5 +12,7 @@ public interface PersonData {
 
     String getPassword();
 
+    String getRoles();
+
     void availableFor(EventData eventData);
 }

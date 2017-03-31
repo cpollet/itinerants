@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ public class EventController {
 
     private final EventService eventService;
 
+    @SuppressWarnings("unused")
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
@@ -44,14 +46,27 @@ public class EventController {
     }
 
     @GetMapping(value = "/future")
-    public List<EventResponse> future(@RequestParam(name = "sort", required = false, defaultValue = "asc") String sort) {
+    public List<EventResponse> future(@RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+                                      HttpServletRequest request) {
         if (!stringSortOrderMap.containsKey(sort.toLowerCase())) {
             throw new IllegalArgumentException("Sort order " + sort + " is not a valid order");
         }
 
-        return eventService.future(stringSortOrderMap.get(sort.toLowerCase())).stream()
+        List<EventData> events = getFutureEvents(sort, request);
+
+        return events.stream()
                 .map(EventResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    private List<EventData> getFutureEvents(String sort, HttpServletRequest request) {
+        List<EventData> events;
+        if (request.isUserInRole("ADMIN")) {
+            events = eventService.future(stringSortOrderMap.get(sort.toLowerCase()));
+        } else {
+            events = eventService.future(request.getUserPrincipal().getName(), stringSortOrderMap.get(sort.toLowerCase()));
+        }
+        return events;
     }
 
     @GetMapping(value = "/past")
