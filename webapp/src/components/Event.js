@@ -21,7 +21,7 @@ class Event extends React.Component {
 
 Event.propTypes = {
     event: React.PropTypes.shape({
-        id: React.PropTypes.number.isRequired,
+        id: React.PropTypes.string.isRequired,
         name: React.PropTypes.string.isRequired,
         dateTime: React.PropTypes.object.isRequired, // must be a moment() object
         available: React.PropTypes.bool.isRequired

@@ -10,9 +10,9 @@ import java.util.Set;
  * Created by cpollet on 11.02.17.
  */
 public interface EventService {
-    EventData getById(long id);
+    EventData getByUUID(String uuid);
 
-    long create(EventData eventData);
+    String create(EventData eventData);
 
     List<EventData> future(SortOrder sortOrder);
 
@@ -26,7 +26,7 @@ public interface EventService {
 
     abstract class InputEventData implements EventData {
         @Override
-        public Long getId() {
+        public String getUUID() {
             throw new IllegalStateException();
         }
 

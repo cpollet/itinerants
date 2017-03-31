@@ -9,8 +9,8 @@ public interface AvailabilityService {
     void delete(InputAvailability availability);
 
     interface InputAvailability {
-        long getPersonId();
+        String getPersonId();
 
-        long getEventId();
+        String getEventId();
     }
 }

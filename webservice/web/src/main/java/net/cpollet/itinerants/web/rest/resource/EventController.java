@@ -40,8 +40,8 @@ public class EventController {
     }
 
     @GetMapping(value = "/{id}")
-    public EventResponse get(@PathVariable("id") long id) {
-        EventData e = eventService.getById(id);
+    public EventResponse get(@PathVariable("id") String id) {
+        EventData e = eventService.getByUUID(id);
         return new EventResponse(e);
     }
 
@@ -82,7 +82,7 @@ public class EventController {
 
     @PostMapping(value = "")
     public EventResponse create(@RequestBody EventPayload event) {
-        long eventId = eventService.create(new EventService.InputEventData() {
+        String eventId = eventService.create(new EventService.InputEventData() {
             @Override
             public String getName() {
                 return event.getName();
@@ -94,6 +94,6 @@ public class EventController {
             }
         });
 
-        return new EventResponse(eventService.getById(eventId));
+        return new EventResponse(eventService.getByUUID(eventId));
     }
 }

@@ -12,23 +12,25 @@ import java.util.List;
  * Created by cpollet on 11.02.17.
  */
 public interface EventRepository extends GraphRepository<Neo4JEventData> {
-    @Query("MATCH (e:Event), (p:Person), path=(e)-[*0..1]-(p) " +
+    @Query("MATCH (e:Event), (p), path=(e)-[*0..1]-(p) " +
             "WHERE e.timestamp > {timestamp} " +
             "RETURN path")
     List<Neo4JEventData> future(@Param("timestamp") long timestamp, Sort sort);
 
-    @Query("MATCH (e:Event), (p:Person), path=(e)-[*0..1]-(p) " +
+    @Query("MATCH (e:Event), (p), path=(e)-[*0..1]-(p) " +
             "WHERE e.timestamp > {timestamp} AND p.username = {username} " +
             "RETURN path")
     List<Neo4JEventData> future(@Param("timestamp") long timestamp, @Param("username") String username, Sort sort);
 
-    @Query("MATCH (e:Event), (p:Person), path=(e)-[*0..1]-(p) " +
+    @Query("MATCH (e:Event), (p), path=(e)-[*0..1]-(p) " +
             "WHERE e.timestamp < {timestamp} " +
             "RETURN path")
     List<Neo4JEventData> past(@Param("timestamp") long timestamp, Sort sort);
 
-    @Query("MATCH (e:Event), (p:Person), path=(e)-[*0..1]-(p) " +
+    @Query("MATCH (e:Event), (p), path=(e)-[*0..1]-(p) " +
             "WHERE e.timestamp < {timestamp} AND p.username = {username} " +
             "RETURN path")
     List<Neo4JEventData> past(@Param("timestamp") long timestamp, @Param("username") String username, Sort sort);
+
+    Neo4JEventData findOneByUUID(@Param("uuid") String uuid);
 }

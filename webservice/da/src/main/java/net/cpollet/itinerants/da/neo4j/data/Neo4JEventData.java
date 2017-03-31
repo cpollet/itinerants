@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.cpollet.itinerants.core.domain.data.EventData;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,8 @@ import java.util.Set;
 public class Neo4JEventData implements EventData {
     @GraphId
     private Long id;
+    @Property(name = "uuid")
+    private String UUID;
     private String name;
     private String dateTime;
     @Getter(AccessLevel.NONE)

@@ -1,43 +1,29 @@
 package net.cpollet.itinerants.da.neo4j.service;
 
+import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.service.AvailabilityService;
-import net.cpollet.itinerants.core.service.EventService;
-import net.cpollet.itinerants.core.service.PersonService;
-import net.cpollet.itinerants.da.neo4j.data.Neo4JEventData;
-import net.cpollet.itinerants.da.neo4j.data.Neo4JPersonData;
-import net.cpollet.itinerants.da.neo4j.repositories.EventRepository;
+import net.cpollet.itinerants.da.neo4j.repositories.AvailabilityRepository;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by cpollet on 13.02.17.
  */
 @Service
+@Slf4j
 public class Neo4jAvailabilityService implements AvailabilityService {
-    private final EventService eventService;
-    private final PersonService personService;
-    private final EventRepository eventRepository;
+    private final AvailabilityRepository availabilityRepository;
 
-    public Neo4jAvailabilityService(Neo4jEventService eventService, PersonService personService, EventRepository eventRepository) {
-        this.eventService = eventService;
-        this.personService = personService;
-        this.eventRepository = eventRepository;
+    public Neo4jAvailabilityService(AvailabilityRepository availabilityRepository) {
+        this.availabilityRepository = availabilityRepository;
     }
 
     @Override
     public void create(InputAvailability availability) {
-        Neo4JEventData eventData = (Neo4JEventData) eventService.getById(availability.getEventId());
-        Neo4JPersonData personData = (Neo4JPersonData) personService.getById(availability.getPersonId());
-
-        eventData.availablePeople().add(personData);
-        eventRepository.save(eventData);
+        availabilityRepository.create(availability.getPersonId(), availability.getEventId());
     }
 
     @Override
     public void delete(InputAvailability availability) {
-        Neo4JEventData eventData = (Neo4JEventData) eventService.getById(availability.getEventId());
-        Neo4JPersonData personData = (Neo4JPersonData) personService.getById(availability.getPersonId());
-
-        eventData.availablePeople().remove(personData);
-        eventRepository.save(eventData);
+        availabilityRepository.delete(availability.getPersonId(), availability.getEventId());
     }
 }

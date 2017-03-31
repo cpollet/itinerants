@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
  */
 @Data
 public class EventResponse {
-    private final Long eventId;
+    private final String eventId;
     private final String name;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private final LocalDateTime dateTime;
     private final List<PersonResponse> availablePeople;
 
-    public EventResponse(Long eventId, String name, LocalDateTime date, List<PersonResponse> availablePeople) {
+    public EventResponse(String eventId, String name, LocalDateTime date, List<PersonResponse> availablePeople) {
         this.eventId = eventId;
         this.name = name;
         this.dateTime = date;
@@ -28,11 +28,11 @@ public class EventResponse {
 
     public EventResponse(EventData eventData) {
         this(
-                eventData.getId(),
+                eventData.getUUID(),
                 eventData.getName(),
                 eventData.getDateTime(),
                 eventData.availablePeople().stream()
-                        .map(p -> new PersonResponse(p.getId(), p.getName()))
+                        .map(p -> new PersonResponse(p.getUUID(), p.getName()))
                         .collect(Collectors.toList())
         );
     }

@@ -1,5 +1,6 @@
 package net.cpollet.itinerants.web.rest.resource;
 
+import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.service.AvailabilityService;
 import net.cpollet.itinerants.core.service.EventService;
 import net.cpollet.itinerants.core.service.PersonService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/availabilities")
+@Slf4j
 public class AvailabilityController {
     private final AvailabilityService availabilityService;
     private final PersonService personService;
@@ -31,37 +33,38 @@ public class AvailabilityController {
 
     @PutMapping(value = "")
     public AvailabilityResponse create(@RequestBody AvailabilityPayload availability) {
+        log.info("Creating {}", availability);
         availabilityService.create(new AvailabilityService.InputAvailability() {
             @Override
-            public long getPersonId() {
+            public String getPersonId() {
                 return availability.getPersonId();
             }
 
             @Override
-            public long getEventId() {
+            public String getEventId() {
                 return availability.getEventId();
             }
         });
 
         return new AvailabilityResponse(
-                new PersonResponse(personService.getById(availability.getPersonId())),
-                new EventResponse(eventService.getById(availability.getEventId()))
+                new PersonResponse(personService.getByUUID(availability.getPersonId())),
+                new EventResponse(eventService.getByUUID(availability.getEventId()))
         );
     }
 
     @DeleteMapping(value = "")
     public void delete(@RequestBody AvailabilityPayload availability) {
+        log.info("Deleting {}", availability);
         availabilityService.delete(new AvailabilityService.InputAvailability(){
             @Override
-            public long getPersonId() {
+            public String getPersonId() {
                 return availability.getPersonId();
             }
 
             @Override
-            public long getEventId() {
+            public String getEventId() {
                 return availability.getEventId();
             }
         });
     }
-
 }

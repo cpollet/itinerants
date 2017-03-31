@@ -7,6 +7,6 @@ import lombok.Data;
  */
 @Data
 public class AvailabilityPayload {
-    private final long personId;
-    private final long eventId;
+    private final String personId;
+    private final String eventId;
 }

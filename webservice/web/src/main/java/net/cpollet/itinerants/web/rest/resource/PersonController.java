@@ -25,7 +25,7 @@ public class PersonController {
 
     @PostMapping(value = "")
     public PersonResponse create(@RequestBody CreatePersonPayload person) {
-        long personId = personService.create(new PersonService.InputPersonData() {
+        String personId = personService.create(new PersonService.InputPersonData() {
             @Override
             public String getName() {
                 return person.getName();
@@ -42,6 +42,6 @@ public class PersonController {
             }
         });
 
-        return new PersonResponse(personService.getById(personId));
+        return new PersonResponse(personService.getByUUID(personId));
     }
 }

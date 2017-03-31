@@ -7,15 +7,15 @@ import net.cpollet.itinerants.core.domain.data.PersonData;
  * Created by cpollet on 13.02.17.
  */
 public interface PersonService {
-    PersonData getById(long id);
+    PersonData getByUUID(String uuid);
 
-    long create(PersonData personData);
+    String create(PersonData personData);
 
     PersonData getByUsername(String username);
 
     abstract class InputPersonData implements PersonData {
         @Override
-        public Long getId() {
+        public String getUUID() {
             throw new IllegalStateException();
         }
 

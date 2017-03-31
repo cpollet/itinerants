@@ -7,7 +7,7 @@ import java.util.Set;
  * Created by cpollet on 11.02.17.
  */
 public interface EventData {
-    Long getId();
+    String getUUID();
 
     String getName();
 

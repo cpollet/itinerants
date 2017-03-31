@@ -63,6 +63,6 @@ public class SessionController {
 
         tokenService.store(token, authentication);
 
-        return new LoginResponse(token, personData.getId(), new HashSet<>(Collections.singleton("user")));
+        return new LoginResponse(token, personData.getUUID(), new HashSet<>(Collections.singleton("user")));
     }
 }

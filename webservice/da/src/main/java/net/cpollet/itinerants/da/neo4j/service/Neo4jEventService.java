@@ -13,6 +13,7 @@ import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by cpollet on 11.02.17.
@@ -33,23 +34,24 @@ public class Neo4jEventService implements EventService {
     }
 
     @Override
-    public EventData getById(long id) {
-        Neo4JEventData eventData = eventRepository.findOne(id);
+    public EventData getByUUID(String uuid) {
+        Neo4JEventData eventData = eventRepository.findOneByUUID(uuid);
 
         if (eventData == null) {
-            throw new IllegalArgumentException("No node of type " + Neo4JEventData.class.getAnnotation(NodeEntity.class).label() + " found for id " + id);
+            throw new IllegalArgumentException("No node of type " + Neo4JEventData.class.getAnnotation(NodeEntity.class).label() + " found for UUID " + uuid);
         }
 
         return eventData;
     }
 
     @Override
-    public long create(EventData eventData) {
+    public String create(EventData eventData) {
         Neo4JEventData neo4jEvent = new Neo4JEventData();
         neo4jEvent.setName(eventData.getName());
         neo4jEvent.setDateTime(eventData.getDateTime());
+        neo4jEvent.setUUID(UUID.randomUUID().toString());
 
-        return eventRepository.save(neo4jEvent).getId();
+        return eventRepository.save(neo4jEvent).getUUID();
     }
 
     @Override

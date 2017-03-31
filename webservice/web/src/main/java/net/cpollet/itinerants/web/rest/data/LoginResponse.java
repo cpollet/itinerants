@@ -21,14 +21,14 @@ public class LoginResponse {
 
     private String token;
     private Set<String> roles;
-    private Long personId;
+    private String personId;
     private String result;
 
     private LoginResponse() {
         // nothing to do
     }
 
-    public LoginResponse(String token, Long personId, Set<String> roles) {
+    public LoginResponse(String token, String personId, Set<String> roles) {
         this.token = token;
         this.roles = roles;
         this.result = CODE_SUCCESS;
