@@ -21,7 +21,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
         String token = (String) authentication.getPrincipal();
 
         if (!tokenService.isTokenValid(token)) {
-            throw new BadCredentialsException("Invalid token or token expired");
+            throw new BadCredentialsException("Invalid or expired token");
         }
 
         return tokenService.retrieve(token);
