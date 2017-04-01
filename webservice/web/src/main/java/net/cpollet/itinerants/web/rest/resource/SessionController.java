@@ -8,6 +8,8 @@ import net.cpollet.itinerants.web.authentication.AuthenticationPrincipal;
 import net.cpollet.itinerants.web.authentication.TokenService;
 import net.cpollet.itinerants.web.rest.data.LoginPayload;
 import net.cpollet.itinerants.web.rest.data.LoginResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,17 +41,17 @@ public class SessionController {
     }
 
     @PutMapping(value = "")
-    public LoginResponse create(@RequestBody LoginPayload credentials) {
+    public ResponseEntity<LoginResponse> create(@RequestBody LoginPayload credentials) {
         PersonData personData = personService.getByUsername(credentials.getUsername());
 
         if (personData == null) {
-            return LoginResponse.INVALID_CREDENTIALS;
+            return new ResponseEntity<>(LoginResponse.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
         }
 
         Person person = personFactory.create(personData);
 
         if (!person.password().matches(credentials.getPassword())) {
-            return LoginResponse.INVALID_CREDENTIALS;
+            return new ResponseEntity<>(LoginResponse.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
         }
 
         String token = UUID.randomUUID().toString();
@@ -64,6 +66,6 @@ public class SessionController {
 
         tokenService.store(token, authentication);
 
-        return new LoginResponse(token, personData.getUUID(), new HashSet<>(Collections.singleton("user")));
+        return new ResponseEntity<>(new LoginResponse(token, personData.getUUID(), new HashSet<>(Collections.singleton("user"))), HttpStatus.OK);
     }
 }
