@@ -26,7 +26,12 @@ public class Person {
     public List<String> roles() {
         return Arrays.stream(personData.getRoles().split(","))
                 .map(String::trim)
+                .map(String::toUpperCase)
                 .collect(Collectors.toList());
+    }
+
+    public String id() {
+        return  personData.getUUID();
     }
 
     public interface Factory {

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.domain.Person;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 import net.cpollet.itinerants.core.service.PersonService;
+import net.cpollet.itinerants.web.authentication.AuthenticationPrincipal;
 import net.cpollet.itinerants.web.authentication.TokenService;
 import net.cpollet.itinerants.web.rest.data.LoginPayload;
 import net.cpollet.itinerants.web.rest.data.LoginResponse;
@@ -54,10 +55,10 @@ public class SessionController {
         String token = UUID.randomUUID().toString();
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                credentials.getUsername(),
-                null,
+                new AuthenticationPrincipal(credentials.getUsername(), person.id()),
+                credentials.getPassword(),
                 person.roles().stream()
-                        .map(r -> new SimpleGrantedAuthority("ROLE_" + r.toUpperCase()))
+                        .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
                         .collect(Collectors.toList())
         );
 
