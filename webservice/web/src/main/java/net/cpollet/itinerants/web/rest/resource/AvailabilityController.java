@@ -8,6 +8,8 @@ import net.cpollet.itinerants.web.rest.data.AvailabilityPayload;
 import net.cpollet.itinerants.web.rest.data.AvailabilityResponse;
 import net.cpollet.itinerants.web.rest.data.EventResponse;
 import net.cpollet.itinerants.web.rest.data.PersonResponse;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/availabilities")
 @Slf4j
 public class AvailabilityController {
+    private static final String AUTHORIZE_OWN_OR_ADMIN = "principal.personId == #availability.personId or hasRole('ADMIN')";
+
     private final AvailabilityService availabilityService;
     private final PersonService personService;
     private final EventService eventService;
@@ -34,8 +38,10 @@ public class AvailabilityController {
     }
 
     @PutMapping(value = "")
+    @PreAuthorize(AUTHORIZE_OWN_OR_ADMIN)
     public AvailabilityResponse create(@RequestBody AvailabilityPayload availability) {
         log.info("Creating {}", availability);
+
         availabilityService.create(
                 AvailabilityService.InputAvailabilityData.delete(
                         availability.getPersonId(),
@@ -50,8 +56,10 @@ public class AvailabilityController {
     }
 
     @DeleteMapping(value = "")
+    @PreAuthorize(AUTHORIZE_OWN_OR_ADMIN)
     public void delete(@RequestBody AvailabilityPayload availability) {
         log.info("Deleting {}", availability);
+
         availabilityService.delete(
                 AvailabilityService.InputAvailabilityData.delete(
                         availability.getPersonId(),
