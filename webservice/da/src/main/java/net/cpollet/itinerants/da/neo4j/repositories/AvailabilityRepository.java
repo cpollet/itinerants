@@ -9,10 +9,8 @@ import org.springframework.data.repository.query.Param;
  * Created by cpollet on 01.04.17.
  */
 public interface AvailabilityRepository extends GraphRepository<IsAvailable> {
-    @Query("MATCH (e:Event) " +
-            "WHERE e.uuid = {eventId} " +
-            "MATCH (p:Person) " +
-            "WHERE p.uuid = {personId} " +
+    @Query("MATCH (e:Event), (p:Person) " +
+            "WHERE e.uuid = {eventId} AND p.uuid = {personId} " +
             "MERGE (p)-[:IS_AVAILABLE]->(e)")
     void create(@Param("personId") String personId, @Param("eventId") String eventId);
 

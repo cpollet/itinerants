@@ -18,12 +18,12 @@ public class Neo4jAvailabilityService implements AvailabilityService {
     }
 
     @Override
-    public void create(InputAvailability availability) {
+    public void create(InputAvailabilityData availability) {
         availabilityRepository.create(availability.getPersonId(), availability.getEventId());
     }
 
     @Override
-    public void delete(InputAvailability availability) {
+    public void delete(InputAvailabilityData availability) {
         availabilityRepository.delete(availability.getPersonId(), availability.getEventId());
     }
 }

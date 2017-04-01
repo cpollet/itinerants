@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by cpollet on 13.02.17.
  */
@@ -34,17 +36,12 @@ public class AvailabilityController {
     @PutMapping(value = "")
     public AvailabilityResponse create(@RequestBody AvailabilityPayload availability) {
         log.info("Creating {}", availability);
-        availabilityService.create(new AvailabilityService.InputAvailability() {
-            @Override
-            public String getPersonId() {
-                return availability.getPersonId();
-            }
-
-            @Override
-            public String getEventId() {
-                return availability.getEventId();
-            }
-        });
+        availabilityService.create(
+                AvailabilityService.InputAvailabilityData.delete(
+                        availability.getPersonId(),
+                        availability.getEventId()
+                )
+        );
 
         return new AvailabilityResponse(
                 new PersonResponse(personService.getByUUID(availability.getPersonId())),
@@ -55,16 +52,11 @@ public class AvailabilityController {
     @DeleteMapping(value = "")
     public void delete(@RequestBody AvailabilityPayload availability) {
         log.info("Deleting {}", availability);
-        availabilityService.delete(new AvailabilityService.InputAvailability(){
-            @Override
-            public String getPersonId() {
-                return availability.getPersonId();
-            }
-
-            @Override
-            public String getEventId() {
-                return availability.getEventId();
-            }
-        });
+        availabilityService.delete(
+                AvailabilityService.InputAvailabilityData.delete(
+                        availability.getPersonId(),
+                        availability.getEventId()
+                )
+        );
     }
 }
