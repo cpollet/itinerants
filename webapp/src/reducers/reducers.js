@@ -6,6 +6,7 @@ import {
     SYNC_SUCCESS,
     SYNC_ERROR,
     SYNC_FAILURE,
+    RECEIVE_AVAILABILITIES,
     TOGGLE_AVAILABILITY,
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT,
@@ -56,6 +57,8 @@ function availabilityReducer(state, action) {
             }
 
             return state.filter((v) => v !== action.eventId);
+        case RECEIVE_AVAILABILITIES:
+            return action.availabilities;
         default:
             return state;
     }

@@ -4,6 +4,7 @@ import {push} from 'react-router-redux';
 export const REQUEST_FUTURE_EVENTS = 'REQUEST_FUTURE_EVENTS';
 export const RECEIVE_FUTURE_EVENTS = 'RECEIVE_FUTURE_EVENTS';
 export const FAIL_FUTURE_EVENTS = 'FAIL_FUTURE_EVENTS';
+export const RECEIVE_AVAILABILITIES = 'RECEIVE_AVAILABILITIES';
 export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
 export const SYNC_START = 'SYNC_START';
 export const SYNC_SUCCESS = 'SYNC_SUCCESS';
@@ -52,6 +53,8 @@ export function fetchFutureEvents() {
             type: REQUEST_FUTURE_EVENTS
         });
 
+        const personId = getState().app.auth.personId;
+
         return authenticatedFetch('/api/events/future', dispatch, getState())
             .then(response => {
                 if (response.status === 200) {
@@ -61,13 +64,26 @@ export function fetchFutureEvents() {
             })
             .then(json => {
                 if (json !== null) {
-                    return dispatch({
+                    dispatch({
                         type: RECEIVE_FUTURE_EVENTS,
                         items: json,
                         receivedAt: Date.now()
                     });
+
+                    const availableFor = json
+                        .map(e => ({
+                            eventId: e.eventId,
+                            available: e.availablePeople.filter(p => p.personId === personId).length > 0
+                        }))
+                        .filter(e => e.available)
+                        .map(e => e.eventId);
+
+                    dispatch({
+                        type: RECEIVE_AVAILABILITIES,
+                        availabilities: availableFor,
+                    });
                 } else {
-                    return dispatch({
+                    dispatch({
                         type: FAIL_FUTURE_EVENTS
                     });
                 }
