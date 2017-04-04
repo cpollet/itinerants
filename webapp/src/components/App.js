@@ -8,10 +8,18 @@ class App extends React.Component {
     render() {
         return (
             <div className={styles.component}>
+
                 <h1>Itinérants</h1>
 
+                <div className={styles.container}>
+                    <div className={styles.menuContainer}>
+                        <MenuContainer location={this.props.location}/>
+                    </div>
+                    test
+                </div>
+
                 <h2>Menu</h2>
-                <MenuContainer/>
+
 
                 <InfoStaleState text="Sauvegarde en cours..."/>
                 <AlertSyncFail title="Erreur" text="impossible de sauvegarder"/>
@@ -23,7 +31,8 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-    children: React.PropTypes.node
+    children: React.PropTypes.node,
+    location: React.PropTypes.object
 };
 
 export default App;

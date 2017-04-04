@@ -1,18 +1,51 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {renderIf} from '../lib/helpers';
+import MenuItem from './MenuItem';
+import styles from './Menu.css';
 
 class Menu extends React.Component {
 
     render() {
         return (
-            <ul>
-                {renderIf(!this.props.isAuthenticated, <li><Link to={'/login'}>Login</Link></li>)}
-                {renderIf(this.props.isAuthenticated, <li><Link to={'/logout'}>Logout</Link></li>)}
-                {renderIf(this.props.isAuthenticated, <li><Link to={'/past'}>Past</Link></li>)}
-                {renderIf(this.props.isAuthenticated, <li><Link to={'/future'}>Future</Link></li>)}
-                {renderIf(this.props.isAuthenticated, <li><Link to={'/settings'}>Settings</Link></li>)}
-                {renderIf(this.props.isAdmin, <li><Link to={'/admin'}>Admin</Link></li>)}
+            <ul className={styles.component}>
+                {renderIf(
+                    !this.props.isAuthenticated,
+                    <MenuItem active={this.props.active === 'login'}>
+                        <Link to={'/login'}>Login</Link>
+                    </MenuItem>
+                )}
+                {renderIf(
+                    this.props.isAuthenticated,
+                    <MenuItem active={this.props.active === 'future'}>
+                        <Link to={'/future'}>Future</Link>
+                    </MenuItem>
+                )}
+                {renderIf(
+                    this.props.isAuthenticated,
+                    <MenuItem active={this.props.active === 'past'}>
+                        <Link to={'/past'}>Past</Link>
+                    </MenuItem>
+                    )}
+                {renderIf(
+                    this.props.isAuthenticated,
+                    <MenuItem active={this.props.active === 'settings'}>
+                        <Link to={'/settings'}>Settings</Link>
+                    </MenuItem>
+                )}
+                {renderIf(
+                    this.props.isAdmin,
+                    <MenuItem active={this.props.active === 'admin'}>
+                        <Link to={'/admin'}>Admin</Link>
+                    </MenuItem>
+                )}
+
+                {renderIf(
+                    this.props.isAuthenticated,
+                    <MenuItem>
+                        <Link to={'/logout'}>Logout</Link>
+                    </MenuItem>
+                )}
             </ul>
         );
     }
@@ -20,7 +53,8 @@ class Menu extends React.Component {
 
 Menu.propTypes = {
     isAdmin: React.PropTypes.bool.isRequired,
-    isAuthenticated: React.PropTypes.bool.isRequired
+    isAuthenticated: React.PropTypes.bool.isRequired,
+    active: React.PropTypes.string
 };
 
 export default Menu;

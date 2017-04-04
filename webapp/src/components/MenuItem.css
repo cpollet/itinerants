@@ -1,0 +1,31 @@
+.component {
+    position: relative;
+    display: block;
+}
+
+.component > a {
+    border-left: solid 3px #ddd;
+    margin-left: -3px;
+    color: #444;
+    padding: 6px 15px;
+    font-size: 13px;
+    position: relative;
+    display: block;
+    text-decoration: none;
+}
+
+.component > a:hover {
+    border-left: solid 3px #999;
+    background-color: #f1f1f1;
+}
+
+.component.active > a {
+    border-left: solid 3px #0099da;
+    background-color: #f1f1f1;
+}
+
+.component.active > a:hover {
+    border-left: solid 3px #0099da;
+}
+
+
