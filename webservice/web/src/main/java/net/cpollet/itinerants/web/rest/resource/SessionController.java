@@ -60,12 +60,12 @@ public class SessionController {
                 new AuthenticationPrincipal(credentials.getUsername(), person.id()),
                 credentials.getPassword(),
                 person.roles().stream()
-                        .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
+                        .map(r -> new SimpleGrantedAuthority("ROLE_" + r.toUpperCase()))
                         .collect(Collectors.toList())
         );
 
         tokenService.store(token, authentication);
 
-        return new ResponseEntity<>(new LoginResponse(token, personData.getUUID(), new HashSet<>(Collections.singleton("user"))), HttpStatus.OK);
+        return new ResponseEntity<>(new LoginResponse(token, personData.getUUID(), person.roles()), HttpStatus.OK);
     }
 }

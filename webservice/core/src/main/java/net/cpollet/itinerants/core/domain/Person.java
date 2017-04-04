@@ -5,6 +5,7 @@ import net.cpollet.itinerants.core.domain.data.PersonData;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -23,11 +24,14 @@ public class Person {
         return passwordFactory.create(personData.getPassword());
     }
 
-    public List<String> roles() {
+    /**
+     * @return the roles assigned to user, in lower case.
+     */
+    public Set<String> roles() {
         return Arrays.stream(personData.getRoles().split(","))
                 .map(String::trim)
-                .map(String::toUpperCase)
-                .collect(Collectors.toList());
+                .map(String::toLowerCase)
+                .collect(Collectors.toSet());
     }
 
     public String id() {
