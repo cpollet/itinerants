@@ -1,12 +1,22 @@
 import React from 'react';
-import FadeInAlert from '../FadeInAlert';
 import {connect} from 'react-redux';
+import FadeIn from '../animation/FadeIn';
 
 class InfoStaleState extends React.Component {
     render() {
         return !this.props.stale ? null :
             (
-                <FadeInAlert type="info" {...this.props} />
+                <FadeIn>
+                    <div style={{position: 'relative'}}>
+                        <div style={{
+                            position: 'absolute',
+                            top: -20,
+                            right: -15,
+                            zIndex: 999,
+                            fontSize: '80%',
+                        }}>{this.props.text}</div>
+                    </div>
+                </FadeIn>
             );
     }
 }
@@ -14,7 +24,6 @@ class InfoStaleState extends React.Component {
 InfoStaleState.propTypes = {
     stale: React.PropTypes.bool.isRequired,
     text: React.PropTypes.string.isRequired,
-    title: React.PropTypes.string,
 };
 
 function mapStateToProps(state) {
