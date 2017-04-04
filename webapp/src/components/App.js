@@ -15,16 +15,12 @@ class App extends React.Component {
                     <div className={styles.menuContainer}>
                         <MenuContainer location={this.props.location}/>
                     </div>
-                    test
+                    <div className={styles.contentContainer}>
+                        <InfoStaleState text="Sauvegarde en cours..."/>
+                        <AlertSyncFail title="Erreur" text="impossible de sauvegarder"/>
+                        {this.props.children}
+                    </div>
                 </div>
-
-                <h2>Menu</h2>
-
-
-                <InfoStaleState text="Sauvegarde en cours..."/>
-                <AlertSyncFail title="Erreur" text="impossible de sauvegarder"/>
-                <h2>Content</h2>
-                {this.props.children}
             </div>
         );
     }
