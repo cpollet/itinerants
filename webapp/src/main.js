@@ -14,7 +14,7 @@ import appReducer from './reducers/reducers';
 import thunk from 'redux-thunk';
 import moment from 'moment';
 import {sync, decreaseSyncTimeout} from './reducers/actions';
-import {LOGOUT} from './reducers/actions';
+import {LOGIN_SUCCESS, LOGOUT} from './reducers/actions';
 import SyncManager from './SyncManager';
 import {reducer as formReducer} from './lib/form/FormContainer';
 import FormProvider from './lib/form/FormProvider';
@@ -27,14 +27,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const reducer = combineReducers({
         routing: routerReducer,
         app: appReducer,
-        forms: formReducer
+        forms: formReducer,
+        rememberMe: (state = {}) => state
     });
 
     const rootReducer = (state, action) => {
         // http://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store
-        if (action.type === LOGOUT) {
-            const {routing} = state;
-            state = {routing};
+        if (action.type === LOGIN_SUCCESS) {
+            state = Object.assign({}, state, {
+                rememberMe: {
+                    username: action.username
+                }
+            });
+        } else if (action.type === LOGOUT) {
+            const {routing, rememberMe} = state;
+
+            state = {
+                rememberMe,
+                routing
+            };
         }
 
         return reducer(state, action);
