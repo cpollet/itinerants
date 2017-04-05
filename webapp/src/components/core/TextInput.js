@@ -5,8 +5,12 @@ class TextInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: props.value !== null ? props.value : ''
+            value: this.hasValue(props.value) ? props.value : ''
         };
+    }
+
+    hasValue(v) {
+        return typeof v !== 'undefined' && v !== null;
     }
 
     onChange(event) {

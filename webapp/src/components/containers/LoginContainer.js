@@ -8,7 +8,7 @@ function mapStateToProps(state) {
         authenticated: state.app.auth.token !== null,
         invalidCredentials: state.app.auth.error === constants.login.invalidCredentials,
         loginExpired: state.app.auth.error === constants.login.sessionExpired,
-        username: state.app.auth.username,
+        rememberMeUsername: state.rememberMe.username,
     };
 }
 

@@ -21,18 +21,20 @@ class Login extends React.Component {
                 {renderIf(this.props.loginExpired,
                     <Alert type="info" text="Session expirée."/>)}
 
-                <FormContainer name="login" onSubmit={(e, data) => {
-                    if (typeof data !== 'undefined') {
-                        this.props.login(data.username, data.password);
-                    }
-                    e.preventDefault();
-                }}>
+                <FormContainer name="login"
+                               onSubmit={(e, data) => {
+                                   if (typeof data !== 'undefined') {
+                                       this.props.login(data.username, data.password);
+                                   }
+                                   e.preventDefault();
+                               }}
+                               initialValues={{username: this.props.rememberMeUsername}}>
                     <Form>
                         <FormRow>
                             <FormLabel>Nom d'utilisateur</FormLabel>
                             <FormField>
                                 <FormFieldContainer name="username">
-                                    <TextInput placeholder="Nom d'utilisateur" value={this.props.username}/>
+                                    <TextInput placeholder="Nom d'utilisateur"/>
                                 </FormFieldContainer>
                             </FormField>
                         </FormRow>
@@ -61,7 +63,7 @@ Login.propTypes = {
     login: React.PropTypes.func.isRequired,
     invalidCredentials: React.PropTypes.bool,
     loginExpired: React.PropTypes.bool,
-    username: React.PropTypes.string
+    rememberMeUsername: React.PropTypes.string
 };
 
 export default Login;

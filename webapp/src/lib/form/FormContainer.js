@@ -2,6 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 class FormContainer extends React.Component {
+    values() {
+        if (typeof this.props.state[this.context.formStateKey][this.props.name] === 'undefined') {
+            return this.props.initialValues;
+        }
+
+        return this.props.state[this.context.formStateKey][this.props.name];
+    }
+
     onSubmit(event) {
         this.props.onSubmit(event, this.props.state[this.context.formStateKey][this.props.name]);
     }
@@ -14,10 +22,12 @@ class FormContainer extends React.Component {
 
     getChildContext() {
         const self = this;
+
         return {
             update: function (...args) {
                 self.props.update(self.props.name, ...args);
             },
+            fieldValues: self.values()
         };
     }
 }
@@ -40,7 +50,11 @@ FormContainer.propTypes = {
     /**
      * The form's state
      */
-    state: React.PropTypes.object
+    state: React.PropTypes.object,
+    /**
+     * The form's state
+     */
+    initialValues: React.PropTypes.object,
 };
 FormContainer.childContextTypes = {
     /**
@@ -48,6 +62,10 @@ FormContainer.childContextTypes = {
      * name and as 2nd parameter the field's value.
      */
     update: React.PropTypes.func,
+    /**
+     * This method will be passed to children, via the childContext. It should contain file fields values.
+     */
+    fieldValues: React.PropTypes.object,
 };
 FormContainer.contextTypes = {
     /**
