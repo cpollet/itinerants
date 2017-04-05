@@ -32,20 +32,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const rootReducer = (state, action) => {
-        // http://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store
-        if (action.type === LOGIN_SUCCESS) {
-            state = Object.assign({}, state, {
-                rememberMe: {
-                    username: action.username
-                }
-            });
-        } else if (action.type === LOGOUT) {
-            const {routing, rememberMe} = state;
-
-            state = {
-                rememberMe,
-                routing
-            };
+        switch (action.type) {
+            case LOGIN_SUCCESS: {
+                state = Object.assign({}, state, {
+                    rememberMe: {
+                        username: action.username
+                    }
+                });
+                sessionStorage.setItem('auth', JSON.stringify(action));
+                break;
+            }
+            case LOGOUT: {
+                // http://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store
+                const {routing, rememberMe} = state;
+                state = {
+                    rememberMe,
+                    routing
+                };
+                sessionStorage.removeItem('auth');
+                break;
+            }
         }
 
         return reducer(state, action);
@@ -70,6 +76,10 @@ document.addEventListener('DOMContentLoaded', function () {
         sync: () => store.dispatch(sync()),
     });
     store.subscribe(syncManager.listenerFactory());
+
+    if (sessionStorage.getItem('auth')) {
+        store.dispatch(JSON.parse(sessionStorage.getItem('auth')));
+    }
 
     function authData(state) {
         if (state.app.auth.token !== null) {
