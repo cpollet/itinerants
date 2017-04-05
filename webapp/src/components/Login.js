@@ -15,6 +15,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
+                <h2>Connection</h2>
                 {renderIf(this.props.invalidCredentials,
                     <Alert type="error" text="Nom d'utilisateur ou mot de passe invalide."/>)}
                 {renderIf(this.props.loginExpired,

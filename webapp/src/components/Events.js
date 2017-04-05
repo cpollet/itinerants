@@ -6,7 +6,7 @@ class Events extends React.Component {
     render() {
         return (
             <div>
-                <h3>{this.props.title}</h3>
+                <h2>{this.props.title}</h2>
                 <table className={styles.component}>
                     <thead>
                     <tr>

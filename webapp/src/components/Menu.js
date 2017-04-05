@@ -12,25 +12,25 @@ class Menu extends React.Component {
                 {renderIf(
                     !this.props.isAuthenticated,
                     <MenuItem active={this.props.active === 'login'}>
-                        <Link to={'/login'}>Login</Link>
+                        <Link to={'/login'}>Connexion</Link>
                     </MenuItem>
                 )}
                 {renderIf(
                     this.props.isAuthenticated,
                     <MenuItem active={this.props.active === 'future'}>
-                        <Link to={'/future'}>Future</Link>
+                        <Link to={'/future'}>À venir</Link>
                     </MenuItem>
                 )}
                 {renderIf(
                     this.props.isAuthenticated,
                     <MenuItem active={this.props.active === 'past'}>
-                        <Link to={'/past'}>Past</Link>
+                        <Link to={'/past'}>Passés</Link>
                     </MenuItem>
                     )}
                 {renderIf(
                     this.props.isAuthenticated,
                     <MenuItem active={this.props.active === 'settings'}>
-                        <Link to={'/settings'}>Settings</Link>
+                        <Link to={'/settings'}>Paramètres</Link>
                     </MenuItem>
                 )}
                 {renderIf(
@@ -43,7 +43,7 @@ class Menu extends React.Component {
                 {renderIf(
                     this.props.isAuthenticated,
                     <MenuItem>
-                        <Link to={'/logout'}>Logout</Link>
+                        <Link to={'/logout'}>Déconnexion</Link>
                     </MenuItem>
                 )}
             </ul>

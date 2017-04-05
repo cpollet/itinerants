@@ -7,7 +7,10 @@ class Logout extends React.Component {
 
     render() {
         return (
-            <div>Logout successful</div>
+            <div>
+                <h2>Déconnexion</h2>
+                <div>Logout successful</div>
+            </div>
         );
     }
 }
