@@ -10,7 +10,8 @@ CREATE (p1:Person {
     name: 'Christophe',
     username: 'cpollet',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
-    roles: 'user,admin'
+    roles: 'user,admin',
+    targetRatio: 1.0
 })
 
 CREATE (p2:Person {
@@ -18,7 +19,8 @@ CREATE (p2:Person {
     name: 'User',
     username: 'user',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
-    roles: 'user'
+    roles: 'user',
+    targetRatio: 0.5
 })
 
 CREATE (e1:Event {

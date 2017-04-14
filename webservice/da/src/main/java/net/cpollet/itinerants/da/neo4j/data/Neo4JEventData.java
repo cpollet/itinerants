@@ -31,6 +31,7 @@ public class Neo4JEventData implements EventData {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private Long timestamp;
+    private Integer attendeesCount;
 
     @Relationship(direction = Relationship.UNDIRECTED, type = "IS_AVAILABLE")
     private Set<Neo4JPersonData> availablePeople;

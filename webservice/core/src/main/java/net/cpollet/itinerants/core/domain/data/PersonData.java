@@ -14,5 +14,7 @@ public interface PersonData {
 
     String getRoles();
 
+    float getTargetRatio();
+
     void availableFor(EventData eventData);
 }

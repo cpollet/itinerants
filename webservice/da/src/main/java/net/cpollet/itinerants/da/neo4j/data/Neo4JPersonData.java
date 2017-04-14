@@ -22,6 +22,7 @@ public class Neo4JPersonData implements PersonData {
     private String name;
     private String password;
     private String roles;
+    private float targetRatio;
 
     @Override
     public void availableFor(EventData eventData) {

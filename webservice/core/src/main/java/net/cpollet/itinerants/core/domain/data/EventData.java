@@ -14,4 +14,6 @@ public interface EventData {
     LocalDateTime getDateTime();
 
     Set<? extends PersonData> availablePeople();
+
+    Integer getAttendeesCount();
 }

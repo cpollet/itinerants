@@ -3,8 +3,6 @@ package net.cpollet.itinerants.core.domain;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +33,11 @@ public class Person {
     }
 
     public String id() {
-        return  personData.getUUID();
+        return personData.getUUID();
+    }
+
+    public float targetRatio() {
+        return personData.getTargetRatio();
     }
 
     public interface Factory {
