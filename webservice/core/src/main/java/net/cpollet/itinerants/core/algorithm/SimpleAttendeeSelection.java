@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
  */
 public class SimpleAttendeeSelection implements AttendeeSelection {
     private final Set<Event> events;
-    private final Map<Event, List<Attendee>> availabilities;
+    private final Map<Event, Set<Attendee>> availabilities;
     private final Map<Attendee, Attendee> map;
     private final int eventsCount;
 
-    public SimpleAttendeeSelection(Map<Event, List<Attendee>> availabilities, int pastEventsCount) {
+    public SimpleAttendeeSelection(Map<Event, Set<Attendee>> availabilities, int pastEventsCount) {
         this.availabilities = Collections.unmodifiableMap(availabilities);
         this.events = Collections.unmodifiableSet(availabilities.keySet());
         this.map = availabilities.values().stream()

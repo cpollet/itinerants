@@ -1,5 +1,6 @@
 package net.cpollet.itinerants.core.service;
 
+import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.domain.data.EventData;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 
@@ -11,6 +12,8 @@ import java.util.Set;
  */
 public interface EventService {
     EventData getByUUID(String uuid);
+
+    List<Event> getByIds(List<String> ids);
 
     String create(EventData eventData);
 
@@ -32,6 +35,11 @@ public interface EventService {
 
         @Override
         public Set<? extends PersonData> availablePeople() {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        public Integer getAttendeesCount() {
             throw new IllegalStateException();
         }
     }

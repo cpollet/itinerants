@@ -1,19 +1,23 @@
 package net.cpollet.itinerants.da.neo4j.service;
 
+import net.cpollet.itinerants.core.domain.Event;
+import net.cpollet.itinerants.core.domain.Person;
+import net.cpollet.itinerants.core.domain.data.EventData;
 import net.cpollet.itinerants.core.service.EventService;
 import net.cpollet.itinerants.da.neo4j.data.Neo4JEventData;
 import net.cpollet.itinerants.da.neo4j.repositories.EventRepository;
-import net.cpollet.itinerants.core.domain.data.EventData;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by cpollet on 11.02.17.
@@ -28,9 +32,11 @@ public class Neo4jEventService implements EventService {
     }
 
     private final EventRepository eventRepository;
+    private final Person.Factory personFactory;
 
-    public Neo4jEventService(EventRepository eventRepository) {
+    public Neo4jEventService(EventRepository eventRepository, Person.Factory personFactory) {
         this.eventRepository = eventRepository;
+        this.personFactory = personFactory;
     }
 
     @Override
@@ -42,6 +48,19 @@ public class Neo4jEventService implements EventService {
         }
 
         return eventData;
+    }
+
+    @Override
+    public List<Event> getByIds(List<String> ids) {
+        List<Neo4JEventData> events = eventRepository.findByUUID(ids);
+
+        if (events == null || events.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return events.stream()
+                .map((eventData) -> new Event(eventData, personFactory))
+                .collect(Collectors.toList());
     }
 
     @Override

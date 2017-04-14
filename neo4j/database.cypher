@@ -27,14 +27,16 @@ CREATE (e1:Event {
     uuid: 'event1-uuid',
     dateTime: '2018-12-15T19:00:00',
     timestamp: 1544900400,
-    name: 'Event 1'
+    name: 'Event 1',
+    attendeesCount: 1
 })
 
 CREATE (e2:Event {
     uuid: 'event2-uuid',
     dateTime: '2018-12-15T19:00:00',
     timestamp: 1544900400,
-    name: 'Event 2'
+    name: 'Event 2',
+    attendeesCount: 1
 });
 
 MATCH (p:Person)

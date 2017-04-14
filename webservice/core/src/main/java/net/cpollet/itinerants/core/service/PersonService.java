@@ -28,5 +28,10 @@ public interface PersonService {
         public String getRoles() {
             throw new IllegalStateException();
         }
+
+        @Override
+        public float getTargetRatio() {
+            throw new IllegalStateException();
+        }
     }
 }

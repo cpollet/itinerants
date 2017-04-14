@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,8 +52,8 @@ public class TestSimpleAttendeeSelection {
     public void compute_returnsFilledMap_whenThereIsOneEvent() {
         // GIVEN
         Mockito.when(event1.attendeesCount()).thenReturn(1);
-        ImmutableMap<Event, List<Attendee>> availabilities = ImmutableMap.<Event, List<Attendee>>builder()
-                .put(event1, Collections.emptyList())
+        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+                .put(event1, Collections.emptySet())
                 .build();
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
 
@@ -68,8 +69,8 @@ public class TestSimpleAttendeeSelection {
         // GIVEN
         Mockito.when(event1.attendeesCount()).thenReturn(1);
         Attendee attendee = new Attendee(person1, 0);
-        ImmutableMap<Event, List<Attendee>> availabilities = ImmutableMap.<Event, List<Attendee>>builder()
-                .put(event1, Collections.singletonList(attendee))
+        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+                .put(event1, Collections.singleton(attendee))
                 .build();
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
 
@@ -88,9 +89,9 @@ public class TestSimpleAttendeeSelection {
         Mockito.when(event1.attendeesCount()).thenReturn(1);
         Mockito.when(event2.attendeesCount()).thenReturn(1);
         Attendee attendee = new Attendee(person1, 0);
-        ImmutableMap<Event, List<Attendee>> availabilities = ImmutableMap.<Event, List<Attendee>>builder()
-                .put(event1, Collections.emptyList())
-                .put(event2, Collections.singletonList(attendee))
+        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+                .put(event1, Collections.emptySet())
+                .put(event2, Collections.singleton(attendee))
                 .build();
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
 
@@ -109,8 +110,8 @@ public class TestSimpleAttendeeSelection {
         Mockito.when((event1.attendeesCount())).thenReturn(1);
         Attendee attendee1 = new Attendee(person1, 0);
         Attendee attendee2 = new Attendee(person2, 0);
-        ImmutableMap<Event, List<Attendee>> availabilities = ImmutableMap.<Event, List<Attendee>>builder()
-                .put(event1, Arrays.asList(attendee1, attendee2))
+        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
                 .build();
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
 
@@ -131,8 +132,8 @@ public class TestSimpleAttendeeSelection {
 
         Attendee attendee1 = new Attendee(person1, 1);
         Attendee attendee2 = new Attendee(person2, 0);
-        ImmutableMap<Event, List<Attendee>> availabilities = ImmutableMap.<Event, List<Attendee>>builder()
-                .put(event1, Arrays.asList(attendee1, attendee2))
+        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
                 .build();
 
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
@@ -159,10 +160,10 @@ public class TestSimpleAttendeeSelection {
         Attendee attendee1 = new Attendee(person1, 0);
         Attendee attendee2 = new Attendee(person2, 0);
         Attendee attendee3 = new Attendee(person3, 1);
-        ImmutableMap<Event, List<Attendee>> availabilities = ImmutableMap.<Event, List<Attendee>>builder()
-                .put(event1, Arrays.asList(attendee1, attendee2))
-                .put(event2, Arrays.asList(attendee1, attendee2))
-                .put(event3, Arrays.asList(attendee1, attendee2, attendee3))
+        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
+                .put(event2, new HashSet<>(Arrays.asList(attendee1, attendee2)))
+                .put(event3, new HashSet<>(Arrays.asList(attendee1, attendee2, attendee3)))
                 .build();
 
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
@@ -193,8 +194,8 @@ public class TestSimpleAttendeeSelection {
 
         Attendee attendee1 = new Attendee(person1, 1);
         Attendee attendee2 = new Attendee(person2, 2);
-        ImmutableMap<Event, List<Attendee>> availabilities = ImmutableMap.<Event, List<Attendee>>builder()
-                .put(event1, Arrays.asList(attendee1, attendee2))
+        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
                 .build();
 
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 2);

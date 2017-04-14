@@ -33,4 +33,11 @@ public interface EventRepository extends GraphRepository<Neo4JEventData> {
     List<Neo4JEventData> past(@Param("timestamp") long timestamp, @Param("username") String username, Sort sort);
 
     Neo4JEventData findOneByUUID(@Param("uuid") String uuid);
+
+    @Query("MATCH (n:Event) " +
+            "WHERE n.uuid IN {uuid} " +
+            "WITH n " +
+            "MATCH p=(n)-[*0..1]-(m) " +
+            "RETURN p, ID(n)")
+    List<Neo4JEventData> findByUUID(@Param("uuid") List<String> uuids);
 }

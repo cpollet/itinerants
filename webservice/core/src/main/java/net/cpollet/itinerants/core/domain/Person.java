@@ -18,6 +18,18 @@ public class Person {
         this.passwordFactory = passwordFactory;
     }
 
+    public String id() {
+        return personData.getUUID();
+    }
+
+    public String name() {
+        return personData.getName();
+    }
+
+    public String username() {
+        return personData.getUsername();
+    }
+
     public Password password() {
         return passwordFactory.create(personData.getPassword());
     }
@@ -30,10 +42,6 @@ public class Person {
                 .map(String::trim)
                 .map(String::toLowerCase)
                 .collect(Collectors.toSet());
-    }
-
-    public String id() {
-        return personData.getUUID();
     }
 
     public float targetRatio() {
