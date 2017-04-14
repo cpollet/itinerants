@@ -1,6 +1,7 @@
 import React from 'react';
 import Checkbox from './core/Checkbox';
 import styles from './Event.css';
+import {renderIf} from '../lib/helpers';
 
 class Event extends React.Component {
     render() {
@@ -11,9 +12,9 @@ class Event extends React.Component {
                               onClick={this.props.toggle.bind(this, this.props.event.id)}/>
                 </td>
                 <td><Checkbox checked={false} disabled={true}/></td>
-                <td>{this.props.event.dateTime.format('D MMMM YYYY')}</td>
-                <td>{this.props.event.dateTime.format('HH:mm')}</td>
+                <td>{this.props.event.dateTime.format('HH:mm')} le {this.props.event.dateTime.format('D MMMM YYYY')}</td>
                 <td>{this.props.event.name}</td>
+                {renderIf(this.props.isAdmin, <td><Checkbox checked={false} /></td>)}
             </tr>
         );
     }
@@ -27,6 +28,7 @@ Event.propTypes = {
         available: React.PropTypes.bool.isRequired
     }).isRequired,
     toggle: React.PropTypes.func.isRequired,
+    isAdmin: React.PropTypes.bool.isRequired,
 };
 
 export default Event;

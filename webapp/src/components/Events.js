@@ -1,5 +1,7 @@
 import React from 'react';
 import EventContainer from './containers/EventContainer';
+import Button from './core/Button';
+import {renderIf} from '../lib/helpers';
 import styles from './Events.css';
 
 class Events extends React.Component {
@@ -13,14 +15,19 @@ class Events extends React.Component {
                         <th>O</th>
                         <th>C</th>
                         <th>Date</th>
-                        <th>&nbsp;</th>
                         <th>Événement</th>
+                        {renderIf(this.props.isAdmin, <th>&nbsp;</th>)}
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.events.map((e, i) => <EventContainer key={i} event={e}/>)}
+                    {this.props.events.map((e, i) => <EventContainer key={i} event={e} isAdmin={this.props.isAdmin}/>)}
                     </tbody>
                 </table>
+                <div style={{
+                    textAlign: 'right'
+                }}>
+                    <Button type="primary">Plannifier les sélectionnés</Button>
+                </div>
             </div>
         );
     }
@@ -29,6 +36,7 @@ class Events extends React.Component {
 Events.propTypes = {
     title: React.PropTypes.string.isRequired,
     events: React.PropTypes.array.isRequired,
+    isAdmin: React.PropTypes.bool.isRequired,
 };
 
 export default Events;
