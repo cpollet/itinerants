@@ -21,11 +21,11 @@ public class Neo4jPersonService implements PersonService {
     }
 
     @Override
-    public PersonData getByUUID(String uuid) {
-        Neo4JPersonData personData = personRepository.findOneByUUID(uuid);
+    public PersonData getById(String id) {
+        Neo4JPersonData personData = personRepository.findOneByUUID(id);
 
         if (personData == null) {
-            throw new IllegalArgumentException("No node of type " + Neo4JPersonData.class.getAnnotation(NodeEntity.class).label() + " found for UUID " + uuid);
+            throw new IllegalArgumentException("No node of type " + Neo4JPersonData.class.getAnnotation(NodeEntity.class).label() + " found for UUID " + id);
         }
 
         return personData;

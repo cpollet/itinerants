@@ -42,6 +42,6 @@ public class PersonController {
             }
         });
 
-        return new PersonResponse(personService.getByUUID(personId));
+        return new PersonResponse(personService.getById(personId));
     }
 }

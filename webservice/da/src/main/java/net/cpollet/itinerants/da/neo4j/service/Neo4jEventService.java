@@ -40,11 +40,11 @@ public class Neo4jEventService implements EventService {
     }
 
     @Override
-    public EventData getByUUID(String uuid) {
-        Neo4JEventData eventData = eventRepository.findOneByUUID(uuid);
+    public EventData getById(String id) {
+        Neo4JEventData eventData = eventRepository.findOneByUUID(id);
 
         if (eventData == null) {
-            throw new IllegalArgumentException("No node of type " + Neo4JEventData.class.getAnnotation(NodeEntity.class).label() + " found for UUID " + uuid);
+            throw new IllegalArgumentException("No node of type " + Neo4JEventData.class.getAnnotation(NodeEntity.class).label() + " found for UUID " + id);
         }
 
         return eventData;

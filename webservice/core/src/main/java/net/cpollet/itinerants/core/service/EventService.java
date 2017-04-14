@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by cpollet on 11.02.17.
  */
 public interface EventService {
-    EventData getByUUID(String uuid);
+    EventData getById(String id);
 
     List<Event> getByIds(List<String> ids);
 

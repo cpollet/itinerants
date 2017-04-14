@@ -8,15 +8,12 @@ import net.cpollet.itinerants.web.rest.data.AvailabilityPayload;
 import net.cpollet.itinerants.web.rest.data.AvailabilityResponse;
 import net.cpollet.itinerants.web.rest.data.EventResponse;
 import net.cpollet.itinerants.web.rest.data.PersonResponse;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by cpollet on 13.02.17.
@@ -50,8 +47,8 @@ public class AvailabilityController {
         );
 
         return new AvailabilityResponse(
-                new PersonResponse(personService.getByUUID(availability.getPersonId())),
-                new EventResponse(eventService.getByUUID(availability.getEventId()))
+                new PersonResponse(personService.getById(availability.getPersonId())),
+                new EventResponse(eventService.getById(availability.getEventId()))
         );
     }
 

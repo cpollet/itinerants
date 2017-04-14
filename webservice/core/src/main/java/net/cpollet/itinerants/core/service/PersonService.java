@@ -7,7 +7,7 @@ import net.cpollet.itinerants.core.domain.data.PersonData;
  * Created by cpollet on 13.02.17.
  */
 public interface PersonService {
-    PersonData getByUUID(String uuid);
+    PersonData getById(String id);
 
     String create(PersonData personData);
 

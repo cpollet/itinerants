@@ -41,7 +41,7 @@ public class EventController {
 
     @GetMapping(value = "/{id}")
     public EventResponse get(@PathVariable("id") String id) {
-        EventData e = eventService.getByUUID(id);
+        EventData e = eventService.getById(id);
         return new EventResponse(e);
     }
 
@@ -94,6 +94,6 @@ public class EventController {
             }
         });
 
-        return new EventResponse(eventService.getByUUID(eventId));
+        return new EventResponse(eventService.getById(eventId));
     }
 }
