@@ -50,7 +50,7 @@ public class AttendanceController {
         Map<Event, Set<Attendee>> selection = attendanceStrategyFactory.create(input, 0).selection();
 
         return selection.entrySet().stream()
-                .map(e -> new AttendanceResponse(e.getKey(), e.getValue()))
+                .map(e -> new AttendanceResponse(e.getKey(), e.getValue(), input.get(e.getKey())))
                 .collect(Collectors.toSet());
     }
 }
