@@ -1,5 +1,13 @@
 ```
-docker run --rm \
-    -p 7474:7474 -p 7687:7687 \
-    neo4j:3.0
+$ neo4j/start.sh
+$ mvn -f webservice/pom.xml clean install
+$ mvn -f webservice/web/pom.xml spring-boot:run
+$ (cd webapp && npm install && npm start)
 ```
+
+You might want to load the content of neo4j/databays.cypher.
+
+ * webapp: http://localhost:3000
+ * webservice: http://localhost:8080 or http://localhost:3000/api
+ * neo4j: http://localhost:7474/
+
