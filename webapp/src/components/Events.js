@@ -7,9 +7,9 @@ import styles from './Events.css';
 class Events extends React.Component {
     render() {
         return (
-            <div>
+            <div className={styles.component}>
                 <h2>{this.props.title}</h2>
-                <table className={styles.component}>
+                <table>
                     <thead>
                     <tr>
                         <th>O</th>
@@ -23,11 +23,11 @@ class Events extends React.Component {
                     {this.props.events.map((e, i) => <EventContainer key={i} event={e} isAdmin={this.props.isAdmin}/>)}
                     </tbody>
                 </table>
-                <div style={{
-                    textAlign: 'right'
-                }}>
-                    <Button type="primary">Plannifier les sélectionnés</Button>
-                </div>
+                {renderIf(this.props.isAdmin,
+                    <div className={styles.right}>
+                        <Button type="primary">Plannifier les sélectionnés</Button>
+                    </div>
+                )}
             </div>
         );
     }
