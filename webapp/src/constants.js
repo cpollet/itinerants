@@ -3,7 +3,4 @@ export default {
         sessionExpired: 'session_expired',
         invalidCredentials: 'invalid_credentials',
     },
-    url: {
-        plan: '/plan',
-    }
 };

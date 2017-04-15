@@ -4,7 +4,7 @@ import Events from '../Events';
 import {fetchFutureEvents} from '../../reducers/actions';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
-import constants from '../../constants';
+
 class FutureEventsContainer extends React.Component {
     componentDidMount() {
         this.props.request();
@@ -37,7 +37,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         request: () => dispatch(fetchFutureEvents()),
-        plan: () => dispatch(push(constants.url.plan)),
+        plan: () => dispatch(push('/plan')),
     };
 }
 
