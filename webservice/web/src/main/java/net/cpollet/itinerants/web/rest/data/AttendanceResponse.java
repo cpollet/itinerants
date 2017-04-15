@@ -1,9 +1,11 @@
 package net.cpollet.itinerants.web.rest.data;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import net.cpollet.itinerants.core.algorithm.Attendee;
 import net.cpollet.itinerants.core.domain.Event;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,10 +17,13 @@ public class AttendanceResponse {
     private final String eventId;
     private final String name;
     private final Set<AttendeeResponse> selectedPeople;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private final LocalDateTime dateTime;
 
     public AttendanceResponse(Event event, Set<Attendee> attendees) {
         eventId = event.id();
         name = event.name();
+        dateTime = event.dateTime();
         selectedPeople = attendees.stream()
                 .map(a -> new AttendeeResponse(a.getPerson().id(), a.getPerson().name()))
                 .collect(Collectors.toSet());

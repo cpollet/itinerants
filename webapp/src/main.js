@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import FutureEventsContainer from './components/containers/FutureEventsContainer';
+import PlanContainer from './components/containers/PlanContainer';
 import NoMatch from './components/NoMatch';
 import App from './components/App';
 import LoginContainer from './components/containers/LoginContainer';
@@ -84,11 +85,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function authData(state) {
         if (state.app.auth.token !== null) {
             return {
-                token: state.app.auth.token
+                token: state.app.auth.token,
+                isAdmin: state.app.auth.roles.indexOf('admin') > -1,
             };
         } else {
             return {
-                token: null
+                token: null,
+                isAdmin: false,
             };
         }
     }
@@ -99,6 +102,15 @@ document.addEventListener('DOMContentLoaded', function () {
         redirectAction: routerActions.replace
     });
     const Authenticated = UserIsAuthenticated((props) => React.cloneElement(props.children, props));
+
+    const UserIsAdmin = UserAuthWrapper({
+        authSelector: state => authData(state),
+        predicate: user => user.isAdmin,
+        redirectAction: routerActions.replace,
+        failureRedirectPath: () => '/future',
+        allowRedirectBack: false
+    });
+    const Admin = UserIsAdmin((props) => React.cloneElement(props.children, props));
 
     const UserIsNotAuthenticated = UserAuthWrapper({
         authSelector: state => authData(state),
@@ -121,6 +133,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             <Route path="future" component={FutureEventsContainer}/>
                             <Route path="past" component={NoMatch}/>
                             <Route path="settings" component={NoMatch}/>
+                        </Route>
+                        <Route component={Admin}>
+                            <Route path="plan" component={PlanContainer}/>
                         </Route>
                         <Route path="*" component={NoMatch}/>
                     </Route>

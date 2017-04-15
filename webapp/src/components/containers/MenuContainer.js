@@ -12,6 +12,8 @@ function mapStateToProps(state, ownProps) {
                 case '/':
                 case '/future':
                     return 'future';
+                case '/plan':
+                    return 'plan';
                 case '/past':
                     return 'past';
                 case '/settings':

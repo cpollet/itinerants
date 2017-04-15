@@ -9,6 +9,7 @@ import {
     RECEIVE_AVAILABILITIES,
     TOGGLE_AVAILABILITY,
     TOGGLE_PLANNING,
+    RECEIVE_PLAN_PROPOSAL,
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT,
     LOGIN_SUCCESS,
@@ -49,7 +50,8 @@ const initialState = {
         syncFailure: false,
     },
     planning: {
-        eventsToPlan: []
+        eventsToPlan: [],
+        proposal: []
     }
 };
 
@@ -181,6 +183,10 @@ function planningReducer(state, action) {
                 eventsToPlan: eventsArray
             });
         }
+        case RECEIVE_PLAN_PROPOSAL:
+            return Object.assign({}, state, {
+                proposal: action.payload
+            });
     }
     return state;
 }

@@ -7,6 +7,7 @@ export const FAIL_FUTURE_EVENTS = 'FAIL_FUTURE_EVENTS';
 export const RECEIVE_AVAILABILITIES = 'RECEIVE_AVAILABILITIES';
 export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
 export const TOGGLE_PLANNING = 'TOGGLE_PLANNING';
+export const RECEIVE_PLAN_PROPOSAL = 'RECEIVE_PLAN_PROPOSAL';
 export const SYNC_START = 'SYNC_START';
 export const SYNC_SUCCESS = 'SYNC_SUCCESS';
 export const SYNC_ERROR = 'SYNC_ERROR';
@@ -184,6 +185,28 @@ export function togglePlanning(eventId) {
             type: TOGGLE_PLANNING,
             eventId: eventId
         });
+    };
+}
+
+export function fetchPlanProposal(eventIds) {
+    return function (dispatch, getState) {
+        const params = eventIds.map(e => 'eventId=' + e).join('&');
+
+        return authenticatedFetch('/api/attendances?' + params, dispatch, getState())
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                return null;
+            })
+            .then(json => {
+                if (json !== null) {
+                    dispatch({
+                        type: RECEIVE_PLAN_PROPOSAL,
+                        payload: json
+                    });
+                }
+            });
     };
 }
 

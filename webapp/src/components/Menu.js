@@ -17,7 +17,7 @@ class Menu extends React.Component {
                 )}
                 {renderIf(
                     this.props.isAuthenticated,
-                    <MenuItem active={this.props.active === 'future'}>
+                    <MenuItem active={this.props.active === 'future' || this.props.active === 'plan'}>
                         <Link to={'/future'}>À venir</Link>
                     </MenuItem>
                 )}
@@ -26,7 +26,7 @@ class Menu extends React.Component {
                     <MenuItem active={this.props.active === 'past'}>
                         <Link to={'/past'}>Passés</Link>
                     </MenuItem>
-                    )}
+                )}
                 {renderIf(
                     this.props.isAuthenticated,
                     <MenuItem active={this.props.active === 'settings'}>
