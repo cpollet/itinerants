@@ -68,21 +68,19 @@ export function fetchFutureEvents() {
                 if (json !== null) {
                     dispatch({
                         type: RECEIVE_FUTURE_EVENTS,
-                        items: json,
+                        items: json.map(e => ({
+                            eventId: e.eventId,
+                            name: e.name,
+                            dateTime: e.dateTime
+                        })),
                         receivedAt: Date.now()
                     });
 
-                    const availableFor = json
-                        .map(e => ({
-                            eventId: e.eventId,
-                            available: e.availablePeople.filter(p => p.personId === personId).length > 0
-                        }))
-                        .filter(e => e.available)
-                        .map(e => e.eventId);
-
                     dispatch({
                         type: RECEIVE_AVAILABILITIES,
-                        availabilities: availableFor,
+                        availabilities: json
+                            .filter(e => e.availablePeople.filter(p => p.personId === personId).length > 0)
+                            .map(e => e.eventId),
                     });
                 } else {
                     dispatch({

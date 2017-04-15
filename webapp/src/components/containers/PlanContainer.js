@@ -28,9 +28,8 @@ function mapStateToProps(state) {
             eventId: proposal.eventId,
             eventName: proposal.name,
             dateTime: moment(proposal.dateTime),
-            people: proposal.selectedPeople.map(p => ({
-                name: p.name
-            }))
+            selectedPeople: proposal.selectedPeople,
+            availablePeople: proposal.availablePeople
         })))(state.app.planning.proposal)
     };
 }
