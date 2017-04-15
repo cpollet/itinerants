@@ -25,7 +25,7 @@ class Events extends React.Component {
                 </table>
                 {renderIf(this.props.isAdmin,
                     <div className={styles.right}>
-                        <Button type="primary">Plannifier les sélectionnés</Button>
+                        <Button type="primary">Planifier les sélectionnés</Button>
                     </div>
                 )}
             </div>
