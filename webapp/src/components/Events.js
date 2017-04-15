@@ -14,7 +14,7 @@ class Events extends React.Component {
                     <tr>
                         <th>O</th>
                         <th>C</th>
-                        <th>Date</th>
+                        <th>Heure & date</th>
                         <th>Événement</th>
                         {renderIf(this.props.isAdmin, <th>&nbsp;</th>)}
                     </tr>
@@ -25,7 +25,7 @@ class Events extends React.Component {
                 </table>
                 {renderIf(this.props.isAdmin,
                     <div className={styles.right}>
-                        <Button type="primary">Planifier les sélectionnés</Button>
+                        <Button type="primary" onClick={this.props.plan}>Planifier les sélectionnés</Button>
                     </div>
                 )}
             </div>
@@ -37,6 +37,7 @@ Events.propTypes = {
     title: React.PropTypes.string.isRequired,
     events: React.PropTypes.array.isRequired,
     isAdmin: React.PropTypes.bool.isRequired,
+    plan: React.PropTypes.func.isRequired,
 };
 
 export default Events;

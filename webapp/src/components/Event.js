@@ -9,12 +9,17 @@ class Event extends React.Component {
             <tr className={styles.component}>
                 <td>
                     <Checkbox checked={this.props.event.available}
-                              onClick={this.props.toggle.bind(this, this.props.event.id)}/>
+                              onClick={this.props.toggleAvailability.bind(this, this.props.event.id)}/>
                 </td>
                 <td><Checkbox checked={false} disabled={true}/></td>
-                <td>{this.props.event.dateTime.format('HH:mm')} le {this.props.event.dateTime.format('D MMMM YYYY')}</td>
+                <td>{this.props.event.dateTime.format('HH:mm[, le] D MMMM YYYY')}</td>
                 <td>{this.props.event.name}</td>
-                {renderIf(this.props.isAdmin, <td><Checkbox checked={false} /></td>)}
+                {renderIf(this.props.isAdmin,
+                    <td>
+                        <Checkbox checked={this.props.event.toPlan}
+                                  onClick={this.props.togglePlanning.bind(this, this.props.event.id)}/>
+                    </td>
+                )}
             </tr>
         );
     }
@@ -25,9 +30,11 @@ Event.propTypes = {
         id: React.PropTypes.string.isRequired,
         name: React.PropTypes.string.isRequired,
         dateTime: React.PropTypes.object.isRequired, // must be a moment() object
-        available: React.PropTypes.bool.isRequired
+        available: React.PropTypes.bool.isRequired,
+        toPlan: React.PropTypes.bool.isRequired,
     }).isRequired,
-    toggle: React.PropTypes.func.isRequired,
+    toggleAvailability: React.PropTypes.func.isRequired,
+    togglePlanning: React.PropTypes.func.isRequired,
     isAdmin: React.PropTypes.bool.isRequired,
 };
 

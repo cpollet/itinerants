@@ -8,6 +8,7 @@ import {
     SYNC_FAILURE,
     RECEIVE_AVAILABILITIES,
     TOGGLE_AVAILABILITY,
+    TOGGLE_PLANNING,
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT,
     LOGIN_SUCCESS,
@@ -47,6 +48,9 @@ const initialState = {
         syncTimeoutMs: 0,
         syncFailure: false,
     },
+    planning: {
+        eventsToPlan: []
+    }
 };
 
 function availabilityReducer(state, action) {
@@ -162,11 +166,31 @@ function authReducer(state, action) {
     return state;
 }
 
+function planningReducer(state, action) {
+    switch (action.type) {
+        case TOGGLE_PLANNING: {
+            let eventsArray = state.eventsToPlan;
+
+            if (eventsArray.indexOf(action.eventId) == -1) {
+                eventsArray = [...eventsArray, action.eventId];
+            } else {
+                eventsArray = eventsArray.filter((v) => v !== action.eventId);
+            }
+
+            return Object.assign({}, state, {
+                eventsToPlan: eventsArray
+            });
+        }
+    }
+    return state;
+}
+
 export default function reducer(state = initialState, action) {
     return {
         auth: authReducer(state.auth, action),
         futureEvents: futureEventsReducer(state.futureEvents, action),
         availabilities: availabilityReducer(state.availabilities, action),
         serverSync: serverSyncReducer(state.serverSync, action),
+        planning: planningReducer(state.planning, action),
     };
 }

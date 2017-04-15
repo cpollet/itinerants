@@ -6,6 +6,7 @@ export const RECEIVE_FUTURE_EVENTS = 'RECEIVE_FUTURE_EVENTS';
 export const FAIL_FUTURE_EVENTS = 'FAIL_FUTURE_EVENTS';
 export const RECEIVE_AVAILABILITIES = 'RECEIVE_AVAILABILITIES';
 export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
+export const TOGGLE_PLANNING = 'TOGGLE_PLANNING';
 export const SYNC_START = 'SYNC_START';
 export const SYNC_SUCCESS = 'SYNC_SUCCESS';
 export const SYNC_ERROR = 'SYNC_ERROR';
@@ -173,6 +174,15 @@ export function toggleAvailability(eventId) {
         });
         dispatch({
             type: INVALIDATE_STATE,
+        });
+    };
+}
+
+export function togglePlanning(eventId) {
+    return function (dispatch) {
+        dispatch({
+            type: TOGGLE_PLANNING,
+            eventId: eventId
         });
     };
 }
