@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import {push} from 'react-router-redux';
 import Planning from '../Planning';
-import {fetchPlanProposal} from '../../reducers/actions';
+import {fetchPlanProposal, toggleSelection} from '../../reducers/actions';
 
 class PlanContainer extends React.Component {
     render() {
@@ -38,7 +38,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         request: (eventIds) => dispatch(fetchPlanProposal(eventIds)),
-        back: () => dispatch(push('/future'))
+        back: () => dispatch(push('/future')),
+        toggleSelection: (eventId, personId) => dispatch(toggleSelection(eventId, personId))
     };
 }
 

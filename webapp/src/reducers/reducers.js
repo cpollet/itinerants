@@ -9,6 +9,7 @@ import {
     RECEIVE_AVAILABILITIES,
     TOGGLE_AVAILABILITY,
     TOGGLE_PLANNING,
+    TOGGLE_SELECTION,
     RECEIVE_PLAN_PROPOSAL,
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT,
@@ -187,6 +188,25 @@ function planningReducer(state, action) {
             return Object.assign({}, state, {
                 proposal: action.payload
             });
+        case TOGGLE_SELECTION: {
+            const otherEvents = state.proposal.filter(e => e.eventId !== action.eventId);
+
+            let event = state.proposal.filter(e => e.eventId === action.eventId)[0];
+            let selectedPeople = event.selectedPeople;
+            if (selectedPeople.indexOf(action.personId) === -1) {
+                selectedPeople = [...selectedPeople, action.personId];
+            } else {
+                selectedPeople = selectedPeople.filter(v => v !== action.personId);
+            }
+
+            event = Object.assign({}, event, {
+                selectedPeople: selectedPeople
+            });
+
+            return Object.assign({}, state, {
+                proposal: [...otherEvents, event]
+            });
+        }
     }
     return state;
 }

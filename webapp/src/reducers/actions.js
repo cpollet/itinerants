@@ -7,6 +7,7 @@ export const FAIL_FUTURE_EVENTS = 'FAIL_FUTURE_EVENTS';
 export const RECEIVE_AVAILABILITIES = 'RECEIVE_AVAILABILITIES';
 export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
 export const TOGGLE_PLANNING = 'TOGGLE_PLANNING';
+export const TOGGLE_SELECTION ='TOGGLE_SELECTION';
 export const RECEIVE_PLAN_PROPOSAL = 'RECEIVE_PLAN_PROPOSAL';
 export const SYNC_START = 'SYNC_START';
 export const SYNC_SUCCESS = 'SYNC_SUCCESS';
@@ -205,6 +206,16 @@ export function fetchPlanProposal(eventIds) {
                     });
                 }
             });
+    };
+}
+
+export function toggleSelection(eventId, personId) {
+    return function (dispatch) {
+        dispatch({
+            type: TOGGLE_SELECTION,
+            eventId: eventId,
+            personId: personId
+        });
     };
 }
 

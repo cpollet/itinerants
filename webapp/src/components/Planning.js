@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router';
 import Panel from './core/Panel';
 import Checkbox from './core/Checkbox';
 import Button from './core/Button';
@@ -11,14 +10,15 @@ class Planning extends React.Component {
             <div>
                 <h2>Planning</h2>
                 {this.props.proposal.map(proposal =>
-                    <div className={styles.container}>
-                        <Panel key={proposal.eventId}
-                               title={proposal.eventName + ', ' + proposal.dateTime.format('ddd D MMMM YYYY [à] HH:mm')}>
+                    <div key={proposal.eventId} className={styles.container}>
+                        <Panel
+                            title={proposal.eventName + ', ' + proposal.dateTime.format('ddd D MMMM YYYY [à] HH:mm')}>
                             <div className={styles.box}>
                                 {proposal.availablePeople.map(p =>
-                                    <div key={p.personId} className={styles.inner}>
+                                    <div key={proposal.eventId + ':' + p.personId} className={styles.inner}>
                                         <Checkbox checked={this.isSelected(proposal.selectedPeople, p.personId)}
-                                                  label={p.name}/>
+                                                  label={p.name}
+                                                  onClick={this.props.toggleSelection.bind(this, proposal.eventId, p.personId)}/>
                                     </div>
                                 )}
                             </div>
@@ -41,6 +41,7 @@ class Planning extends React.Component {
 Planning.propTypes = {
     proposal: React.PropTypes.array.isRequired,
     back: React.PropTypes.func.isRequired,
+    toggleSelection: React.PropTypes.func.isRequired,
 };
 
 export default Planning;
