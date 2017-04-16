@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import {push} from 'react-router-redux';
 import Planning from '../Planning';
 import {fetchPlanProposal} from '../../reducers/actions';
 
@@ -29,14 +30,15 @@ function mapStateToProps(state) {
             eventName: proposal.name,
             dateTime: moment(proposal.dateTime),
             selectedPeople: proposal.selectedPeople,
-            availablePeople: proposal.availablePeople
-        })))(state.app.planning.proposal)
+            availablePeople: proposal.availablePeople.sort((p1, p2) => (p1.name > p2.name))
+        })))(state.app.planning.proposal).sort((e1, e2) => (e1.dateTime > e2.dateTime)),
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         request: (eventIds) => dispatch(fetchPlanProposal(eventIds)),
+        back: () => dispatch(push('/future'))
     };
 }
 

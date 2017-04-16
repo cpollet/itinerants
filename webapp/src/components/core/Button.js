@@ -14,7 +14,7 @@ class Button extends React.Component {
 
 Button.propTypes = {
     children: React.PropTypes.any,
-    type: React.PropTypes.oneOf(['primary']).isRequired,
+    type: React.PropTypes.oneOf(['primary', 'default']).isRequired,
     onClick: React.PropTypes.func,
     submit: React.PropTypes.bool
 };

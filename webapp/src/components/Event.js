@@ -12,7 +12,7 @@ class Event extends React.Component {
                               onClick={this.props.toggleAvailability.bind(this, this.props.event.id)}/>
                 </td>
                 <td><Checkbox checked={false} disabled={true}/></td>
-                <td>{this.props.event.dateTime.format('HH:mm[, le] D MMMM YYYY')}</td>
+                <td>{this.props.event.dateTime.format('HH:mm[, le] ddd D MMMM YYYY')}</td>
                 <td>{this.props.event.name}</td>
                 {renderIf(this.props.isAdmin,
                     <td>

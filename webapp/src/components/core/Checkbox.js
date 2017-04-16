@@ -13,6 +13,7 @@ class Checkbox extends React.Component {
                     </div>}
                     <input type="checkbox"/>
                 </div>
+                {this.props.label}
             </div>
         );
     }
@@ -22,6 +23,7 @@ Checkbox.propTypes = {
     checked: React.PropTypes.bool.isRequired,
     disabled: React.PropTypes.bool,
     onClick: React.PropTypes.func,
+    label: React.PropTypes.node
 };
 
 export default Checkbox;

@@ -18,7 +18,7 @@ public class AttendanceResponse {
     private final String name;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private final LocalDateTime dateTime;
-    private final Set<AttendeeResponse> selectedPeople;
+    private final Set<String> selectedPeople;
     private final Set<AttendeeResponse> availablePeople;
 
     public AttendanceResponse(Event event, Set<Attendee> attendees, Set<Attendee> availablePeople) {
@@ -26,7 +26,7 @@ public class AttendanceResponse {
         name = event.name();
         dateTime = event.dateTime();
         this.selectedPeople = attendees.stream()
-                .map(a -> new AttendeeResponse(a.getPerson().id(), a.getPerson().name()))
+                .map(a -> a.getPerson().id())
                 .collect(Collectors.toSet());
         this.availablePeople = availablePeople.stream()
                 .map(a -> new AttendeeResponse(a.getPerson().id(), a.getPerson().name()))
