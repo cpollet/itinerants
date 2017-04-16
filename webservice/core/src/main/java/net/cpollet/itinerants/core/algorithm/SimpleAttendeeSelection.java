@@ -5,7 +5,6 @@ import net.cpollet.itinerants.core.domain.Event;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 public class SimpleAttendeeSelection implements AttendeeSelection {
     private final Set<Event> events;
     private final Map<Event, Set<Attendee>> availabilities;
-    private final Map<Attendee, Attendee> map;
+    private final Map<String, Attendee> map;
     private final int eventsCount;
 
     public SimpleAttendeeSelection(Map<Event, Set<Attendee>> availabilities, int pastEventsCount) {
@@ -25,7 +24,7 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
         this.map = availabilities.values().stream()
                 .flatMap(Collection::stream)
                 .distinct()
-                .collect(Collectors.toMap(p -> p, p -> p));
+                .collect(Collectors.toMap(p -> p.getPerson().id(), p -> p));
         this.eventsCount = pastEventsCount + availabilities.size();
     }
 
@@ -52,11 +51,12 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
     }
 
     private void updateAttendances(Set<Attendee> attendees) {
-        attendees.forEach(p -> map.put(p, map.get(p).withIncreasedCount()));
+        attendees.forEach(p -> map.put(p.getPerson().id(), map.get(p.getPerson().id()).withIncreasedCount()));
     }
 
     private Set<Attendee> selectAttendees(Event event) {
         return availabilities.get(event).stream()
+                .map(e -> map.get(e.getPerson().id()))
                 .sorted(this::compareScore)
                 .limit(event.attendeesCount())
                 .collect(Collectors.toSet());
@@ -70,6 +70,6 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
     }
 
     private float attendanceRate(Attendee attendee) {
-        return (float) map.get(attendee).getParticipationCount() / eventsCount;
+        return (float) map.get(attendee.getPerson().id()).getParticipationCount() / eventsCount;
     }
 }

@@ -51,4 +51,11 @@ public class Person {
     public interface Factory {
         Person create(PersonData personData);
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name=" + personData.getName() +
+                '}';
+    }
 }

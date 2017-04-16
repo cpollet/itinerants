@@ -3,6 +3,7 @@ package net.cpollet.itinerants.core.algorithm;
 import com.google.common.collect.ImmutableMap;
 import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.domain.Person;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -35,6 +36,13 @@ public class TestSimpleAttendeeSelection {
     private Event event2;
     @Mock
     private Event event3;
+
+    @Before
+    public void setup(){
+        Mockito.when(person1.id()).thenReturn("1");
+        Mockito.when(person2.id()).thenReturn("2");
+        Mockito.when(person3.id()).thenReturn("3");
+    }
 
     @Test
     public void compute_returnsEmptyMap_whenThereAreNoEvents() {
@@ -152,13 +160,13 @@ public class TestSimpleAttendeeSelection {
         // GIVEN
         Mockito.when(event1.attendeesCount()).thenReturn(2);
         Mockito.when(event2.attendeesCount()).thenReturn(2);
-        Mockito.when(event3.attendeesCount()).thenReturn(1);
+        Mockito.when(event3.attendeesCount()).thenReturn(2);
         Mockito.when(person1.targetRatio()).thenReturn(1f);
         Mockito.when(person2.targetRatio()).thenReturn(1f);
         Mockito.when(person3.targetRatio()).thenReturn(1f);
 
         Attendee attendee1 = new Attendee(person1, 0);
-        Attendee attendee2 = new Attendee(person2, 0);
+        Attendee attendee2 = new Attendee(person2, 1);
         Attendee attendee3 = new Attendee(person3, 1);
         ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
                 .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
@@ -182,7 +190,7 @@ public class TestSimpleAttendeeSelection {
 
         assertThat(result).containsKey(event2);
         //noinspection ResultOfMethodCallIgnored
-        assertThat(result.get(event3)).containsExactly(attendee3);
+        assertThat(result.get(event3)).containsExactly(attendee1, attendee3);
     }
 
     @Test
