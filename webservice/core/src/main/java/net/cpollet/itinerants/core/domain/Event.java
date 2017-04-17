@@ -39,4 +39,8 @@ public class Event {
     public LocalDateTime dateTime() {
         return eventData.getDateTime();
     }
+
+    public Integer size() {
+        return eventData.getAttendeesCount();
+    }
 }

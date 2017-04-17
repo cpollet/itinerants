@@ -16,7 +16,7 @@ class Panel extends React.Component {
 
 Panel.propTypes = {
     children: React.PropTypes.node.isRequired,
-    title: React.PropTypes.node
+    title: React.PropTypes.node,
 };
 
 export default Panel;

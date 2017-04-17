@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class AttendanceResponse {
     private final String eventId;
     private final String name;
+    private final Integer eventSize;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private final LocalDateTime dateTime;
     private final Set<String> selectedPeople;
@@ -24,6 +25,7 @@ public class AttendanceResponse {
     public AttendanceResponse(Event event, Set<Attendee> attendees, Set<Attendee> availablePeople) {
         eventId = event.id();
         name = event.name();
+        eventSize = event.size();
         dateTime = event.dateTime();
         this.selectedPeople = attendees.stream()
                 .map(a -> a.getPerson().id())

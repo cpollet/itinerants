@@ -28,6 +28,7 @@ function mapStateToProps(state) {
         proposal: ((proposals) => proposals.map(proposal => ({
             eventId: proposal.eventId,
             eventName: proposal.name,
+            eventSize: proposal.eventSize,
             dateTime: moment(proposal.dateTime),
             selectedPeople: proposal.selectedPeople,
             availablePeople: proposal.availablePeople.sort((p1, p2) => (p1.name > p2.name))

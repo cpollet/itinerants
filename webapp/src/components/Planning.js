@@ -1,4 +1,5 @@
 import React from 'react';
+import {renderIf} from '../lib/helpers';
 import Panel from './core/Panel';
 import Checkbox from './core/Checkbox';
 import Button from './core/Button';
@@ -12,7 +13,7 @@ class Planning extends React.Component {
                 {this.props.proposal.map(proposal =>
                     <div key={proposal.eventId} className={styles.container}>
                         <Panel
-                            title={proposal.eventName + ', ' + proposal.dateTime.format('ddd D MMMM YYYY [à] HH:mm')}>
+                            title={this.blockTitle(proposal)}>
                             <div className={styles.box}>
                                 {proposal.availablePeople.map(p =>
                                     <div key={proposal.eventId + ':' + p.personId} className={styles.inner}>
@@ -20,6 +21,13 @@ class Planning extends React.Component {
                                                   label={p.name}
                                                   onClick={this.props.toggleSelection.bind(this, proposal.eventId, p.personId)}/>
                                     </div>
+                                )}
+                            </div>
+                            <div className={styles.stats}>
+                                {renderIf(
+                                    this.correctCount(proposal),
+                                    this.stats(proposal),
+                                    <span style={{color: 'red'}}>{this.stats(proposal)}</span>
                                 )}
                             </div>
                         </Panel>
@@ -31,6 +39,18 @@ class Planning extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    blockTitle(proposal) {
+        return proposal.eventName + ', ' + proposal.dateTime.format('ddd D MMMM YYYY [à] HH:mm');
+    }
+
+    stats(proposal) {
+        return proposal.selectedPeople.length + '/' + proposal.eventSize;
+    }
+
+    correctCount(proposal) {
+        return proposal.selectedPeople.length === proposal.eventSize;
     }
 
     isSelected(selectedPeople, personId) {
