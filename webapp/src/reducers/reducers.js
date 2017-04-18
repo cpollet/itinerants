@@ -52,7 +52,10 @@ const initialState = {
     },
     planning: {
         eventsToPlan: [],
-        proposal: []
+        proposal: {
+            events: [],
+            attendees: {}
+        }
     }
 };
 
@@ -169,7 +172,7 @@ function authReducer(state, action) {
     return state;
 }
 
-function planningReducer(state, action) {
+function planningReducer(state = initialState.planning, action) {
     switch (action.type) {
         case TOGGLE_PLANNING: {
             let eventsArray = state.eventsToPlan;
@@ -189,22 +192,29 @@ function planningReducer(state, action) {
                 proposal: action.payload
             });
         case TOGGLE_SELECTION: {
-            const otherEvents = state.proposal.filter(e => e.eventId !== action.eventId);
+            const otherEvents = state.proposal.events.filter(e => e.eventId !== action.eventId);
+            const event = state.proposal.events.filter(e => e.eventId === action.eventId)[0];
 
-            let event = state.proposal.filter(e => e.eventId === action.eventId)[0];
-            let selectedPeople = event.selectedPeople;
-            if (selectedPeople.indexOf(action.personId) === -1) {
-                selectedPeople = [...selectedPeople, action.personId];
-            } else {
-                selectedPeople = selectedPeople.filter(v => v !== action.personId);
-            }
+            const selectedPeople = ((existingPeople, person) => {
+                if (existingPeople.indexOf(person) === -1) {
+                    return [...existingPeople, person];
+                } else {
+                    return existingPeople.filter(v => v !== person);
+                }
+            })(event.selectedPeople, action.personId);
 
-            event = Object.assign({}, event, {
+            const newEvent = Object.assign({}, event, {
                 selectedPeople: selectedPeople
             });
 
+            const newEvents = [...otherEvents, newEvent];
+
+            const newProposal = Object.assign({}, state.proposal, {
+                events: newEvents
+            });
+
             return Object.assign({}, state, {
-                proposal: [...otherEvents, event]
+                proposal: newProposal
             });
         }
     }

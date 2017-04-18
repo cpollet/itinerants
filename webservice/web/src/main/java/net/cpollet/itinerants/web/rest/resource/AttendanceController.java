@@ -5,7 +5,7 @@ import net.cpollet.itinerants.core.algorithm.Attendee;
 import net.cpollet.itinerants.core.algorithm.AttendeeSelection;
 import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.service.EventService;
-import net.cpollet.itinerants.web.rest.data.AttendanceResponse;
+import net.cpollet.itinerants.web.rest.data.AttendanceListResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +36,7 @@ public class AttendanceController {
 
     @GetMapping(value = "")
     @PreAuthorize(AUTHORIZE_ADMIN)
-    public Set<AttendanceResponse> getAttendances(@RequestParam("eventId") List<String> eventIds) {
+    public AttendanceListResponse getAttendances(@RequestParam("eventId") List<String> eventIds) {
         log.info("Creating availabilities list for [{}]", eventIds.stream().collect(Collectors.joining(", ")));
 
         Map<Event, Set<Attendee>> input = eventService.getByIds(eventIds).stream()
@@ -49,9 +49,7 @@ public class AttendanceController {
 
         Map<Event, Set<Attendee>> selection = attendanceStrategyFactory.create(input, 0).selection();
 
-        return selection.entrySet().stream()
-                .map(e -> new AttendanceResponse(e.getKey(), e.getValue(), input.get(e.getKey())))
-                .collect(Collectors.toSet());
+        return new AttendanceListResponse(selection, input);
     }
 }
 

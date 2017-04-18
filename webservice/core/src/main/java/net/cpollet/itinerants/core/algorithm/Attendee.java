@@ -27,6 +27,14 @@ public class Attendee {
         return person.targetRatio();
     }
 
+    public String id() {
+        return person.id();
+    }
+
+    public String name() {
+        return person.name();
+    }
+
     public Attendee withIncreasedCount() {
         return new Attendee(this, participationCount + 1);
     }

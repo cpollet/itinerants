@@ -25,13 +25,16 @@ PlanContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         eventIds: state.app.planning.eventsToPlan,
-        proposal: ((proposals) => proposals.map(proposal => ({
-            eventId: proposal.eventId,
-            eventName: proposal.name,
-            eventSize: proposal.eventSize,
-            dateTime: moment(proposal.dateTime),
-            selectedPeople: proposal.selectedPeople,
-            availablePeople: proposal.availablePeople.sort((p1, p2) => (p1.name > p2.name))
+        proposal: ((proposals) => proposals.events.map(event => ({
+            eventId: event.eventId,
+            eventName: event.name,
+            eventSize: event.eventSize,
+            dateTime: moment(event.dateTime),
+            selectedPeople: event.selectedPeople,
+            availablePeople: event.availablePeople.map(p => ({
+                personId: proposals.attendees[p].personId,
+                name: proposals.attendees[p].name
+            }))
         })))(state.app.planning.proposal).sort((e1, e2) => (e1.dateTime > e2.dateTime)),
     };
 }
