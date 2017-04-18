@@ -122,6 +122,15 @@ CREATE (p13:Person {
     targetRatio: 1.0
 })
 
+CREATE (p14:Person {
+    uuid: 'user14-uuid',
+    name: 'Mateo',
+    username: 'user14',
+    password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
+    roles: 'user',
+    targetRatio: 1.0
+})
+
 CREATE (e1:Event {
     uuid: 'event1-uuid',
     dateTime: '2017-04-21T19:00:00',
@@ -236,4 +245,9 @@ CREATE (p12)-[:IS_AVAILABLE]->(e2)
 CREATE (p12)-[:IS_AVAILABLE]->(e3)
 CREATE (p12)-[:IS_AVAILABLE]->(e4)
 CREATE (p12)-[:IS_AVAILABLE]->(e5)
-CREATE (p12)-[:IS_AVAILABLE]->(e7);
+CREATE (p12)-[:IS_AVAILABLE]->(e7)
+
+CREATE (p14)-[:IS_AVAILABLE]->(e1)
+CREATE (p14)-[:IS_AVAILABLE]->(e2)
+CREATE (p14)-[:IS_AVAILABLE]->(e3)
+CREATE (p14)-[:IS_AVAILABLE]->(e7);
