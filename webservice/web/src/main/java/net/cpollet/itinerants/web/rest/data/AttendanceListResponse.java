@@ -34,10 +34,12 @@ public class AttendanceListResponse {
     private class AttendeeResponse {
         private final String personId;
         private final String name;
+        private final long attendancesCount;
 
         private AttendeeResponse(String personId, String name) {
             this.personId = personId;
             this.name = name;
+            this.attendancesCount = 0L;// FIXME this should come from existing (past) attendances
         }
     }
 

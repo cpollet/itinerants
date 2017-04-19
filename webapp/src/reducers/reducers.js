@@ -195,16 +195,16 @@ function planningReducer(state = initialState.planning, action) {
             const otherEvents = state.proposal.events.filter(e => e.eventId !== action.eventId);
             const event = state.proposal.events.filter(e => e.eventId === action.eventId)[0];
 
-            const selectedPeople = ((existingPeople, person) => {
-                if (existingPeople.indexOf(person) === -1) {
-                    return [...existingPeople, person];
+            const newSelectedPeople = ((selectedPeople, person) => {
+                if (selectedPeople.indexOf(person) === -1) {
+                    return [...selectedPeople, person];
                 } else {
-                    return existingPeople.filter(v => v !== person);
+                    return selectedPeople.filter(v => v !== person);
                 }
             })(event.selectedPeople, action.personId);
 
             const newEvent = Object.assign({}, event, {
-                selectedPeople: selectedPeople
+                selectedPeople: newSelectedPeople
             });
 
             const newEvents = [...otherEvents, newEvent];

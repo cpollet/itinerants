@@ -18,7 +18,7 @@ class Planning extends React.Component {
                                 {proposal.availablePeople.map(p =>
                                     <div key={proposal.eventId + ':' + p.personId} className={styles.inner}>
                                         <Checkbox checked={this.isSelected(proposal.selectedPeople, p.personId)}
-                                                  label={p.name}
+                                                  label={p.name + ' (' + p.attendancesCount + ')'}
                                                   onClick={this.props.toggleSelection.bind(this, proposal.eventId, p.personId)}/>
                                     </div>
                                 )}

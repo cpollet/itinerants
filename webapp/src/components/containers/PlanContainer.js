@@ -32,9 +32,10 @@ function mapStateToProps(state) {
             dateTime: moment(event.dateTime),
             selectedPeople: event.selectedPeople,
             availablePeople: event.availablePeople.map(p => ({
-                personId: proposals.attendees[p].personId,
-                name: proposals.attendees[p].name
-            }))
+                personId: p,
+                name: proposals.attendees[p].name,
+                attendancesCount: proposals.attendees[p].attendancesCount + proposals.events.filter(e => e.selectedPeople.indexOf(p) > -1).length
+            })).sort((p1, p2) => (p1.name > p2.name))
         })))(state.app.planning.proposal).sort((e1, e2) => (e1.dateTime > e2.dateTime)),
     };
 }
