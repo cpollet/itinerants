@@ -18,7 +18,7 @@ class Planning extends React.Component {
                                 {proposal.availablePeople.map(p =>
                                     <div key={proposal.eventId + ':' + p.personId} className={styles.inner}>
                                         <Checkbox checked={this.isSelected(proposal.selectedPeople, p.personId)}
-                                                  label={p.name + ' (' + p.attendancesCount + ')'}
+                                                  label={this.checkboxLabel(p)}
                                                   onClick={this.props.toggleSelection.bind(this, proposal.eventId, p.personId)}/>
                                     </div>
                                 )}
@@ -39,6 +39,10 @@ class Planning extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    checkboxLabel(person) {
+        return person.name + ' (' + person.attendancesCount + ')';
     }
 
     blockTitle(proposal) {
