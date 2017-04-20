@@ -16,7 +16,8 @@
 **/gen
 
 # Javascript
-**/node_modules
-**/bundle.js
-**/semantic/dist
-**/npm-debug.log
+**/webapp/node/
+**/webapp/node_modules
+**/webapp/**/bundle.js*
+**/webapp/npm-debug.log
+**/webapp/etc
