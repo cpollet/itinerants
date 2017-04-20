@@ -101,7 +101,9 @@
                                 <ports>
                                     <port>8080</port>
                                 </ports>
-                                <entryPoint>java -Djava.security.egd=file:/dev/./urandom -jar /maven/webservice.jar</entryPoint>
+                                <entryPoint>
+                                    java -Djava.security.egd=file:/dev/./urandom -jar /maven/webservice.jar
+                                </entryPoint>
                             </build>
                         </image>
                     </images>
