@@ -20,6 +20,13 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <configuration>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <goals>
+                        <!--
+                          A kind of hack as I don't want to deploy the jar/war to a remote nexus. The produced artifacts
+                          are docker images, produced directly by "final" poms using docker-maven-plugin from fabric8
+                        -->
+                        install
+                    </goals>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -33,6 +40,7 @@
     </build>
 
     <scm>
-        <connection>scm:git:file://localhost/Users/cpollet/Development/itinerants</connection>
+        <connection>scm:git:git@github.com:cpollet/itinerants.git</connection>
+        <url>https://github.com/cpollet/itinerants</url>
     </scm>
 </project>
