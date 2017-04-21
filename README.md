@@ -24,5 +24,5 @@ You might want to load the content of neo4j/database.cypher in neo4j...
  * webservice: http://localhost:8000/api
  * neo4j: http://localhost:7474/
 
-If you need to remove all generated images, you can run the `clean-docker.sh` script.
- 
+If you need to remove all generated images, you can run the `clean-docker.sh` script or
+`mvn -Ddocker.removeAll docker:remove` if you only want to get rid of the latest images.
