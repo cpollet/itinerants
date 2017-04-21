@@ -6,7 +6,7 @@ $ mvn -f webservice/web/pom.xml spring-boot:run
 $ (cd webapp && npm install && npm start)
 ```
 
-You might want to load the content of neo4j/databays.cypher in neo4j...
+You might want to load the content of neo4j/database.cypher in neo4j...
 
  * webapp: http://localhost:3000
  * webservice: http://localhost:8080 or http://localhost:3000/api
@@ -18,7 +18,7 @@ $ mvn clean install -Pbuild-docker-image
 $ docker-compose up
 ```
 
-You might want to load the content of neo4j/databays.cypher in neo4j...
+You might want to load the content of neo4j/database.cypher in neo4j...
 
  * webapp: http://localhost:8000
  * webservice: http://localhost:8000/api
