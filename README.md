@@ -23,3 +23,6 @@ You might want to load the content of neo4j/databays.cypher in neo4j...
  * webapp: http://localhost:8000
  * webservice: http://localhost:8000/api
  * neo4j: http://localhost:7474/
+
+If you need to remove all generated images, you can run the `clean-docker.sh` script.
+ 

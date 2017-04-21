@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "webpack",
+    "compile": "webpack -p --config ./webpack.production.config.js",
     "start": "node server.js"
   },
   "keywords": [],
@@ -31,6 +31,7 @@
     "babel-loader": "^6.3.2",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
+    "compression-webpack-plugin": "^0.4.0",
     "css-loader": "^0.26.1",
     "eslint": "^3.15.0",
     "eslint-loader": "^1.6.1",
