@@ -1,0 +1,17 @@
+version: '2'
+services:
+  webapp:
+    image: "cpollet/net.cpollet.itinerants-webapp"
+    ports:
+      - "8000:80"
+  neo4j:
+    image: "neo4j:3.0"
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=none
+  webservice:
+    image: "cpollet/net.cpollet.itinerants-webservice-web"
+    environment:
+      - JAVA_OPTS=-Dspring.profiles.active=docker

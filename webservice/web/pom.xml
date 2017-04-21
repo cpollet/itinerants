@@ -101,7 +101,7 @@
                                     <port>8080</port>
                                 </ports>
                                 <entryPoint>
-                                    java -Djava.security.egd=file:/dev/./urandom -jar /maven/webservice.jar
+                                    java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /maven/webservice.jar
                                 </entryPoint>
                             </build>
                         </image>
@@ -112,7 +112,7 @@
     </build>
     <profiles>
         <profile>
-            <id>create-docker-image</id>
+            <id>build-docker-image</id>
             <activation>
                 <property>
                     <name>performRelease</name>
