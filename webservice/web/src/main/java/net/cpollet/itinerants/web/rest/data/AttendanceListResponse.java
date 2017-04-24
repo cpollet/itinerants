@@ -18,15 +18,17 @@ import java.util.stream.Collectors;
 public class AttendanceListResponse {
     private final List<AttendanceResponse> events;
     private final Map<String, AttendeeResponse> attendees;
+    private final int pastEventsCount;
 
-    public AttendanceListResponse(Map<Event, Set<Attendee>> selection, Map<Event, Set<Attendee>> input) {
+    public AttendanceListResponse(Map<Event, Set<Attendee>> selection, Map<Event, Set<Attendee>> input, int pastEventsCount) {
+        this.pastEventsCount = pastEventsCount;
         events = selection.entrySet().stream()
                 .map(e -> new AttendanceResponse(e.getKey(), e.getValue(), input.get(e.getKey())))
                 .collect(Collectors.toList());
         attendees = input.values().stream()
                 .flatMap(Set::stream)
                 .distinct()
-                .map(e -> new AttendeeResponse(e.id(), e.name()))
+                .map(e -> new AttendeeResponse(e.id(), e.name(), e.targetRatio()))
                 .collect(Collectors.toMap(AttendeeResponse::getPersonId, e -> e));
     }
 
@@ -34,12 +36,14 @@ public class AttendanceListResponse {
     private class AttendeeResponse {
         private final String personId;
         private final String name;
-        private final long attendancesCount;
+        private final int pastAttendancesCount;
+        private final float targetRatio;
 
-        private AttendeeResponse(String personId, String name) {
+        private AttendeeResponse(String personId, String name, float targetRatio) {
             this.personId = personId;
             this.name = name;
-            this.attendancesCount = 0L;// FIXME this should come from existing (past) attendances
+            this.pastAttendancesCount = 0;// FIXME this should come from existing (past) attendances
+            this.targetRatio = targetRatio;
         }
     }
 

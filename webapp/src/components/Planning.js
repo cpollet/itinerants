@@ -3,10 +3,19 @@ import {renderIf} from '../lib/helpers';
 import Panel from './core/Panel';
 import Checkbox from './core/Checkbox';
 import Button from './core/Button';
+import PlanningAttendee from './PlanningAttendee';
 import styles from './Planning.css';
 
 class Planning extends React.Component {
     render() {
+        function label(person) {
+            return <PlanningAttendee
+                name={person.name}
+                count={person.attendancesCount}
+                ratio={person.ratio}
+                targetRatio={person.targetRatio}/>;
+        }
+
         return (
             <div>
                 <h2>Planning</h2>
@@ -18,7 +27,7 @@ class Planning extends React.Component {
                                 {proposal.availablePeople.map(p =>
                                     <div key={proposal.eventId + ':' + p.personId} className={styles.inner}>
                                         <Checkbox checked={this.isSelected(proposal.selectedPeople, p.personId)}
-                                                  label={this.checkboxLabel(p)}
+                                                  label={label(p)}
                                                   onClick={this.props.toggleSelection.bind(this, proposal.eventId, p.personId)}/>
                                     </div>
                                 )}
@@ -39,10 +48,6 @@ class Planning extends React.Component {
                 </div>
             </div>
         );
-    }
-
-    checkboxLabel(person) {
-        return person.name + ' (' + person.attendancesCount + ')';
     }
 
     blockTitle(proposal) {

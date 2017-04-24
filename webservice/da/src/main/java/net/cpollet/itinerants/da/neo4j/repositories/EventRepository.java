@@ -41,4 +41,9 @@ public interface EventRepository extends GraphRepository<Neo4JEventData> {
             "MATCH p=(n)-[*0..1]-(m) " +
             "RETURN p, ID(n)")
     List<Neo4JEventData> findByUUID(@Param("uuid") List<String> uuids);
+
+    @Query("MATCH (e:Event) " +
+            "WHERE e.timestamp < timestamp()/1000 " +
+            "RETURN count(e)")
+    int pastCount();
 }

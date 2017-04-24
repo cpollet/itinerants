@@ -23,6 +23,9 @@ PlanContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
+    function attendancesCount(proposals, person) {
+        return proposals.attendees[person].pastAttendancesCount + proposals.events.filter(e => e.selectedPeople.indexOf(person) > -1).length;
+    }
     return {
         eventIds: state.app.planning.eventsToPlan,
         proposal: ((proposals) => proposals.events.map(event => ({
@@ -34,7 +37,9 @@ function mapStateToProps(state) {
             availablePeople: event.availablePeople.map(p => ({
                 personId: p,
                 name: proposals.attendees[p].name,
-                attendancesCount: proposals.attendees[p].attendancesCount + proposals.events.filter(e => e.selectedPeople.indexOf(p) > -1).length
+                attendancesCount: attendancesCount(proposals, p),
+                ratio: attendancesCount(proposals, p) / (proposals.pastEventsCount + proposals.events.length),
+                targetRatio: proposals.attendees[p].targetRatio,
             })).sort((p1, p2) => (p1.name > p2.name))
         })))(state.app.planning.proposal).sort((e1, e2) => (e1.dateTime > e2.dateTime)),
     };

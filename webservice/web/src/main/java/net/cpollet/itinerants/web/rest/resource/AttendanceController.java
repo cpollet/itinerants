@@ -49,7 +49,7 @@ public class AttendanceController {
 
         Map<Event, Set<Attendee>> selection = attendanceStrategyFactory.create(input, 0).selection();
 
-        return new AttendanceListResponse(selection, input);
+        return new AttendanceListResponse(selection, input, eventService.getPastCount());
     }
 }
 

@@ -93,4 +93,9 @@ public class Neo4jEventService implements EventService {
         //noinspection unchecked
         return (List<EventData>) (List<?>) eventRepository.past(toTimestamp, sortOrderNeo4jMap.get(sortOrder));
     }
+
+    @Override
+    public int getPastCount() {
+        return eventRepository.pastCount();
+    }
 }

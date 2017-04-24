@@ -23,6 +23,8 @@ public interface EventService {
 
     List<EventData> past(SortOrder sortOrder);
 
+    int getPastCount();
+
     enum SortOrder {
         ASCENDING, DESCENDING
     }
