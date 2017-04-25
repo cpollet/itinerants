@@ -1,6 +1,6 @@
 import React from 'react';
-import EventContainer from './containers/EventContainer';
-import Button from './core/Button';
+import EventContainer from '../components/containers/EventContainer';
+import Button from '../components/core/Button';
 import {renderIf} from '../lib/helpers';
 import styles from './Events.css';
 

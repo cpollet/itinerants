@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import FutureEventsContainer from './components/containers/FutureEventsContainer';
 import PlanContainer from './components/containers/PlanContainer';
-import NoMatch from './components/NoMatch';
+import NoMatch from './screens/NoMatch';
 import App from './components/App';
 import LoginContainer from './components/containers/LoginContainer';
 import LogoutContainer from './components/containers/LogoutContainer';

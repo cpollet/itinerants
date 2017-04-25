@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import Events from '../Events';
+import Events from '../../screens/Events';
 import {fetchFutureEvents} from '../../reducers/actions';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';

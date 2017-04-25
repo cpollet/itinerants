@@ -1,4 +1,4 @@
-import Login from '../Login';
+import Login from '../../screens/Login';
 import {login} from '../../reducers/actions';
 import {connect} from 'react-redux';
 import constants from '../../constants';

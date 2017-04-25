@@ -1,4 +1,4 @@
-import Logout from '../Logout';
+import Logout from '../../screens/Logout';
 import {logout} from '../../reducers/actions';
 import {connect} from 'react-redux';
 

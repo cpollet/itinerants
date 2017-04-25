@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import {push} from 'react-router-redux';
-import Planning from '../Planning';
+import Planning from '../../screens/Planning';
 import {fetchPlanProposal, toggleSelection} from '../../reducers/actions';
 
 class PlanContainer extends React.Component {

@@ -1,14 +1,14 @@
 import React from 'react';
-import Form from './core/Form';
-import FormRow from './core/FormRow';
-import FormLabel from './core/FormLabel';
-import FormField from './core/FormField';
-import TextInput from './core/TextInput';
-import PasswordInput from './core/PasswordInput';
-import Button from './core/Button';
+import Form from '../components/core/Form';
+import FormRow from '../components/core/FormRow';
+import FormLabel from '../components/core/FormLabel';
+import FormField from '../components/core/FormField';
+import TextInput from '../components/core/TextInput';
+import PasswordInput from '../components/core/PasswordInput';
+import Button from '../components/core/Button';
 import {FormContainer} from '../lib/form/FormContainer';
 import FormFieldContainer from '../lib/form/FormFieldContainer';
-import Alert from './core/Alert';
+import Alert from '../components/core/Alert';
 import {renderIf} from '../lib/helpers';
 
 class Login extends React.Component {

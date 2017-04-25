@@ -1,9 +1,9 @@
 import React from 'react';
 import {renderIf} from '../lib/helpers';
-import Panel from './core/Panel';
-import Checkbox from './core/Checkbox';
-import Button from './core/Button';
-import PlanningAttendee from './PlanningAttendee';
+import Panel from '../components/core/Panel';
+import Checkbox from '../components/core/Checkbox';
+import Button from '../components/core/Button';
+import PlanningAttendee from '../components/PlanningAttendee';
 import styles from './Planning.css';
 
 class Planning extends React.Component {
