@@ -1,26 +1,28 @@
 import React from 'react';
 import Checkbox from './core/Checkbox';
-import styles from './Event.css';
+import styles from './Event.less';
 import {renderIf} from '../lib/helpers';
 
 class Event extends React.Component {
     render() {
         return (
-            <tr className={styles.component}>
-                <td>
-                    <Checkbox checked={this.props.event.available}
-                              onClick={this.props.toggleAvailability.bind(this, this.props.event.id)}/>
-                </td>
-                <td><Checkbox checked={false} disabled={true}/></td>
-                <td>{this.props.event.dateTime.format('HH:mm[, le] ddd D MMMM YYYY')}</td>
-                <td>{this.props.event.name}</td>
+            <div className={styles.component}>
+                <div onClick={this.props.toggleAvailability.bind(this, this.props.event.id)}>
+                    <div className={styles.checkboxContainer}>
+                        <Checkbox checked={this.props.event.available}/>
+                    </div>
+                    <div className={styles.eventDetailContainer}>
+                        <div>{this.props.event.dateTime.format('ddd D MMMM YYYY, HH:mm')}</div>
+                        <div>{this.props.event.name}</div>
+                    </div>
+                </div>
                 {renderIf(this.props.isAdmin,
-                    <td>
+                    <div className={styles.checkboxContainer}>
                         <Checkbox checked={this.props.event.toPlan}
                                   onClick={this.props.togglePlanning.bind(this, this.props.event.id)}/>
-                    </td>
+                    </div>
                 )}
-            </tr>
+            </div>
         );
     }
 }
