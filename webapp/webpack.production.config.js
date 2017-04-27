@@ -36,19 +36,25 @@ module.exports = {
                 ],
             },
             {
-                test: /\.css$/,
+                test: /\.css|\.less$/,
                 exclude: /node_modules/,
                 use: [
                     {
-                        loader: 'style-loader'
+                        loader: 'style-loader', // creates style nodes from JS strings
+                        options: {
+                            singleton: true
+                        }
                     },
                     {
-                        loader: 'css-loader',
+                        loader: 'css-loader',  // translates CSS into CommonJS
                         options: {
                             modules: true,
                             localIdentName: '[name]__[local]___[hash:base64:5]',
                         },
                     },
+                    {
+                        loader: 'less-loader', // compiles Less to CSS
+                    }
                 ],
             },
         ],
