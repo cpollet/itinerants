@@ -21,6 +21,7 @@ import {reducer as formReducer} from './lib/form/FormContainer';
 import FormProvider from './lib/form/FormProvider';
 import {routerReducer, routerMiddleware, routerActions, syncHistoryWithStore} from 'react-router-redux';
 import {UserAuthWrapper} from 'redux-auth-wrapper';
+import './main.less';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');

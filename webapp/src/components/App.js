@@ -2,7 +2,7 @@ import React from 'react';
 import MenuContainer from './containers/MenuContainer';
 import InfoStaleState from './containers/InfoStaleState';
 import AlertSyncFail from './containers/AlertSyncFail';
-import styles from './App.css';
+import styles from './App.less';
 
 class App extends React.Component {
     render() {

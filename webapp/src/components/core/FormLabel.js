@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './FormLabel.css';
+import styles from './FormLabel.less';
 
 class FormLabel extends React.Component {
     render() {

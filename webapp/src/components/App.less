@@ -1,0 +1,40 @@
+.component {
+  background-color: #fff;
+  max-width: 1200px;
+  margin: 0 auto !important;
+}
+
+.container {
+  border: solid 1px #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuContainer {
+  border-top: solid 1px #ddd;
+  border-left: solid 3px #ddd;
+  order: 2;
+}
+
+.contentContainer {
+  width: 100%;
+  padding: 20px;
+  order: 1;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .menuContainer {
+    border-top: 0;
+    border-right: solid 1px #ddd;
+    min-width: 150px;
+    order: 0;
+  }
+}

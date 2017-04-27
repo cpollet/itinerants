@@ -10,6 +10,7 @@ import {FormContainer} from '../lib/form/FormContainer';
 import FormFieldContainer from '../lib/form/FormFieldContainer';
 import Alert from '../components/core/Alert';
 import {renderIf} from '../lib/helpers';
+import styles from './Login.less';
 
 class Login extends React.Component {
     render() {
@@ -47,10 +48,9 @@ class Login extends React.Component {
                             </FormField>
                         </FormRow>
                         <FormRow>
-                            <FormLabel>&nbsp;</FormLabel>
-                            <FormField>{/* TODO create a FormButtons component? */}
+                            <div className={styles.buttonsRow}>
                                 <Button type="primary" submit={true}>Connexion</Button>
-                            </FormField>
+                            </div>
                         </FormRow>
                     </Form>
                 </FormContainer>
