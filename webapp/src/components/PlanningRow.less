@@ -1,0 +1,35 @@
+.component {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .component {
+    width: 33%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .component {
+    width: 50%;
+  }
+}
+
+.checkboxContainer {
+  padding: 0.5em;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+
+  & div:nth-child(1) {
+    font-weight: 700;
+  }
+
+  & div:nth-child(2) {
+    font-size: 80%;
+    margin-top: -1em;
+  }
+}

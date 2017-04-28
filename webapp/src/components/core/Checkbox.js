@@ -4,16 +4,15 @@ import styles from './Checkbox.less';
 class Checkbox extends React.Component {
     render() {
         return (
-            <div onClick={this.props.onClick}>
-                <div className={styles.component + (this.props.disabled ? ' ' + styles.disabled : '')}>
+            <div className={styles.component} onClick={this.props.onClick}>
+                <div className={styles.checkbox + (this.props.disabled ? ' ' + styles.disabled : '')}>
                     {this.props.checked &&
                     <div>
                         <div className={styles.inner}></div>
                         <div className={styles.outer}></div>
                     </div>}
-                    <input type="checkbox"/>
                 </div>
-                {this.props.label}
+                {this.props.label || this.props.children}
             </div>
         );
     }
@@ -23,7 +22,8 @@ Checkbox.propTypes = {
     checked: React.PropTypes.bool.isRequired,
     disabled: React.PropTypes.bool,
     onClick: React.PropTypes.func,
-    label: React.PropTypes.node
+    label: React.PropTypes.node,
+    children: React.PropTypes.node
 };
 
 export default Checkbox;

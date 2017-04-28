@@ -183,7 +183,23 @@ CREATE (e7:Event {
     uuid: 'event7-uuid',
     dateTime: '2017-04-30T19:00:00',
     timestamp: 1493571600,
-    name: 'MESSMER',
+    name: 'MESSMER 1',
+    attendeesCount: 4
+})
+
+CREATE (e8:Event {
+    uuid: 'event8-uuid',
+    dateTime: '2017-04-30T19:00:01',
+    timestamp: 1493571601,
+    name: 'MESSMER 2',
+    attendeesCount: 4
+})
+
+CREATE (e9:Event {
+    uuid: 'event9-uuid',
+    dateTime: '2017-04-30T19:00:02',
+    timestamp: 1493571602,
+    name: 'MESSMER 3',
     attendeesCount: 4
 })
 
@@ -251,3 +267,5 @@ CREATE (p14)-[:IS_AVAILABLE]->(e1)
 CREATE (p14)-[:IS_AVAILABLE]->(e2)
 CREATE (p14)-[:IS_AVAILABLE]->(e3)
 CREATE (p14)-[:IS_AVAILABLE]->(e7);
+
+CREATE (p14)-[:IS_AVAILABLE]->(e8);

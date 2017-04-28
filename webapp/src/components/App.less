@@ -31,10 +31,16 @@
     flex-direction: row;
   }
 
+  @menu-width: 170px;
+
+  .contentContainer {
+    width: calc(~"100% - " @menu-width);
+  }
+
   .menuContainer {
     border-top: 0;
     border-right: solid 1px #ddd;
-    min-width: 150px;
+    width: @menu-width;
     order: 0;
   }
 }

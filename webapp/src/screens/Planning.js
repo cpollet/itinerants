@@ -1,47 +1,41 @@
 import React from 'react';
 import {renderIf} from '../lib/helpers';
 import Panel from '../components/core/Panel';
-import Checkbox from '../components/core/Checkbox';
 import Button from '../components/core/Button';
-import PlanningAttendee from '../components/PlanningAttendee';
-import styles from './Planning.css';
+import PlanningRow from '../components/PlanningRow';
+import styles from './Planning.less';
 
 class Planning extends React.Component {
     render() {
-        function label(person) {
-            return <PlanningAttendee
-                name={person.name}
-                count={person.attendancesCount}
-                ratio={person.ratio}
-                targetRatio={person.targetRatio}/>;
-        }
-
         return (
             <div>
                 <h2>Planning</h2>
-                {this.props.proposal.map(proposal =>
-                    <div key={proposal.eventId} className={styles.container}>
-                        <Panel
-                            title={this.blockTitle(proposal)}>
-                            <div className={styles.box}>
-                                {proposal.availablePeople.map(p =>
-                                    <div key={proposal.eventId + ':' + p.personId} className={styles.inner}>
-                                        <Checkbox checked={this.isSelected(proposal.selectedPeople, p.personId)}
-                                                  label={label(p)}
-                                                  onClick={this.props.toggleSelection.bind(this, proposal.eventId, p.personId)}/>
+                <div className={styles.panelsWrapper}>
+                    {this.props.proposal.map(proposal =>
+                        <div className={styles.panelWrapper}>
+                            <Panel key={proposal.eventId} title={this.blockTitle(proposal)}>
+                                <div className={styles.panelHeight}>
+                                    <div className={styles.inner}>
+                                        {proposal.availablePeople.map(person =>
+                                            <PlanningRow
+                                                key={proposal.eventId + ':' + person.personId}
+                                                person={person}
+                                                isSelected={this.isSelected(proposal.selectedPeople, person.personId)}
+                                                onClick={this.props.toggleSelection.bind(this, proposal.eventId, person.personId)}/>
+                                        )}
                                     </div>
-                                )}
-                            </div>
-                            <div className={styles.stats}>
-                                {renderIf(
-                                    this.correctCount(proposal),
-                                    this.stats(proposal),
-                                    <span style={{color: 'red'}}>{this.stats(proposal)}</span>
-                                )}
-                            </div>
-                        </Panel>
-                    </div>
-                )}
+                                </div>
+                                <div className={styles.stats}>
+                                    {renderIf(
+                                        this.correctCount(proposal),
+                                        this.stats(proposal),
+                                        <span style={{color: 'red'}}>{this.stats(proposal)}</span>
+                                    )}
+                                </div>
+                            </Panel>
+                        </div>
+                    )}
+                </div>
                 <div className={styles.right}>
                     <Button type="default" onClick={this.props.back}>Retour</Button>
                     <Button type="primary">Sauver</Button>
@@ -51,7 +45,17 @@ class Planning extends React.Component {
     }
 
     blockTitle(proposal) {
-        return proposal.eventName + ', ' + proposal.dateTime.format('ddd D MMMM YYYY [à] HH:mm');
+        return (
+            <div>
+                <div className={styles.eventTitle}>
+                    {proposal.eventName}
+                </div>
+                <div>
+                    {proposal.dateTime.format('ddd D MMMM YYYY [à] HH:mm')}
+                </div>
+            </div>
+
+        );
     }
 
     stats(proposal) {

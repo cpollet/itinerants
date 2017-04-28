@@ -1,51 +1,53 @@
 @import "./variables";
 
 .component {
-    width: 16px;
-    height: 16px;
-    border: 1px solid #aaa;
-    display: inline-block;
-    margin: 0 5px;
-    cursor: pointer;
-    position: relative;
-}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
 
-.component:hover {
+  &:hover .checkbox {
     border: 1px solid @main-color;
+  }
 }
 
-.component input {
-    visibility: hidden;
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #aaa;
+  display: inline-block;
+  margin: 0 5px;
+  position: relative;
 }
 
 .inner {
-    position: absolute;
-    height: 10px;
-    width: 10px;
-    background-color: @main-color;
-    top: 2px;
-    left: 2px;
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  background-color: @main-color;
+  top: 2px;
+  left: 2px;
 }
 
 .outer {
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    width: 16px;
-    height: 16px;
-    border: 1px solid @main-color;
-    cursor: pointer;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid @main-color;
+  cursor: pointer;
 }
 
 .disabled, .disabled:hover {
-    cursor: default;
-    border: 1px solid #ddd;
+  cursor: default;
+  border: 1px solid #ddd;
 }
 
 .disabled .inner {
-    background-color: #ddd;
+  background-color: #ddd;
 }
 
 .disabled .outer {
-    border-color: #ddd;
+  border-color: #ddd;
 }
