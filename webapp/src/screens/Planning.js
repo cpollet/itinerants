@@ -12,8 +12,8 @@ class Planning extends React.Component {
                 <h2>Planning</h2>
                 <div className={styles.panelsWrapper}>
                     {this.props.proposal.map(proposal =>
-                        <div className={styles.panelWrapper}>
-                            <Panel key={proposal.eventId} title={this.blockTitle(proposal)}>
+                        <div key={proposal.eventId} className={styles.panelWrapper}>
+                            <Panel title={this.blockTitle(proposal)}>
                                 <div className={styles.panelHeight}>
                                     <div className={styles.inner}>
                                         {proposal.availablePeople.map(person =>
