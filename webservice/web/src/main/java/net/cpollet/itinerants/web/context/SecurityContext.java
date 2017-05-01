@@ -43,7 +43,6 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 
         http
                 .addFilterBefore(new AuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class);
-
     }
 
     /**

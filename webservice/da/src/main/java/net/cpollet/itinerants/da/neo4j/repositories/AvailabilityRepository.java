@@ -18,5 +18,4 @@ public interface AvailabilityRepository extends GraphRepository<IsAvailable> {
             "WHERE p.uuid = {personId} AND e.uuid = {eventId} " +
             "DELETE r")
     void delete(@Param("personId") String personId, @Param("eventId") String eventId);
-
 }

@@ -15,9 +15,7 @@ public class EhcacheTokenService implements TokenService {
 
     @Override
     public void store(String token, Authentication authentication) {
-        if (!authentication.getPrincipal().equals("expires")) {
-            tokenCache.put(token, authentication);
-        }
+        tokenCache.put(token, authentication);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.cpollet.itinerants.web.rest.misc;
+package net.cpollet.itinerants.web.rest;
 
 import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.web.rest.data.ErrorResponse;
@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handle(AccessDeniedException ex) {
         ErrorResponse error = new ErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage());
