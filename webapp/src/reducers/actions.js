@@ -7,7 +7,8 @@ export const FAIL_FUTURE_EVENTS = 'FAIL_FUTURE_EVENTS';
 export const RECEIVE_AVAILABILITIES = 'RECEIVE_AVAILABILITIES';
 export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
 export const TOGGLE_PLANNING = 'TOGGLE_PLANNING';
-export const TOGGLE_SELECTION ='TOGGLE_SELECTION';
+export const TOGGLE_SELECTION = 'TOGGLE_SELECTION';
+export const SYNC_PLAN = 'SYNC_PLAN';
 export const RECEIVE_PLAN_PROPOSAL = 'RECEIVE_PLAN_PROPOSAL';
 export const SYNC_START = 'SYNC_START';
 export const SYNC_SUCCESS = 'SYNC_SUCCESS';
@@ -215,6 +216,29 @@ export function toggleSelection(eventId, personId) {
             type: TOGGLE_SELECTION,
             eventId: eventId,
             personId: personId
+        });
+    };
+}
+
+export function savePlan() {
+    return function (dispatch, getState) {
+        const payload = getState()['app'].planning.proposal.events.map(e => ({
+            eventId: e.eventId,
+            personIds: e.selectedPeople
+        }));
+
+        authenticatedFetch('/api/availabilities', dispatch, getState(), {
+            method: 'PUT',
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => {
+            if (response.ok) {
+                console.log('ok');
+            } else {
+                response.json().then((msg) => console.log(msg));
+            }
         });
     };
 }

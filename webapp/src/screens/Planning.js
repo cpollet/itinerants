@@ -38,7 +38,7 @@ class Planning extends React.Component {
                 </div>
                 <div className={styles.right}>
                     <Button type="default" onClick={this.props.back}>Retour</Button>
-                    <Button type="primary">Sauver</Button>
+                    <Button type="primary" onClick={this.props.save}>Sauver</Button>
                 </div>
             </div>
         );
@@ -74,6 +74,7 @@ class Planning extends React.Component {
 Planning.propTypes = {
     proposal: React.PropTypes.array.isRequired,
     back: React.PropTypes.func.isRequired,
+    save: React.PropTypes.func.isRequired,
     toggleSelection: React.PropTypes.func.isRequired,
 };
 

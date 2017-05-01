@@ -11,6 +11,7 @@ import {
     TOGGLE_PLANNING,
     TOGGLE_SELECTION,
     RECEIVE_PLAN_PROPOSAL,
+    SYNC_PLAN,
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT,
     LOGIN_SUCCESS,
@@ -216,6 +217,9 @@ function planningReducer(state = initialState.planning, action) {
             return Object.assign({}, state, {
                 proposal: newProposal
             });
+        }
+        case SYNC_PLAN: {
+            return state;
         }
     }
     return state;
