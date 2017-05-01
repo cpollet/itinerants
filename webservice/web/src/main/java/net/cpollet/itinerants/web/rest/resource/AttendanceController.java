@@ -4,10 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.algorithm.Attendee;
 import net.cpollet.itinerants.core.algorithm.AttendeeSelection;
 import net.cpollet.itinerants.core.domain.Event;
+import net.cpollet.itinerants.core.service.AttendanceService;
 import net.cpollet.itinerants.core.service.EventService;
 import net.cpollet.itinerants.web.rest.data.AttendanceListResponse;
+import net.cpollet.itinerants.web.rest.data.AttendancePayload;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,10 +32,14 @@ public class AttendanceController {
 
     private final EventService eventService;
     private final AttendeeSelection.Factory attendanceStrategyFactory;
+    private final AttendanceService attendanceService;
 
-    public AttendanceController(EventService eventService, AttendeeSelection.Factory attendanceStrategyFactory) {
+    public AttendanceController(EventService eventService,
+                                AttendeeSelection.Factory attendanceStrategyFactory,
+                                AttendanceService attendanceService) {
         this.eventService = eventService;
         this.attendanceStrategyFactory = attendanceStrategyFactory;
+        this.attendanceService = attendanceService;
     }
 
     @GetMapping(value = "")
@@ -50,6 +58,15 @@ public class AttendanceController {
         Map<Event, Set<Attendee>> selection = attendanceStrategyFactory.create(input, 0).selection();
 
         return new AttendanceListResponse(selection, input, eventService.getPastCount());
+    }
+
+    @PutMapping(value = "")
+    @PreAuthorize(AUTHORIZE_ADMIN)
+    public void saveAttendances(@RequestBody List<AttendancePayload> attendances) {
+        attendances.forEach(a -> {
+            log.info("Updating attendance: {}", a);
+            attendanceService.update(new AttendanceService.InputAttendanceData(a.getEventId(), a.getPersonIds()));
+        });
     }
 }
 

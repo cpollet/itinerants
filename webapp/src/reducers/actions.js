@@ -227,7 +227,7 @@ export function savePlan() {
             personIds: e.selectedPeople
         }));
 
-        authenticatedFetch('/api/availabilities', dispatch, getState(), {
+        authenticatedFetch('/api/attendances', dispatch, getState(), {
             method: 'PUT',
             body: JSON.stringify(payload),
             headers: {
