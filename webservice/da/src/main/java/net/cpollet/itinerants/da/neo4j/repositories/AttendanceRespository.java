@@ -15,11 +15,6 @@ public interface AttendanceRespository extends GraphRepository<IsAttending> {
     void create(@Param("personId") String personId, @Param("eventId") String eventId);
 
     @Query("MATCH (p:Person)-[r:IS_ATTENDING]->(e:Event) " +
-            "WHERE p.uuid = {personId} AND e.uuid = {eventId} " +
-            "DELETE r")
-    void delete(@Param("personId") String personId, @Param("eventId") String eventId);
-
-    @Query("MATCH (p:Person)-[r:IS_ATTENDING]->(e:Event) " +
             "WHERE e.uuid = {eventId} " +
             "DELETE r")
     void deleteAllForEvent(@Param("eventId") String eventId);
