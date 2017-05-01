@@ -42,6 +42,7 @@ function mapStateToProps(state) {
                 targetRatio: proposals.attendees[p].targetRatio,
             })).sort((p1, p2) => (p1.name > p2.name))
         })))(state.app.planning.proposal).sort((e1, e2) => (e1.dateTime > e2.dateTime)),
+        saving: state.app.planning.sync.pending,
     };
 }
 

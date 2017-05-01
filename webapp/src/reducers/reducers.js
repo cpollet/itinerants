@@ -12,6 +12,7 @@ import {
     TOGGLE_SELECTION,
     RECEIVE_PLAN_PROPOSAL,
     SYNC_PLAN,
+    SYNC_PLAN_SUCCESS,
     INVALIDATE_STATE,
     DECREASE_SYNC_TIMEOUT,
     LOGIN_SUCCESS,
@@ -56,6 +57,10 @@ const initialState = {
         proposal: {
             events: [],
             attendees: {}
+        },
+        sync: {
+            pending: false,
+            syncFailure: false
         }
     }
 };
@@ -219,7 +224,20 @@ function planningReducer(state = initialState.planning, action) {
             });
         }
         case SYNC_PLAN: {
-            return state;
+            return Object.assign({}, state, {
+                sync: {
+                    pending: true,
+                    syncFailure: false
+                }
+            });
+        }
+        case SYNC_PLAN_SUCCESS: {
+            return Object.assign({}, state, {
+                sync: {
+                    pending: false,
+                    syncFailure: false
+                }
+            });
         }
     }
     return state;

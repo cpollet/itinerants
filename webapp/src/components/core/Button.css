@@ -18,6 +18,12 @@
     font-size: 14px;
 }
 
+.component[disabled] {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    opacity: .65;
+}
+
 .component.primary {
     color: #fff;
     background: linear-gradient(to bottom, #0099da 5%, #0087c1 100%);

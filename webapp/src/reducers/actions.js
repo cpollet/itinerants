@@ -9,6 +9,7 @@ export const TOGGLE_AVAILABILITY = 'TOGGLE_AVAILABILITY';
 export const TOGGLE_PLANNING = 'TOGGLE_PLANNING';
 export const TOGGLE_SELECTION = 'TOGGLE_SELECTION';
 export const SYNC_PLAN = 'SYNC_PLAN';
+export const SYNC_PLAN_SUCCESS='SYNC_PLAN_SUCCESS';
 export const RECEIVE_PLAN_PROPOSAL = 'RECEIVE_PLAN_PROPOSAL';
 export const SYNC_START = 'SYNC_START';
 export const SYNC_SUCCESS = 'SYNC_SUCCESS';
@@ -222,10 +223,15 @@ export function toggleSelection(eventId, personId) {
 
 export function savePlan() {
     return function (dispatch, getState) {
+        console.log('save plan');
         const payload = getState()['app'].planning.proposal.events.map(e => ({
             eventId: e.eventId,
             personIds: e.selectedPeople
         }));
+
+        dispatch({
+            type: SYNC_PLAN,
+        });
 
         authenticatedFetch('/api/attendances', dispatch, getState(), {
             method: 'PUT',
@@ -235,11 +241,13 @@ export function savePlan() {
             },
         }).then((response) => {
             if (response.ok) {
-                console.log('ok');
+                dispatch({
+                    type: SYNC_PLAN_SUCCESS
+                });
             } else {
                 response.json().then((msg) => console.log(msg));
             }
-        });
+        }).catch((ex) => console.log(ex));
     };
 }
 
