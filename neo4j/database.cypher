@@ -131,102 +131,80 @@ CREATE (p14:Person {
     targetRatio: 1.0
 })
 
+CREATE (p15:Person {
+    uuid: 'user15-uuid',
+    name: 'Sebastian',
+    username: 'user15',
+    password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
+    roles: 'user',
+    targetRatio: 1.0
+})
+
+
+CREATE (p16:Person {
+    uuid: 'user16-uuid',
+    name: 'Claudia',
+    username: 'user16',
+    password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
+    roles: 'user',
+    targetRatio: 1.0
+})
+
 CREATE (e1:Event {
     uuid: 'event1-uuid',
-    dateTime: '2018-04-21T19:00:00',
-    timestamp: 2492794000,
-    name: 'Les Trois Mousquetaires',
+    dateTime: '2018-05-05T19:00:00',
+    timestamp: 1494003600,
+    name: 'Notre Dame de Paris',
     attendeesCount: 4
 })
 
 CREATE (e2:Event {
     uuid: 'event2-uuid',
-    dateTime: '2018-04-22T14:00:00',
-    timestamp: 2492776000,
-    name: 'Les Trois Mousquetaires',
+    dateTime: '2018-05-06T16:30:00',
+    timestamp: 1494081000,
+    name: 'Notre Dame de Paris',
     attendeesCount: 4
 })
 
 CREATE (e3:Event {
     uuid: 'event3-uuid',
-    dateTime: '2018-04-22T19:00:00',
-    timestamp: 2492880400,
-    name: 'Les Trois Mousquetaires',
+    dateTime: '2018-05-06T19:00:00',
+    timestamp: 1494093600,
+    name: 'Notre Dame de Paris',
     attendeesCount: 4
 })
 
 CREATE (e4:Event {
     uuid: 'event4-uuid',
-    dateTime: '2018-04-26T18:00:00',
-    timestamp: 2493222400,
-    name: 'Julien DORÉ',
+    dateTime: '2018-05-08T19:30:00',
+    timestamp: 1494264600,
+    name: 'Placebo',
     attendeesCount: 4
 })
 
 CREATE (e5:Event {
     uuid: 'event5-uuid',
-    dateTime: '2018-04-28T18:30:00',
-    timestamp: 2493397000,
-    name: 'Véronic DICAIRE',
+    dateTime: '2018-05-10T18:30:00',
+    timestamp: 1494433800,
+    name: 'Harlem Globetrotters',
     attendeesCount: 4
 })
 
 CREATE (e6:Event {
     uuid: 'event6-uuid',
-    dateTime: '2018-04-29T18:30:00',
-    timestamp: 2493483400,
-    name: 'GOSPEL pour 100 Voix - World tour 2018',
+    dateTime: '2018-05-20T19:30:00',
+    timestamp: 1495301400,
+    name: 'Deep Purple',
     attendeesCount: 4
 })
 
 CREATE (e7:Event {
     uuid: 'event7-uuid',
-    dateTime: '2018-04-30T19:00:00',
-    timestamp: 2493571600,
-    name: 'MESSMER 1',
+    dateTime: '2018-05-24T19:30:00',
+    timestamp: 1495647000,
+    name: 'M Pokora',
     attendeesCount: 4
 })
-
-CREATE (e8:Event {
-    uuid: 'event8-uuid',
-    dateTime: '2018-04-30T19:00:01',
-    timestamp: 2493571601,
-    name: 'MESSMER 2',
-    attendeesCount: 4
-})
-
-CREATE (e9:Event {
-    uuid: 'event9-uuid',
-    dateTime: '2018-04-30T19:00:02',
-    timestamp: 2493571602,
-    name: 'MESSMER 3',
-    attendeesCount: 4
-})
-
-CREATE (p2)-[:IS_AVAILABLE]->(e1)
-CREATE (p2)-[:IS_AVAILABLE]->(e5)
-
-CREATE (p3)-[:IS_AVAILABLE]->(e1)
-CREATE (p3)-[:IS_AVAILABLE]->(e2)
-CREATE (p3)-[:IS_AVAILABLE]->(e3)
-CREATE (p3)-[:IS_AVAILABLE]->(e4)
-CREATE (p3)-[:IS_AVAILABLE]->(e5)
-CREATE (p3)-[:IS_AVAILABLE]->(e6)
-CREATE (p3)-[:IS_AVAILABLE]->(e7)
-
-CREATE (p4)-[:IS_AVAILABLE]->(e1)
-CREATE (p4)-[:IS_AVAILABLE]->(e2)
-CREATE (p4)-[:IS_AVAILABLE]->(e3)
-CREATE (p4)-[:IS_AVAILABLE]->(e7)
-
-CREATE (p5)-[:IS_AVAILABLE]->(e1)
-CREATE (p5)-[:IS_AVAILABLE]->(e2)
-CREATE (p5)-[:IS_AVAILABLE]->(e3)
-CREATE (p5)-[:IS_AVAILABLE]->(e6)
-CREATE (p5)-[:IS_AVAILABLE]->(e7)
-
-CREATE (p6)-[:IS_AVAILABLE]->(e5)
-CREATE (p6)-[:IS_AVAILABLE]->(e6)
 
 CREATE (p7)-[:IS_AVAILABLE]->(e1)
 CREATE (p7)-[:IS_AVAILABLE]->(e2)
@@ -236,15 +214,13 @@ CREATE (p7)-[:IS_AVAILABLE]->(e5)
 CREATE (p7)-[:IS_AVAILABLE]->(e6)
 CREATE (p7)-[:IS_AVAILABLE]->(e7)
 
-CREATE (p8)-[:IS_AVAILABLE]->(e2)
-CREATE (p8)-[:IS_AVAILABLE]->(e3)
+CREATE (p3)-[:IS_AVAILABLE]->(e1)
+CREATE (p3)-[:IS_AVAILABLE]->(e2)
 
-CREATE (p9)-[:IS_AVAILABLE]->(e1)
-CREATE (p9)-[:IS_AVAILABLE]->(e2)
-CREATE (p9)-[:IS_AVAILABLE]->(e3)
-CREATE (p9)-[:IS_AVAILABLE]->(e4)
-CREATE (p9)-[:IS_AVAILABLE]->(e6)
-CREATE (p9)-[:IS_AVAILABLE]->(e7)
+CREATE (p3)-[:IS_AVAILABLE]->(e4)
+CREATE (p3)-[:IS_AVAILABLE]->(e5)
+CREATE (p3)-[:IS_AVAILABLE]->(e6)
+CREATE (p3)-[:IS_AVAILABLE]->(e7)
 
 CREATE (p10)-[:IS_AVAILABLE]->(e1)
 CREATE (p10)-[:IS_AVAILABLE]->(e2)
@@ -254,18 +230,40 @@ CREATE (p10)-[:IS_AVAILABLE]->(e5)
 CREATE (p10)-[:IS_AVAILABLE]->(e6)
 CREATE (p10)-[:IS_AVAILABLE]->(e7)
 
-CREATE (p11)-[:IS_AVAILABLE]->(e4)
+CREATE (p5)-[:IS_AVAILABLE]->(e2)
+CREATE (p5)-[:IS_AVAILABLE]->(e3)
+CREATE (p5)-[:IS_AVAILABLE]->(e4)
+CREATE (p5)-[:IS_AVAILABLE]->(e7)
 
-CREATE (p12)-[:IS_AVAILABLE]->(e1)
-CREATE (p12)-[:IS_AVAILABLE]->(e2)
-CREATE (p12)-[:IS_AVAILABLE]->(e3)
+CREATE (p9)-[:IS_AVAILABLE]->(e1)
+CREATE (p9)-[:IS_AVAILABLE]->(e2)
+CREATE (p9)-[:IS_AVAILABLE]->(e3)
+
+CREATE (p8)-[:IS_AVAILABLE]->(e1)
+CREATE (p8)-[:IS_AVAILABLE]->(e2)
+CREATE (p8)-[:IS_AVAILABLE]->(e3)
+CREATE (p8)-[:IS_AVAILABLE]->(e7)
+
+CREATE (p15)-[:IS_AVAILABLE]->(e7)
+
+CREATE (p2)-[:IS_AVAILABLE]->(e1)
+CREATE (p2)-[:IS_AVAILABLE]->(e7)
+
+CREATE (p4)-[:IS_AVAILABLE]->(e2)
+CREATE (p4)-[:IS_AVAILABLE]->(e3)
+CREATE (p4)-[:IS_AVAILABLE]->(e6)
+
+CREATE (p16)-[:IS_AVAILABLE]->(e2)
+CREATE (p16)-[:IS_AVAILABLE]->(e3)
+CREATE (p16)-[:IS_AVAILABLE]->(e6)
+
 CREATE (p12)-[:IS_AVAILABLE]->(e4)
 CREATE (p12)-[:IS_AVAILABLE]->(e5)
+CREATE (p12)-[:IS_AVAILABLE]->(e6)
 CREATE (p12)-[:IS_AVAILABLE]->(e7)
 
 CREATE (p14)-[:IS_AVAILABLE]->(e1)
-CREATE (p14)-[:IS_AVAILABLE]->(e2)
 CREATE (p14)-[:IS_AVAILABLE]->(e3)
-CREATE (p14)-[:IS_AVAILABLE]->(e7);
-
-CREATE (p14)-[:IS_AVAILABLE]->(e8);
+CREATE (p14)-[:IS_AVAILABLE]->(e4)
+CREATE (p14)-[:IS_AVAILABLE]->(e6)
+;
