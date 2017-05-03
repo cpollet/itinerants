@@ -3,6 +3,7 @@ package net.cpollet.itinerants.core.domain;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -57,5 +58,18 @@ public class Person {
         return "Person{" +
                 "name=" + personData.getName() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(personData.getUUID(), person.personData.getUUID());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(personData.getUUID());
     }
 }

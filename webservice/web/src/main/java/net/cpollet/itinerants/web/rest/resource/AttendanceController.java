@@ -1,9 +1,9 @@
 package net.cpollet.itinerants.web.rest.resource;
 
 import lombok.extern.slf4j.Slf4j;
-import net.cpollet.itinerants.core.algorithm.Attendee;
 import net.cpollet.itinerants.core.algorithm.AttendeeSelection;
 import net.cpollet.itinerants.core.domain.Event;
+import net.cpollet.itinerants.core.domain.Person;
 import net.cpollet.itinerants.core.service.AttendanceService;
 import net.cpollet.itinerants.core.service.EventService;
 import net.cpollet.itinerants.web.rest.data.AttendanceListResponse;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -47,15 +48,20 @@ public class AttendanceController {
     public AttendanceListResponse getAttendances(@RequestParam("eventId") List<String> eventIds) {
         log.info("Creating availabilities list for [{}]", eventIds.stream().collect(Collectors.joining(", ")));
 
-        Map<Event, Set<Attendee>> input = eventService.getByIds(eventIds).stream()
+        Map<Event, Set<Person>> input = eventService.getByIds(eventIds).stream()
                 .collect(Collectors.toMap(
                         e -> e,
-                        e -> e.availablePeople().stream()
-                                .map(p -> new Attendee(p, 0))
-                                .collect(Collectors.toSet()))
+                        Event::availablePeople)
                 );
 
-        Map<Event, Set<Attendee>> selection = attendanceStrategyFactory.create(input, 0).selection();
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                0,
+                Collections.emptyMap(),
+                input,
+                Collections.emptyMap()
+        );
+
+        Map<Event, Set<Person>> selection = attendanceStrategyFactory.create(parameters).selection();
 
         return new AttendanceListResponse(selection, input, eventService.getPastCount());
     }

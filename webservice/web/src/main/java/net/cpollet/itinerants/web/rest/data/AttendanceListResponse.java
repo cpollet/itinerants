@@ -2,8 +2,8 @@ package net.cpollet.itinerants.web.rest.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import net.cpollet.itinerants.core.algorithm.Attendee;
 import net.cpollet.itinerants.core.domain.Event;
+import net.cpollet.itinerants.core.domain.Person;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +20,7 @@ public class AttendanceListResponse {
     private final Map<String, AttendeeResponse> attendees;
     private final int pastEventsCount;
 
-    public AttendanceListResponse(Map<Event, Set<Attendee>> selection, Map<Event, Set<Attendee>> input, int pastEventsCount) {
+    public AttendanceListResponse(Map<Event, Set<Person>> selection, Map<Event, Set<Person>> input, int pastEventsCount) {
         this.pastEventsCount = pastEventsCount;
         events = selection.entrySet().stream()
                 .map(e -> new AttendanceResponse(e.getKey(), e.getValue(), input.get(e.getKey())))
@@ -57,16 +57,16 @@ public class AttendanceListResponse {
         private final Set<String> selectedPeople;
         private final Set<String> availablePeople;
 
-        private AttendanceResponse(Event event, Set<Attendee> attendees, Set<Attendee> availablePeople) {
+        private AttendanceResponse(Event event, Set<Person> attendees, Set<Person> availablePeople) {
             eventId = event.id();
             name = event.name();
             eventSize = event.size();
             dateTime = event.dateTime();
             this.selectedPeople = attendees.stream()
-                    .map(a -> a.getPerson().id())
+                    .map(Person::id)
                     .collect(Collectors.toSet());
             this.availablePeople = availablePeople.stream()
-                    .map(a -> a.getPerson().id())
+                    .map(Person::id)
                     .collect(Collectors.toSet());
         }
     }

@@ -3,6 +3,7 @@ package net.cpollet.itinerants.core.domain;
 import net.cpollet.itinerants.core.domain.data.EventData;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,5 +43,18 @@ public class Event {
 
     public Integer size() {
         return eventData.getAttendeesCount();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(eventData.getUUID(), event.eventData.getUUID());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventData.getUUID());
     }
 }

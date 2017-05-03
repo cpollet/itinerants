@@ -10,10 +10,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,19 +39,26 @@ public class TestSimpleAttendeeSelection {
     private Event event3;
 
     @Before
-    public void setup(){
-        Mockito.when(person1.id()).thenReturn("1");
-        Mockito.when(person2.id()).thenReturn("2");
-        Mockito.when(person3.id()).thenReturn("3");
+    public void setup() {
+        Mockito.when(event1.id()).thenReturn("e1");
+        Mockito.when(event1.dateTime()).thenReturn(LocalDateTime.now().plusDays(1));
+        Mockito.when(event2.dateTime()).thenReturn(LocalDateTime.now().plusDays(2));
+        Mockito.when(event3.dateTime()).thenReturn(LocalDateTime.now().plusDays(3));
     }
 
     @Test
     public void compute_returnsEmptyMap_whenThereAreNoEvents() {
         // GIVEN
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(Collections.emptyMap(), 0);
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                0,
+                Collections.emptyMap(),
+                Collections.emptyMap(),
+                Collections.emptyMap()
+        );
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
-        Map<Event, Set<Attendee>> result = simpleAttendeeSelection.selection();
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
 
         // THEN
         assertThat(result).isEmpty();
@@ -60,13 +68,20 @@ public class TestSimpleAttendeeSelection {
     public void compute_returnsFilledMap_whenThereIsOneEvent() {
         // GIVEN
         Mockito.when(event1.attendeesCount()).thenReturn(1);
-        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+        ImmutableMap<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
                 .put(event1, Collections.emptySet())
                 .build();
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
+
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                0,
+                Collections.emptyMap(),
+                availabilities,
+                Collections.emptyMap()
+        );
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
-        Map<Event, Set<Attendee>> result = simpleAttendeeSelection.selection();
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
 
         // THEN
         assertThat(result).containsKey(event1);
@@ -76,19 +91,26 @@ public class TestSimpleAttendeeSelection {
     public void compute_returnsFilledMapWithPerson_whenThereIsOneEventAndOnePerson() {
         // GIVEN
         Mockito.when(event1.attendeesCount()).thenReturn(1);
-        Attendee attendee = new Attendee(person1, 0);
-        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
-                .put(event1, Collections.singleton(attendee))
+        ImmutableMap<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, Collections.singleton(person1))
                 .build();
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
+
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                0,
+                Collections.emptyMap(),
+                availabilities,
+                Collections.emptyMap()
+        );
+
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
-        Map<Event, Set<Attendee>> result = simpleAttendeeSelection.selection();
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
 
         assertThat(result).containsKey(event1);
         assertThat(result.get(event1)).hasSize(1);
         //noinspection ResultOfMethodCallIgnored
-        assertThat(result.get(event1)).containsExactly(attendee);
+        assertThat(result.get(event1)).containsExactly(person1);
     }
 
     @Test
@@ -96,15 +118,22 @@ public class TestSimpleAttendeeSelection {
         // GIVEN
         Mockito.when(event1.attendeesCount()).thenReturn(1);
         Mockito.when(event2.attendeesCount()).thenReturn(1);
-        Attendee attendee = new Attendee(person1, 0);
-        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
+        ImmutableMap<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
                 .put(event1, Collections.emptySet())
-                .put(event2, Collections.singleton(attendee))
+                .put(event2, Collections.singleton(person1))
                 .build();
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
+
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                0,
+                Collections.emptyMap(),
+                availabilities,
+                Collections.emptyMap()
+        );
+
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
-        Map<Event, Set<Attendee>> result = simpleAttendeeSelection.selection();
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
 
         assertThat(result).containsKey(event1);
         assertThat(result.get(event1)).hasSize(0);
@@ -116,15 +145,20 @@ public class TestSimpleAttendeeSelection {
         Mockito.when(person1.targetRatio()).thenReturn(1f);
         Mockito.when(person2.targetRatio()).thenReturn(1f);
         Mockito.when((event1.attendeesCount())).thenReturn(1);
-        Attendee attendee1 = new Attendee(person1, 0);
-        Attendee attendee2 = new Attendee(person2, 0);
-        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
-                .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
+        ImmutableMap<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
                 .build();
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
+
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                0,
+                Collections.emptyMap(),
+                availabilities,
+                Collections.emptyMap()
+        );
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
-        Map<Event, Set<Attendee>> result = simpleAttendeeSelection.selection();
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
 
         // THEN
         assertThat(result).containsKey(event1);
@@ -138,21 +172,29 @@ public class TestSimpleAttendeeSelection {
         Mockito.when(person2.targetRatio()).thenReturn(1f);
         Mockito.when(event1.attendeesCount()).thenReturn(1);
 
-        Attendee attendee1 = new Attendee(person1, 1);
-        Attendee attendee2 = new Attendee(person2, 0);
-        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
-                .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
+        ImmutableMap<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
                 .build();
 
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
+        ImmutableMap<Person,Integer> pastAttendancesCount = ImmutableMap.<Person, Integer>builder()
+                .put(person1, 1)
+                .build();
+
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                0,
+                pastAttendancesCount,
+                availabilities,
+                Collections.emptyMap()
+        );
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
-        Map<Event, Set<Attendee>> result = simpleAttendeeSelection.selection();
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
 
         // THEN
         assertThat(result).containsKey(event1);
         //noinspection ResultOfMethodCallIgnored
-        assertThat(result.get(event1)).containsExactly(attendee2);
+        assertThat(result.get(event1)).containsExactly(person2);
     }
 
     @Test
@@ -165,32 +207,41 @@ public class TestSimpleAttendeeSelection {
         Mockito.when(person2.targetRatio()).thenReturn(1f);
         Mockito.when(person3.targetRatio()).thenReturn(1f);
 
-        Attendee attendee1 = new Attendee(person1, 0);
-        Attendee attendee2 = new Attendee(person2, 1);
-        Attendee attendee3 = new Attendee(person3, 1);
-        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
-                .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
-                .put(event2, new HashSet<>(Arrays.asList(attendee1, attendee2)))
-                .put(event3, new HashSet<>(Arrays.asList(attendee1, attendee2, attendee3)))
+        ImmutableMap<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
+                .put(event2, new HashSet<>(Arrays.asList(person1, person2)))
+                .put(event3, new HashSet<>(Arrays.asList(person1, person2, person3)))
                 .build();
 
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 0);
+        ImmutableMap<Person, Integer> pastAttendancesCount=ImmutableMap.<Person, Integer>builder()
+                .put(person2, 1)
+                .put(person3, 1)
+                .build();
+
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                1,
+                pastAttendancesCount,
+                availabilities,
+                Collections.emptyMap()
+        );
+
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
-        Map<Event, Set<Attendee>> result = simpleAttendeeSelection.selection();
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
 
         // THEN
         assertThat(result).containsKey(event1);
         //noinspection ResultOfMethodCallIgnored
-        assertThat(result.get(event1)).containsExactly(attendee1, attendee2);
+        assertThat(result.get(event1)).containsExactly(person1, person2);
 
         assertThat(result).containsKey(event2);
         //noinspection ResultOfMethodCallIgnored
-        assertThat(result.get(event2)).containsExactly(attendee1, attendee2);
+        assertThat(result.get(event2)).containsExactly(person1, person2);
 
         assertThat(result).containsKey(event2);
         //noinspection ResultOfMethodCallIgnored
-        assertThat(result.get(event3)).containsExactly(attendee1, attendee3);
+        assertThat(result.get(event3)).containsExactly(person1, person3);
     }
 
     @Test
@@ -200,20 +251,29 @@ public class TestSimpleAttendeeSelection {
         Mockito.when(person2.targetRatio()).thenReturn(1f);
         Mockito.when(event1.attendeesCount()).thenReturn(1);
 
-        Attendee attendee1 = new Attendee(person1, 1);
-        Attendee attendee2 = new Attendee(person2, 2);
-        ImmutableMap<Event, Set<Attendee>> availabilities = ImmutableMap.<Event, Set<Attendee>>builder()
-                .put(event1, new HashSet<>(Arrays.asList(attendee1, attendee2)))
+        ImmutableMap<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
                 .build();
 
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(availabilities, 2);
+        Map<Person, Integer> pastAttendancesCount = new HashMap<>();
+        pastAttendancesCount.put(person1, 1);
+        pastAttendancesCount.put(person2, 2);
+
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                2,
+                pastAttendancesCount,
+                availabilities,
+                Collections.emptyMap()
+        );
+
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
-        Map<Event, Set<Attendee>> result = simpleAttendeeSelection.selection();
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
 
         // THEN
         assertThat(result).containsKey(event1);
         //noinspection ResultOfMethodCallIgnored
-        assertThat(result.get(event1)).containsExactly(attendee2);
+        assertThat(result.get(event1)).containsExactly(person2);
     }
 }
