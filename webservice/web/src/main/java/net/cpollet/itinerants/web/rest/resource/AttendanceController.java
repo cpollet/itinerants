@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.algorithm.AttendeeSelection;
 import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.domain.Person;
+import net.cpollet.itinerants.core.domain.data.EventData;
 import net.cpollet.itinerants.core.service.AttendanceService;
 import net.cpollet.itinerants.core.service.EventService;
 import net.cpollet.itinerants.web.rest.data.AttendanceListResponse;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -48,22 +50,31 @@ public class AttendanceController {
     public AttendanceListResponse getAttendances(@RequestParam("eventId") List<String> eventIds) {
         log.info("Creating availabilities list for [{}]", eventIds.stream().collect(Collectors.joining(", ")));
 
-        Map<Event, Set<Person>> input = eventService.getByIds(eventIds).stream()
+        List<Event> events = eventService.getByIds(eventIds);
+
+        Map<Event, Set<Person>> availabilities = mapEventsToPersonsSet(events, Event::availablePeople);
+        Map<Event, Set<Person>> attendances = mapEventsToPersonsSet(events, Event::attendingPeople);
+
+        List<EventData> pastEvents = eventService.past(EventService.SortOrder.DESCENDING);
+
+        Map<Person, Integer> pastAttendancesCount = Collections.emptyMap();//TODO
+
+        Map<Event, Set<Person>> selection = attendanceStrategyFactory.create(
+                pastEvents.size(),
+                pastAttendancesCount,
+                availabilities,
+                attendances
+        ).selection();
+
+        return new AttendanceListResponse(selection, availabilities, pastEvents.size());
+    }
+
+    private Map<Event, Set<Person>> mapEventsToPersonsSet(List<Event> events, Function<Event, Set<Person>> function) {
+        return events.stream()
                 .collect(Collectors.toMap(
                         e -> e,
-                        Event::availablePeople)
+                        function)
                 );
-
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
-                0,
-                Collections.emptyMap(),
-                input,
-                Collections.emptyMap()
-        );
-
-        Map<Event, Set<Person>> selection = attendanceStrategyFactory.create(parameters).selection();
-
-        return new AttendanceListResponse(selection, input, eventService.getPastCount());
     }
 
     @PutMapping(value = "")

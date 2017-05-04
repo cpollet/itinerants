@@ -49,15 +49,9 @@ public class Person {
         return personData.getTargetRatio();
     }
 
-    public interface Factory {
-        Person create(PersonData personData);
-    }
-
     @Override
     public String toString() {
-        return "Person{" +
-                "name=" + personData.getName() +
-                '}';
+        return "Person[" + personData.getUUID() + ": " + personData.getName() + "]";
     }
 
     @Override
@@ -71,5 +65,9 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(personData.getUUID());
+    }
+
+    public interface Factory {
+        Person create(PersonData personData);
     }
 }

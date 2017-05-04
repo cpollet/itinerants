@@ -49,13 +49,12 @@ public class TestSimpleAttendeeSelection {
     @Test
     public void compute_returnsEmptyMap_whenThereAreNoEvents() {
         // GIVEN
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 0,
                 Collections.emptyMap(),
                 Collections.emptyMap(),
                 Collections.emptyMap()
         );
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
@@ -72,13 +71,12 @@ public class TestSimpleAttendeeSelection {
                 .put(event1, Collections.emptySet())
                 .build();
 
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 0,
                 Collections.emptyMap(),
                 availabilities,
                 Collections.emptyMap()
         );
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
@@ -95,14 +93,12 @@ public class TestSimpleAttendeeSelection {
                 .put(event1, Collections.singleton(person1))
                 .build();
 
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 0,
                 Collections.emptyMap(),
                 availabilities,
                 Collections.emptyMap()
         );
-
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
@@ -123,14 +119,12 @@ public class TestSimpleAttendeeSelection {
                 .put(event2, Collections.singleton(person1))
                 .build();
 
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 0,
                 Collections.emptyMap(),
                 availabilities,
                 Collections.emptyMap()
         );
-
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
@@ -149,13 +143,12 @@ public class TestSimpleAttendeeSelection {
                 .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
                 .build();
 
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 0,
                 Collections.emptyMap(),
                 availabilities,
                 Collections.emptyMap()
         );
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
@@ -176,17 +169,16 @@ public class TestSimpleAttendeeSelection {
                 .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
                 .build();
 
-        ImmutableMap<Person,Integer> pastAttendancesCount = ImmutableMap.<Person, Integer>builder()
+        ImmutableMap<Person, Integer> pastAttendancesCount = ImmutableMap.<Person, Integer>builder()
                 .put(person1, 1)
                 .build();
 
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 0,
                 pastAttendancesCount,
                 availabilities,
                 Collections.emptyMap()
         );
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
@@ -213,19 +205,17 @@ public class TestSimpleAttendeeSelection {
                 .put(event3, new HashSet<>(Arrays.asList(person1, person2, person3)))
                 .build();
 
-        ImmutableMap<Person, Integer> pastAttendancesCount=ImmutableMap.<Person, Integer>builder()
+        ImmutableMap<Person, Integer> pastAttendancesCount = ImmutableMap.<Person, Integer>builder()
                 .put(person2, 1)
                 .put(person3, 1)
                 .build();
 
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 1,
                 pastAttendancesCount,
                 availabilities,
                 Collections.emptyMap()
         );
-
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
@@ -259,14 +249,12 @@ public class TestSimpleAttendeeSelection {
         pastAttendancesCount.put(person1, 1);
         pastAttendancesCount.put(person2, 2);
 
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 2,
                 pastAttendancesCount,
                 availabilities,
                 Collections.emptyMap()
         );
-
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
@@ -288,14 +276,12 @@ public class TestSimpleAttendeeSelection {
                 .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
                 .build();
 
-        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 0,
                 Collections.emptyMap(),
                 availabilities,
                 alreadySelected
         );
-
-        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
 
         // WHEN
         Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();

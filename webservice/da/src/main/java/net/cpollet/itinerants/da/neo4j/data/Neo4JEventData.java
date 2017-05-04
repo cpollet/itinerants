@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.cpollet.itinerants.core.domain.data.EventData;
+import net.cpollet.itinerants.core.domain.data.PersonData;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
@@ -35,6 +36,8 @@ public class Neo4JEventData implements EventData {
 
     @Relationship(direction = Relationship.UNDIRECTED, type = "IS_AVAILABLE")
     private Set<Neo4JPersonData> availablePeople;
+    @Relationship(direction = Relationship.UNDIRECTED, type = "IS_ATTENDING")
+    private Set<Neo4JPersonData> attendingPeople;
 
     @Override
     public LocalDateTime getDateTime() {
@@ -52,5 +55,13 @@ public class Neo4JEventData implements EventData {
             return availablePeople = new HashSet<>();
         }
         return availablePeople;
+    }
+
+    @Override
+    public Set<? extends PersonData> attendingPeople() {
+        if (attendingPeople == null) {
+            return attendingPeople = new HashSet<>();
+        }
+        return attendingPeople;
     }
 }

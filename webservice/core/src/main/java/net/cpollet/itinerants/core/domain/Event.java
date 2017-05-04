@@ -33,6 +33,12 @@ public class Event {
                 .collect(Collectors.toSet());
     }
 
+    public Set<Person> attendingPeople() {
+        return eventData.attendingPeople().stream()
+                .map(personFactory::create)
+                .collect(Collectors.toSet());
+    }
+
     public Integer attendeesCount() {
         return eventData.getAttendeesCount();
     }
@@ -56,5 +62,10 @@ public class Event {
     @Override
     public int hashCode() {
         return Objects.hash(eventData.getUUID());
+    }
+
+    @Override
+    public String toString() {
+        return "Event[" + eventData.getUUID() + ": " + eventData.getName() + " - " + eventData.getDateTime() + "]";
     }
 }

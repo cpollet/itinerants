@@ -15,5 +15,7 @@ public interface EventData {
 
     Set<? extends PersonData> availablePeople();
 
+    Set<? extends PersonData> attendingPeople();
+
     Integer getAttendeesCount();
 }

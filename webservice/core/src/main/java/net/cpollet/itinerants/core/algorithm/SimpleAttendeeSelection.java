@@ -1,5 +1,6 @@
 package net.cpollet.itinerants.core.algorithm;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.domain.Person;
@@ -16,18 +17,12 @@ import java.util.stream.Collectors;
  * Created by cpollet on 06.04.17.
  */
 @Slf4j
+@AllArgsConstructor
 public class SimpleAttendeeSelection implements AttendeeSelection {
-    private final Map<Event, Set<Person>> availabilities;
-    private final Map<Person, Integer> pastAttendancesCount;
-    private final Map<Event, Set<Person>> initialAttendances;
     private final int pastEventsCount;
-
-    public SimpleAttendeeSelection(Parameters parameters) {
-        this.availabilities = parameters.getAvailabilities();
-        this.pastEventsCount = parameters.getPastEventsCount();
-        this.pastAttendancesCount = parameters.getPastAttendancesCount();
-        this.initialAttendances = parameters.getInitialAttendances();
-    }
+    private final Map<Person, Integer> pastAttendancesCount;
+    private final Map<Event, Set<Person>> availabilities;
+    private final Map<Event, Set<Person>> initialAttendances;
 
     @Override
     public Map<Event, Set<Person>> selection() {

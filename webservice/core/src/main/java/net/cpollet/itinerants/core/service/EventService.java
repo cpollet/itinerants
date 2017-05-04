@@ -23,8 +23,6 @@ public interface EventService {
 
     List<EventData> past(SortOrder sortOrder);
 
-    int getPastCount();
-
     enum SortOrder {
         ASCENDING, DESCENDING
     }
@@ -37,6 +35,11 @@ public interface EventService {
 
         @Override
         public Set<? extends PersonData> availablePeople() {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        public Set<? extends PersonData> attendingPeople() {
             throw new IllegalStateException();
         }
 
