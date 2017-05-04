@@ -276,4 +276,33 @@ public class TestSimpleAttendeeSelection {
         //noinspection ResultOfMethodCallIgnored
         assertThat(result.get(event1)).containsExactly(person2);
     }
+
+    @Test
+    public void compute_returnsFilledMapWithAlreadySelectedPeople_whenThereAreAlreadySelectedPeople() {
+        // GIVEN
+        Map<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, Collections.emptySet())
+                .build();
+
+        Map<Event, Set<Person>> alreadySelected = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
+                .build();
+
+        AttendeeSelection.Parameters parameters = new AttendeeSelection.Parameters(
+                0,
+                Collections.emptyMap(),
+                availabilities,
+                alreadySelected
+        );
+
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(parameters);
+
+        // WHEN
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
+
+        // THEN
+        assertThat(result).containsKey(event1);
+        //noinspection ResultOfMethodCallIgnored
+        assertThat(result.get(event1)).containsExactly(person1, person2);
+    }
 }

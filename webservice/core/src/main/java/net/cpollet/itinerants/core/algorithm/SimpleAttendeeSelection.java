@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class SimpleAttendeeSelection implements AttendeeSelection {
-    private final List<Event> events;
     private final Map<Event, Set<Person>> availabilities;
     private final Map<Person, Integer> pastAttendancesCount;
     private final Map<Event, Set<Person>> initialAttendances;
@@ -28,36 +27,35 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
         this.pastEventsCount = parameters.getPastEventsCount();
         this.pastAttendancesCount = parameters.getPastAttendancesCount();
         this.initialAttendances = parameters.getInitialAttendances();
-        this.events = availabilities.keySet().stream()
-                .sorted((e1, e2) -> e1.dateTime().compareTo(e2.dateTime()))
-                .collect(Collectors.toList());
     }
 
     @Override
     public Map<Event, Set<Person>> selection() {
+        List<Event> events = availabilities.keySet().stream()
+                .sorted((e1, e2) -> e1.dateTime().compareTo(e2.dateTime()))
+                .collect(Collectors.toList());
+
         if (events.isEmpty()) {
             return Collections.emptyMap();
         }
 
-        State state = new State(pastEventsCount + events.size(), new HashMap<>(0), new HashMap<>(0));
+        State state = State.create(pastEventsCount, events);
 
         for (Map.Entry<Person, Integer> personAttendance : pastAttendancesCount.entrySet()) {
-            state = state.previousAttendances(personAttendance.getKey(), personAttendance.getValue());
+            state.addPreviousAttendances(personAttendance.getKey(), personAttendance.getValue());
         }
 
-        // TODO TDD This...
-//        for (Map.Entry<Event, Set<Person>> eventAttendance : initialAttendances.entrySet()) {
-//            for (Person person : eventAttendance.getValue()) {
-//                state = state.select(person, eventAttendance.getKey());
-//            }
-//        }
+        for (Map.Entry<Event, Set<Person>> eventAttendance : initialAttendances.entrySet()) {
+            for (Person person : eventAttendance.getValue()) {
+                state.select(person, eventAttendance.getKey());
+            }
+        }
 
         for (Event event : events) {
-            state = state.withEvent(event);
             while (state.attendees(event).size() < event.attendeesCount()) {
                 try {
                     Person person = state.find(event, availabilities.getOrDefault(event, Collections.emptySet()));
-                    state = state.select(person, event);
+                    state.select(person, event);
                 } catch (Exception e) {
                     log.info("unable to find enough attendee for {} (found {})", event.id(), state.attendees(event).size(), e);
                     break;
@@ -68,38 +66,32 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
         return state.attendances();
     }
 
-    private class State {
+    private static class State {
         private final int eventsCount;
         private final Map<Person, Integer> attendancesCount;
         private final Map<Event, Set<Person>> attendances;
-        private final State parent;
-
-        private State(int eventsCount, Map<Person, Integer> attendancesCount, Map<Event, Set<Person>> attendances, State parent) {
-            this.eventsCount = eventsCount;
-            this.attendancesCount = Collections.unmodifiableMap(attendancesCount);
-            this.attendances = Collections.unmodifiableMap(attendances);
-            this.parent = parent;
-        }
 
         private State(int eventsCount, Map<Person, Integer> attendancesCount, Map<Event, Set<Person>> attendances) {
-            this(eventsCount, attendancesCount, attendances, null);
+            this.eventsCount = eventsCount;
+            this.attendancesCount = attendancesCount;
+            this.attendances = attendances;
         }
 
-        State previousAttendances(Person person, int count) {
-            Map<Person, Integer> attendancesCount = new HashMap<>(this.attendancesCount);
+        public static State create(int pastEventsCount, List<Event> events) {
+            Map<Event, Set<Person>> attendances = new HashMap<>(events.size());
+            events.forEach(e -> attendances.put(e, new HashSet<>()));
+
+            return new State(pastEventsCount + events.size(), new HashMap<>(), attendances);
+        }
+
+        void addPreviousAttendances(Person person, int count) {
             attendancesCount.put(person, attendancesCount.getOrDefault(person, 0) + count);
-
-            return new State(eventsCount, attendancesCount, attendances, this);
         }
 
-        State select(Person person, Event event) {
-            Map<Person, Integer> attendancesCount = new HashMap<>(this.attendancesCount);
+        void select(Person person, Event event) {
             attendancesCount.put(person, attendancesCount.getOrDefault(person, 0) + 1);
 
-            Map<Event, Set<Person>> attendances = new HashMap<>(this.attendances);
             attendances.put(event, mergeSet(attendances.getOrDefault(event, Collections.emptySet()), person));
-
-            return new State(eventsCount, attendancesCount, attendances, this);
         }
 
         private <T> Set<T> mergeSet(Set<T> set, T element) {
@@ -117,21 +109,15 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
         }
 
         Set<Person> attendees(Event event) {
-            return attendances.getOrDefault(event, Collections.emptySet());
+            return attendances.get(event);
         }
 
         Map<Event, Set<Person>> attendances() {
             return attendances;
         }
 
-        State withEvent(Event event) {
-            Map<Event, Set<Person>> attendances = new HashMap<>(this.attendances);
-            attendances.put(event, Collections.emptySet());
-            return new State(eventsCount, attendancesCount, attendances, this);
-        }
-
         private boolean alreadySelected(Person person, Event event) {
-            return attendances.getOrDefault(event, Collections.emptySet()).contains(person);
+            return attendances.get(event).contains(person);
         }
 
         private int compareScore(Person p1, Person p2) {
