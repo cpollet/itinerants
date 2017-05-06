@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.cpollet.itinerants</groupId>
+        <artifactId>aggregator</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>cli</artifactId>
+    <packaging>mvn-golang</packaging>
+
+    <properties>
+        <go.sdk.version>1.8.1</go.sdk.version>
+        <go.wrapper.plugin.version>2.1.3</go.wrapper.plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    </properties>
+
+    <build>
+        <finalName>itinerants</finalName>
+        <sourceDirectory>src</sourceDirectory>
+        <directory>${project.basedir}/bin</directory>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/res</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}/bin</directory>
+                        </fileset>
+                        <fileset>
+                            <directory>${project.basedir}/pkg</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.igormaznitsa</groupId>
+                <artifactId>mvn-golang-wrapper</artifactId>
+                <version>${go.wrapper.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <goVersion>${go.sdk.version}</goVersion>
+                    <goPath>${basedir}</goPath>
+                    <enforceGoPathToEnd>true</enforceGoPathToEnd>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-build</id>
+                        <configuration>
+                            <packages>
+                                <package>net/cpollet/itinerants/cli/cmd/itinerants</package>
+                            </packages>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -21,3 +21,5 @@
 **/webapp/**/bundle.js*
 **/webapp/npm-debug.log
 **/webapp/etc
+cli/bin
+cli/pkg
