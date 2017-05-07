@@ -42,6 +42,7 @@ public class SessionController {
 
     @PutMapping(value = "")
     public ResponseEntity<LoginResponse> create(@RequestBody LoginPayload credentials) {
+        log.info("Creating session for {}", credentials.getUsername());
         PersonData personData = personService.getByUsername(credentials.getUsername());
 
         if (personData == null) {
