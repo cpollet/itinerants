@@ -1,18 +1,18 @@
 package net
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"io"
 )
 
 type Token struct {
 	Token string
 }
 
-func Request(method string, path string, payload []byte) ([]byte, error, int) {
+func Request(method string, path string, payload io.Reader) ([]byte, error, int) {
 	request, err := build(method, path, payload)
 	if err != nil {
 		return nil, err, 0
@@ -21,9 +21,9 @@ func Request(method string, path string, payload []byte) ([]byte, error, int) {
 	return send(request)
 }
 
-func build(method string, path string, payload []byte) (*http.Request, error) {
+func build(method string, path string, payload io.Reader) (*http.Request, error) {
 	baseUrl := "http://localhost:8080/"
-	request, err := http.NewRequest(method, baseUrl+path, bytes.NewReader(payload))
+	request, err := http.NewRequest(method, baseUrl+path, payload)
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("Unable to create request: %s", err))
 	}
@@ -50,7 +50,7 @@ func send(request *http.Request) ([]byte, error, int) {
 	return body, nil, 200
 }
 
-func AuthenticatedRequest(method string, path string, token Token, payload []byte) ([]byte, error, int) {
+func AuthenticatedRequest(method string, path string, token Token, payload io.Reader) ([]byte, error, int) {
 	request, err := build(method, path, payload)
 	if err != nil {
 		return nil, err, 0
