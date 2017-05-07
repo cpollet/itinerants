@@ -3,17 +3,21 @@ package net
 import (
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
-	"io"
 )
 
 type Token struct {
 	Token string
 }
 
-func Request(method string, path string, payload io.Reader) ([]byte, error, int) {
-	request, err := build(method, path, payload)
+type RemoteServer struct {
+	BaseUrl string
+}
+
+func (remote *RemoteServer) Put(path string, payload io.Reader, token *Token) ([]byte, error, int) {
+	request, err := build("PUT", remote.BaseUrl+path, payload, token)
 	if err != nil {
 		return nil, err, 0
 	}
@@ -21,13 +25,25 @@ func Request(method string, path string, payload io.Reader) ([]byte, error, int)
 	return send(request)
 }
 
-func build(method string, path string, payload io.Reader) (*http.Request, error) {
-	baseUrl := "http://localhost:8080/"
-	request, err := http.NewRequest(method, baseUrl+path, payload)
+func (remote *RemoteServer) Get(path string, token *Token) ([]byte, error, int) {
+	request, err := build("GET", remote.BaseUrl+path, nil, token)
+	if err != nil {
+		return nil, err, 0
+	}
+
+	return send(request)
+}
+
+func build(method string, path string, payload io.Reader, token *Token) (*http.Request, error) {
+	request, err := http.NewRequest(method, path, payload)
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("Unable to create request: %s", err))
 	}
 	request.Header.Add("Content-Type", "application/json")
+
+	if token != nil {
+		request.Header.Add("X-Auth-Token", token.Token)
+	}
 
 	return request, nil
 }
@@ -48,15 +64,4 @@ func send(request *http.Request) ([]byte, error, int) {
 	}
 
 	return body, nil, 200
-}
-
-func AuthenticatedRequest(method string, path string, token Token, payload io.Reader) ([]byte, error, int) {
-	request, err := build(method, path, payload)
-	if err != nil {
-		return nil, err, 0
-	}
-
-	request.Header.Add("X-Auth-Token", token.Token)
-
-	return send(request)
 }

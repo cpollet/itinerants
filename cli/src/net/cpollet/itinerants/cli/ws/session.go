@@ -22,7 +22,11 @@ type AuthToken struct {
 	Token string
 }
 
-func Token(username string, password string) (*AuthToken, error) {
+type SessionResource struct {
+	RemoteServer *net.RemoteServer
+}
+
+func (resource *SessionResource) Authenticate(username string, password string) (*AuthToken, error) {
 	payload, err := json.Marshal(sessionRequest{
 		Username: username,
 		Password: password,
@@ -31,7 +35,8 @@ func Token(username string, password string) (*AuthToken, error) {
 		return nil, err
 	}
 
-	result, err, _ := net.Request("PUT", "sessions", bytes.NewReader(payload))
+	result, err, _ := resource.RemoteServer.Put("sessions", bytes.NewReader(payload), nil)
+
 	if err != nil {
 		return nil, err
 	}
