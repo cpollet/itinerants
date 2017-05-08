@@ -1,6 +1,7 @@
 package net
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -12,23 +13,32 @@ type Token struct {
 	Token string
 }
 
-type RemoteServer struct {
-	BaseUrl string
+func NewRemoteServer(baseUrl string) RemoteServer {
+	return remoteServer{baseUrl: baseUrl}
 }
 
-func (remote *RemoteServer) Put(path string, payload io.Reader, token *Token) ([]byte, error, int) {
-	request, err := build("PUT", remote.BaseUrl+path, payload, token)
+type RemoteServer interface {
+	Put(string, io.Reader, *Token) (Response, error)
+	Get(string, *Token) (Response, error)
+}
+
+type remoteServer struct {
+	baseUrl string
+}
+
+func (remote remoteServer) Put(path string, payload io.Reader, token *Token) (Response, error) {
+	request, err := build("PUT", remote.baseUrl+path, payload, token)
 	if err != nil {
-		return nil, err, 0
+		return nil, err
 	}
 
 	return send(request)
 }
 
-func (remote *RemoteServer) Get(path string, token *Token) ([]byte, error, int) {
-	request, err := build("GET", remote.BaseUrl+path, nil, token)
+func (remote remoteServer) Get(path string, token *Token) (Response, error) {
+	request, err := build("GET", remote.baseUrl+path, nil, token)
 	if err != nil {
-		return nil, err, 0
+		return nil, err
 	}
 
 	return send(request)
@@ -48,20 +58,16 @@ func build(method string, path string, payload io.Reader, token *Token) (*http.R
 	return request, nil
 }
 
-func send(request *http.Request) ([]byte, error, int) {
-	client := &http.Client{}
-	response, err := client.Do(request)
+func send(request *http.Request) (Response, error) {
+	client := new(http.Client)
+	r, err := client.Do(request)
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("Unable to execute request: %s", err)), 0
+		return nil, errors.New(fmt.Sprintf("Unable to execute request: %s", err))
 	}
 
-	defer response.Body.Close()
+	defer r.Body.Close()
 
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := ioutil.ReadAll(r.Body)
 
-	if response.StatusCode != 200 {
-		return body, errors.New(fmt.Sprintf("Server answered %d", response.StatusCode)), response.StatusCode
-	}
-
-	return body, nil, 200
+	return NewResponse(r.StatusCode, bytes.NewReader(body)), nil
 }

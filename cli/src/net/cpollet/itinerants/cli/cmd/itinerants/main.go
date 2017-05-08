@@ -45,9 +45,9 @@ func login(baseUrl string) {
 		baseUrl = baseUrl + "/"
 	}
 
-	sessionResource := ws.SessionResource{
-		RemoteServer: &net.RemoteServer{BaseUrl: baseUrl},
-	}
+	sessionResource := ws.NewSessionResource(
+		net.NewRemoteServer(baseUrl),
+	)
 
 	token, err := sessionResource.Authenticate("cpollet", "password")
 	if err != nil {
@@ -76,10 +76,10 @@ func future() {
 		os.Exit(1)
 	}
 
-	eventResource := ws.EventResource{
-		RemoteServer: &net.RemoteServer{BaseUrl: preferences.ServerUrl},
-		AuthToken:    &ws.AuthToken{Token: preferences.Token},
-	}
+	eventResource := ws.NewEventResource(
+		net.NewRemoteServer(preferences.ServerUrl),
+		&ws.AuthToken{Token: preferences.Token},
+	)
 
 	result, err := eventResource.Future()
 	if err != nil {
