@@ -2,16 +2,18 @@ package main
 
 import (
 	"fmt"
+	"golang.org/x/crypto/ssh/terminal"
 	"log"
 	"net/cpollet/itinerants/cli/net"
 	"net/cpollet/itinerants/cli/prefs"
 	"net/cpollet/itinerants/cli/ws"
 	"os"
 	"strings"
+	"syscall"
 )
 
 // Available commands are:
-// - login <server>
+// - login <username> <server>
 // - future
 func main() {
 	if len(os.Args) < 2 {
@@ -23,11 +25,11 @@ func main() {
 
 	switch command {
 	case "login":
-		if len(os.Args) != 3 {
-			fmt.Printf("Usage: %s %s <server>\n", os.Args[0], os.Args[1])
+		if len(os.Args) != 4 {
+			fmt.Printf("Usage: %s %s <username> <server>\n", os.Args[0], os.Args[1])
 			os.Exit(1)
 		}
-		login(os.Args[2])
+		login(os.Args[3], os.Args[2])
 		break
 	case "future":
 		future()
@@ -38,18 +40,27 @@ func main() {
 	}
 }
 
-func login(baseUrl string) {
-	fmt.Printf("Logging in on %s ...\n", baseUrl)
-
+func login(baseUrl string, username string) {
 	if !strings.HasSuffix(baseUrl, "/") {
 		baseUrl = baseUrl + "/"
 	}
+
+	fmt.Printf("Logging in on %s as %s ...\n", baseUrl, username)
+
+	fmt.Print("Password: ")
+	bytePassword, err := terminal.ReadPassword(int(syscall.Stdin))
+	if err != nil {
+		fmt.Print("Unable to read password")
+		os.Exit(1)
+	}
+	fmt.Println()
+	password := string(bytePassword)
 
 	sessionResource := ws.NewSessionResource(
 		net.NewRemoteServer(baseUrl),
 	)
 
-	token, err := sessionResource.Authenticate("cpollet", "password")
+	token, err := sessionResource.Authenticate(username, password)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -53,7 +53,23 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <id>default-get</id>
+                        <configuration>
+                            <packages>
+                                <package>golang.org/x/crypto/ssh</package>
+                            </packages>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>default-build</id>
+                        <configuration>
+                            <packages>
+                                <package>net/cpollet/itinerants/cli/cmd/itinerants</package>
+                            </packages>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-test</id>
                         <configuration>
                             <packages>
                                 <package>net/cpollet/itinerants/cli/cmd/itinerants</package>
