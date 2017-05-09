@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"golang.org/x/crypto/ssh/terminal"
 	"log"
@@ -8,8 +9,10 @@ import (
 	"net/cpollet/itinerants/cli/prefs"
 	"net/cpollet/itinerants/cli/ws"
 	"os"
+	"strconv"
 	"strings"
 	"syscall"
+	"time"
 )
 
 func pop(args []string) (string, []string) {
@@ -90,7 +93,7 @@ func events(program string, args []string) {
 	switch command {
 	case "import":
 		eventsImport(program, args)
-		break;
+		break
 	default:
 		eventsUsage(program)
 	}
@@ -107,6 +110,21 @@ func eventsImport(program string, args []string) {
 		eventsImportUsage(program)
 	}
 
+	file, err := os.Open(filename)
+	if err != nil {
+		fmt.Printf("Unable open %s (%s)\n", filename, err)
+		os.Exit(1)
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+
+	events, err := reader.ReadAll()
+	if err != nil {
+		fmt.Printf("Unable to parse %s (%s)\n", filename, err)
+		os.Exit(1)
+	}
+
 	preferences := loadPreferences(program)
 
 	eventResource := ws.NewEventResource(
@@ -114,19 +132,69 @@ func eventsImport(program string, args []string) {
 		ws.NewToken(preferences.Token),
 	)
 
-	result, err := eventResource.Future()
-	if err != nil {
-		log.Fatal(err)
+	type eventData struct {
+		title    string
+		dateTime time.Time
+	}
+	parsedEvents := make([]struct {
+		title    string
+		dateTime time.Time
+	}, len(events))
+
+	for index, event := range events {
+		name, day, month, year, hour, _ := event[0], event[1], event[2], event[3], event[4], event[5]
+
+		parsedDay, err := strconv.Atoi(day)
+		if err != nil {
+			fmt.Printf("Unable to parse day on line %d (%s is not a valid day)\n", index, day)
+			os.Exit(1)
+		}
+
+		parsedMon, err := strconv.Atoi(month)
+		if err != nil {
+			fmt.Printf("Unable to parse month on line %d (%s is not a valid month)\n", index, month)
+			os.Exit(1)
+		}
+
+		parsedYear, err := strconv.Atoi(year)
+		if err != nil {
+			fmt.Printf("Unable to parse year on line %d (%s is not a valid year)\n", index, year)
+			os.Exit(1)
+		}
+
+		parsedHour, err := time.Parse("15:04", hour)
+		if err != nil {
+			fmt.Printf("Unable to parse hour on line %d (%s is not a valid hour)\n", index, hour)
+			os.Exit(1)
+		}
+
+		eventDate := parsedHour.Add(-30*time.Minute).AddDate(parsedYear, parsedMon-1, parsedDay-1)
+
+		parsedEvents[index] = eventData{
+			title:    name,
+			dateTime: eventDate,
+		}
 	}
 
-	fmt.Printf("Result: %s\n", result)
+	for _, event := range parsedEvents {
+		err := eventResource.Create(event.title, event.dateTime)
+		if err != nil {
+			fmt.Printf("Unable to create event %s: %s\n", event, err)
+		}
+	}
+	//result, err := eventResource.Future	()
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//fmt.Printf("Result: %s\n", result)
 }
 func eventsImportUsage(program string) {
 	fmt.Printf("Usage: %s events import <filename.csv>\n", program)
 	os.Exit(1)
 }
 
-func loadPreferences(program string) (*prefs.Preferences) {
+func loadPreferences(program string) *prefs.Preferences {
 	preferences, err := prefs.Load()
 	if err != nil {
 		log.Fatal(err)

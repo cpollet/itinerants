@@ -5,17 +5,21 @@ import (
 	"errors"
 	"fmt"
 	"net/cpollet/itinerants/cli/net"
+	"time"
 )
+
+const dateTimeFormat = "2006-01-02T15:04:00"
 
 func NewEventResource(server net.RemoteServer, authToken Token) EventResource {
 	return eventResource{
 		RemoteServer: server,
-		AuthToken: authToken,
+		AuthToken:    authToken,
 	}
 }
 
 type EventResource interface {
 	Future() (string, error)
+	Create(name string, dateTime time.Time) (error)
 }
 
 type eventResource struct {
@@ -37,4 +41,9 @@ func (resource eventResource) Future() (string, error) {
 	buf.ReadFrom(result.Content())
 
 	return string(buf.String()), nil
+}
+func (resource eventResource) Create(name string, dateTime time.Time) (error) {
+	fmt.Printf("Creating %s, on %s\n", name, dateTime.Format(dateTimeFormat))
+
+	return nil
 }
