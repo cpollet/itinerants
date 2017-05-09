@@ -7,8 +7,11 @@ import (
 	"net/cpollet/itinerants/cli/net"
 )
 
-func NewEventResource(server net.RemoteServer, authToken *AuthToken) EventResource {
-	return eventResource{RemoteServer: server, AuthToken: authToken}
+func NewEventResource(server net.RemoteServer, authToken Token) EventResource {
+	return eventResource{
+		RemoteServer: server,
+		AuthToken: authToken,
+	}
 }
 
 type EventResource interface {
@@ -17,11 +20,11 @@ type EventResource interface {
 
 type eventResource struct {
 	RemoteServer net.RemoteServer
-	AuthToken    *AuthToken
+	AuthToken    Token
 }
 
 func (resource eventResource) Future() (string, error) {
-	result, err := resource.RemoteServer.Get("/events/future", &net.Token{Token: resource.AuthToken.Token})
+	result, err := resource.RemoteServer.Get("/events/future", &net.Token{Token: resource.AuthToken.Value()})
 	if err != nil {
 		return "", err
 	}

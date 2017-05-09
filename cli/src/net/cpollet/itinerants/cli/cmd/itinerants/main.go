@@ -12,35 +12,43 @@ import (
 	"syscall"
 )
 
-// Available commands are:
-// - login <username> <server>
-// - future
-func main() {
-	if len(os.Args) < 2 {
-		fmt.Print("Usage: login|future\n")
-		os.Exit(1)
+func pop(args []string) (string, []string) {
+	if len(args) == 0 {
+		return "", []string{}
 	}
 
-	command := os.Args[1]
+	return args[0], args[1:]
+}
+
+func main() {
+	program, args := pop(os.Args)
+	command, args := pop(args)
 
 	switch command {
 	case "login":
-		if len(os.Args) != 4 {
-			fmt.Printf("Usage: %s %s <username> <server>\n", os.Args[0], os.Args[1])
-			os.Exit(1)
-		}
-		login(os.Args[3], os.Args[2])
+		login(program, args)
 		break
-	case "future":
-		future()
+	case "events":
+		events(program, args)
 		break
 	default:
-		fmt.Print("Usage: login|future\n")
-		os.Exit(1)
+		usage(program)
 	}
 }
+func usage(program string) {
+	fmt.Printf("Usage: %s [login,events]\n", program)
+	os.Exit(1)
+}
 
-func login(baseUrl string, username string) {
+func login(program string, args []string) {
+	if len(args) != 2 {
+		fmt.Printf("Usage: %s login <username> <server>\n", program)
+		os.Exit(1)
+	}
+
+	username, args := pop(args)
+	baseUrl, args := pop(args)
+
 	if !strings.HasSuffix(baseUrl, "/") {
 		baseUrl = baseUrl + "/"
 	}
@@ -67,7 +75,7 @@ func login(baseUrl string, username string) {
 
 	err = prefs.Save(prefs.Preferences{
 		ServerUrl: baseUrl,
-		Token:     token.Token,
+		Token:     token.Value(),
 	})
 	if err != nil {
 		log.Fatal(err)
@@ -76,20 +84,34 @@ func login(baseUrl string, username string) {
 	fmt.Println("Login successful")
 }
 
-func future() {
-	preferences, err := prefs.Load()
-	if err != nil {
-		log.Fatal(err)
+func events(program string, args []string) {
+	command, args := pop(args)
+
+	switch command {
+	case "import":
+		eventsImport(program, args)
+		break;
+	default:
+		eventsUsage(program)
+	}
+}
+func eventsUsage(program string) {
+	fmt.Printf("Usage: %s events [import]\n", program)
+	os.Exit(1)
+}
+
+func eventsImport(program string, args []string) {
+	filename, _ := pop(args)
+
+	if filename == "" {
+		eventsImportUsage(program)
 	}
 
-	if preferences == nil {
-		fmt.Printf("Please login before executing this command with: %s login <server>\n", os.Args[0])
-		os.Exit(1)
-	}
+	preferences := loadPreferences(program)
 
 	eventResource := ws.NewEventResource(
 		net.NewRemoteServer(preferences.ServerUrl),
-		&ws.AuthToken{Token: preferences.Token},
+		ws.NewToken(preferences.Token),
 	)
 
 	result, err := eventResource.Future()
@@ -98,4 +120,22 @@ func future() {
 	}
 
 	fmt.Printf("Result: %s\n", result)
+}
+func eventsImportUsage(program string) {
+	fmt.Printf("Usage: %s events import <filename.csv>\n", program)
+	os.Exit(1)
+}
+
+func loadPreferences(program string) (*prefs.Preferences) {
+	preferences, err := prefs.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if preferences == nil {
+		fmt.Printf("Please login before executing this command with: %s login\n", program)
+		os.Exit(1)
+	}
+
+	return preferences
 }

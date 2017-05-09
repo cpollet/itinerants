@@ -8,23 +8,19 @@ import (
 	"net/cpollet/itinerants/cli/net"
 )
 
-type AuthToken struct {
-	Token string
-}
-
 func NewSessionResource(server net.RemoteServer) SessionResource {
 	return sessionResource{RemoteServer: server}
 }
 
 type SessionResource interface {
-	Authenticate(string, string) (*AuthToken, error)
+	Authenticate(string, string) (Token, error)
 }
 
 type sessionResource struct {
 	RemoteServer net.RemoteServer
 }
 
-func (resource sessionResource) Authenticate(username string, password string) (*AuthToken, error) {
+func (resource sessionResource) Authenticate(username string, password string) (Token, error) {
 	payload, err := json.Marshal(sessionRequest{
 		Username: username,
 		Password: password,
@@ -48,7 +44,7 @@ func (resource sessionResource) Authenticate(username string, password string) (
 		return nil, errors.New("Invalid username or password")
 	}
 
-	return &AuthToken{response.Token}, nil
+	return NewToken(response.Token), nil
 }
 
 type sessionRequest struct {
