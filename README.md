@@ -36,20 +36,21 @@ You can access the various services usign the following URLs:
 
 # Build the CLI
 ## Using Maven
+You don't need any local go installation, the plugin will take care of everything.
 ```
 $ mvn -f cli/pom.xml clean install
 $ cli/bin/itinerants
 ```
 
 ## Using system GO installation
-Either
- * `export GOPATH=/path/to/itinerants/cli:$GOPATH`; or
- * `ln -s /path/to/itinerants/cli/src/net $GOPATH`
+Put source files in your `GOPATH` and then install and run the executable.
+```
+$ mkdir -p $GOPATH/src/cpollet.net && ln -s /path/to/itinerants/cli/src/cpollet.net/itinerants $GOPATH/src/cpollet.net/`
+$ go get golang.org/x/crypto/ssh
+$ go install cpollet.net/itinerants
+```
 
-Then
-```
-$ go install net/cpollet/itinerants/cli/cmd/itinerants
-```
+Provided that `$GOPATH/bin` is in your `PATH`, you can run `itinerants`.
 
 # Build everything
 ```

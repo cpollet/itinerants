@@ -1,12 +1,12 @@
 package cmd
 
 import (
+	"cpollet.net/itinerants/helpers"
+	"cpollet.net/itinerants/net"
+	"cpollet.net/itinerants/prefs"
+	"cpollet.net/itinerants/ws"
 	"fmt"
 	"golang.org/x/crypto/ssh/terminal"
-	"net/cpollet/itinerants/cli/helpers"
-	"net/cpollet/itinerants/cli/net"
-	"net/cpollet/itinerants/cli/prefs"
-	"net/cpollet/itinerants/cli/ws"
 	"strings"
 	"syscall"
 )

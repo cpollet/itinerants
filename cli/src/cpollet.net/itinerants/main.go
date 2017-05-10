@@ -1,8 +1,8 @@
 package main
 
 import (
-	"net/cpollet/itinerants/cli/cmd"
-	"net/cpollet/itinerants/cli/helpers"
+	"cpollet.net/itinerants/cmd"
+	"cpollet.net/itinerants/helpers"
 	"os"
 )
 

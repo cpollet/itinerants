@@ -64,7 +64,7 @@
                         <id>default-build</id>
                         <configuration>
                             <packages>
-                                <package>net/cpollet/itinerants/cli/cmd/itinerants</package>
+                                <package>cpollet.net/itinerants</package>
                             </packages>
                         </configuration>
                     </execution>
@@ -72,7 +72,7 @@
                         <id>default-test</id>
                         <configuration>
                             <packages>
-                                <package>net/cpollet/itinerants/cli/cmd/itinerants</package>
+                                <package>cpollet.net/itinerants</package>
                             </packages>
                         </configuration>
                     </execution>

@@ -2,10 +2,10 @@ package ws
 
 import (
 	"bytes"
+	"cpollet.net/itinerants/net"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"net/cpollet/itinerants/cli/net"
 	"time"
 )
 
