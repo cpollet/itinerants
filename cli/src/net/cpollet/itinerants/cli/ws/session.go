@@ -40,12 +40,16 @@ func (resource sessionResource) Authenticate(username string, password string) (
 		return nil, err
 	}
 
-	if result.HttpCode() == 401 || response.Result != "SUCCESS" {
+	if result.HttpCode() == 401 || response.Result == "INVALID_CREDENTIALS" {
 		return nil, errors.New("Invalid username or password")
 	}
 
 	if result.HttpCode() != 200 {
 		return nil, errors.New(fmt.Sprintf("Server answered with %d", result.HttpCode()))
+	}
+
+	if response.Result != "SUCCESS" {
+		return nil, errors.New(fmt.Sprintf("Server answered %s", response.Result))
 	}
 
 	return NewToken(response.Token), nil

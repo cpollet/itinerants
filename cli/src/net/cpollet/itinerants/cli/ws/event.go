@@ -45,8 +45,6 @@ func (resource eventResource) Future() (string, error) {
 }
 
 func (resource eventResource) Create(name string, dateTime time.Time) (error) {
-	fmt.Printf("Creating %s, on %s\n", name, dateTime.Format(dateTimeFormat))
-
 	payload, err := json.Marshal(createRequest{
 		Name:     name,
 		DateTime: dateTime.Format(dateTimeFormat),

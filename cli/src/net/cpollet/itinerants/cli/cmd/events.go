@@ -38,7 +38,7 @@ func eventsImport(program string, args []string) {
 
 	file, err := os.Open(filename)
 	if err != nil {
-		helpers.Dief("Unable open %s (%s)\n", filename, err)
+		helpers.Dief("Unable open %s (%s)", filename, err)
 	}
 	defer file.Close()
 
@@ -46,15 +46,15 @@ func eventsImport(program string, args []string) {
 
 	events, err := reader.ReadAll()
 	if err != nil {
-		helpers.Dief("Unable to parse %s (%s)\n", filename, err)
+		helpers.Dief("Unable to parse %s (%s)", filename, err)
 	}
 
 	preferences, err := prefs.Load()
 	if err != nil {
-		helpers.Dief("Unable to load preferences: %s\n", err)
+		helpers.Dief("Unable to load preferences: %s", err)
 	}
 	if preferences == nil {
-		helpers.Dief("Please login (%s login)\n", program)
+		helpers.Dief("Please login (%s login)", program)
 	}
 
 	eventResource := ws.NewEventResource(
@@ -66,32 +66,29 @@ func eventsImport(program string, args []string) {
 		title    string
 		dateTime time.Time
 	}
-	parsedEvents := make([]struct {
-		title    string
-		dateTime time.Time
-	}, len(events))
+	parsedEvents := make([]eventData, len(events))
 
 	for index, event := range events {
 		name, day, month, year, hour := event[0], event[1], event[2], event[3], event[4]
 
 		parsedDay, err := strconv.Atoi(day)
 		if err != nil {
-			helpers.Dief("Unable to parse day on line %d (%s is not a valid day)\n", index, day)
+			helpers.Dief("Unable to parse day on line %d (%s is not a valid day)", index, day)
 		}
 
 		parsedMon, err := strconv.Atoi(month)
 		if err != nil {
-			helpers.Dief("Unable to parse month on line %d (%s is not a valid month)\n", index, month)
+			helpers.Dief("Unable to parse month on line %d (%s is not a valid month)", index, month)
 		}
 
 		parsedYear, err := strconv.Atoi(year)
 		if err != nil {
-			helpers.Dief("Unable to parse year on line %d (%s is not a valid year)\n", index, year)
+			helpers.Dief("Unable to parse year on line %d (%s is not a valid year)", index, year)
 		}
 
 		parsedHour, err := time.Parse("15:04", hour)
 		if err != nil {
-			helpers.Dief("Unable to parse hour on line %d (%s is not a valid hour)\n", index, hour)
+			helpers.Dief("Unable to parse hour on line %d (%s is not a valid hour)", index, hour)
 		}
 
 		eventDate := parsedHour.Add(-30 * time.Minute).AddDate(parsedYear, parsedMon-1, parsedDay-1)
@@ -102,14 +99,32 @@ func eventsImport(program string, args []string) {
 		}
 	}
 
-	for _, event := range parsedEvents {
-		err := eventResource.Create(event.title, event.dateTime)
-		if err != nil {
-			fmt.Printf("Unable to create event %s: %s\n", event.title, err)
+	var workersSem = make(chan int, 3)
+	var workerNotification = make(chan int, len(parsedEvents))
+
+	defer func(numberOfEvents int) {
+		for i := 0; i < numberOfEvents; i++ {
+			<-workerNotification
 		}
+		fmt.Println("Done.")
+	}(len(parsedEvents))
+
+	for index, event := range parsedEvents {
+		workersSem <- 1
+
+		go func(index int, event eventData) {
+			fmt.Printf("Creating [%d: %s]\n", index, event.title)
+			err := eventResource.Create(event.title, event.dateTime)
+			if err != nil {
+				fmt.Printf("Error while creating [%d: %s]: %s\n", index, event.title, err)
+			}
+
+			workerNotification <- 1
+			<-workersSem
+		}(index, event)
 	}
 }
 
 func eventsImportUsage(program string) {
-	helpers.Dief("Usage: %s events import <filename.csv>\n", program)
+	helpers.Dief("Usage: %s events import <filename.csv>", program)
 }
