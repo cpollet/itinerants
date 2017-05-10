@@ -105,7 +105,7 @@ func eventsImport(program string, args []string) {
 	for _, event := range parsedEvents {
 		err := eventResource.Create(event.title, event.dateTime)
 		if err != nil {
-			fmt.Printf("Unable to create event %s: %s\n", event, err)
+			fmt.Printf("Unable to create event %s: %s\n", event.title, err)
 		}
 	}
 }

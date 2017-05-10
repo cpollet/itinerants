@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/cpollet/itinerants/cli/net"
 	"time"
+	"encoding/json"
 )
 
 const dateTimeFormat = "2006-01-02T15:04:00"
@@ -28,7 +29,7 @@ type eventResource struct {
 }
 
 func (resource eventResource) Future() (string, error) {
-	result, err := resource.RemoteServer.Get("/events/future", &net.Token{Token: resource.AuthToken.Value()})
+	result, err := resource.RemoteServer.Get("/events/future", resource.AuthToken.Value())
 	if err != nil {
 		return "", err
 	}
@@ -42,8 +43,32 @@ func (resource eventResource) Future() (string, error) {
 
 	return string(buf.String()), nil
 }
+
 func (resource eventResource) Create(name string, dateTime time.Time) (error) {
 	fmt.Printf("Creating %s, on %s\n", name, dateTime.Format(dateTimeFormat))
 
+	payload, err := json.Marshal(createRequest{
+		Name:     name,
+		DateTime: dateTime.Format(dateTimeFormat),
+	})
+	if err != nil {
+		return err
+	}
+
+	response, err := resource.RemoteServer.Post("events", bytes.NewReader(payload), resource.AuthToken.Value())
+
+	if err != nil {
+		return err
+	}
+
+	if response.HttpCode() != 200 {
+		return errors.New(fmt.Sprintf("Server answered with %d", response.HttpCode()))
+	}
+
 	return nil
+}
+
+type createRequest struct {
+	Name     string `json:"name"`
+	DateTime string `json:"dateTime"`
 }

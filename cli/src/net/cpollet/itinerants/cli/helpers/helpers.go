@@ -19,5 +19,5 @@ func Die(message interface{}) {
 }
 
 func Dief(format string, a ...interface{}) {
-	Die(fmt.Sprintf(format, a))
+	Die(fmt.Sprintf(format, a...))
 }

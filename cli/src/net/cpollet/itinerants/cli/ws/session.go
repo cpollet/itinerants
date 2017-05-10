@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/cpollet/itinerants/cli/net"
+	"fmt"
 )
 
 func NewSessionResource(server net.RemoteServer) SessionResource {
@@ -29,7 +29,7 @@ func (resource sessionResource) Authenticate(username string, password string) (
 		return nil, err
 	}
 
-	result, err := resource.RemoteServer.Put("sessions", bytes.NewReader(payload), nil)
+	result, err := resource.RemoteServer.Put("sessions", bytes.NewReader(payload), "")
 
 	if err != nil {
 		return nil, err
@@ -37,11 +37,15 @@ func (resource sessionResource) Authenticate(username string, password string) (
 
 	var response sessionResponse
 	if err := json.NewDecoder(result.Content()).Decode(&response); err != nil {
-		return nil, errors.New(fmt.Sprintf("Unable to parse JSON: %s", err))
+		return nil, err
 	}
 
-	if response.Result != "SUCCESS" {
+	if result.HttpCode() == 401 || response.Result != "SUCCESS" {
 		return nil, errors.New("Invalid username or password")
+	}
+
+	if result.HttpCode() != 200 {
+		return nil, errors.New(fmt.Sprintf("Server answered with %d", result.HttpCode()))
 	}
 
 	return NewToken(response.Token), nil
