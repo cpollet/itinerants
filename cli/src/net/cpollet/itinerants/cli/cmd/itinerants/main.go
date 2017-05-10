@@ -17,11 +17,13 @@ func main() {
 	case "events":
 		cmd.Events(program, args)
 		break
+	case "help":
+		helpers.Die("CSV format: event;day;month:year;time (hh:mm);people")
 	default:
 		usage(program)
 	}
 }
 
 func usage(program string) {
-	helpers.Dief("Usage: %s [login,events]", program)
+	helpers.Dief("Usage: %s [help,login,events]", program)
 }
