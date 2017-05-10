@@ -1,4 +1,5 @@
-# Using docker-compose
+# Build the webapp
+## Using docker-compose
 ```
 $ mvn clean install -Pbuild-docker-image
 $ docker-compose up
@@ -19,7 +20,7 @@ You can access the various services usign the following URLs:
 If you need to remove all generated images, you can run the `clean-docker.sh` script or
 `mvn -Ddocker.removeAll docker:remove` if you only want to get rid of the latest images.
 
-# Start in dev
+## Start in dev
 ```
 $ neo4j/start.sh
 $ mvn -f webservice/pom.xml clean install
@@ -33,3 +34,24 @@ You can access the various services usign the following URLs:
  * webservice: http://localhost:8080 or http://localhost:3000/api
  * neo4j: http://localhost:7474/
 
+# Build the CLI
+## Using Maven
+```
+$ mvn -f cli/pom.xml clean install
+$ cli/bin/itinerants
+```
+
+## Using system GO installation
+Either
+ * `export GOPATH=/path/to/itinerants/cli:$GOPATH`; or
+ * `ln -s /path/to/itinerants/cli/src/net $GOPATH`
+
+Then
+```
+$ go install net/cpollet/itinerants/cli/cmd/itinerants
+```
+
+# Build everything
+```
+$ mvn clean install
+```
