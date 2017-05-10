@@ -23,5 +23,5 @@ func main() {
 }
 
 func usage(program string) {
-	helpers.Dief("Usage: %s [login,events]\n", program)
+	helpers.Dief("Usage: %s [login,events]", program)
 }

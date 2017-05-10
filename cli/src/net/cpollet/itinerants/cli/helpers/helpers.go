@@ -14,7 +14,7 @@ func Pop(args []string) (string, []string) {
 }
 
 func Die(message interface{}) {
-	fmt.Print(message)
+	fmt.Println(message)
 	os.Exit(1)
 }
 

@@ -13,7 +13,7 @@ import (
 
 func Login(program string, args []string) {
 	if len(args) != 2 {
-		helpers.Dief("Usage: %s login <username> <server>\n", program)
+		helpers.Dief("Usage: %s login <username> <server>", program)
 	}
 
 	username, args := helpers.Pop(args)
