@@ -1,5 +1,6 @@
 package net.cpollet.itinerants.web.rest.resource;
 
+import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.domain.data.EventData;
 import net.cpollet.itinerants.core.service.EventService;
 import net.cpollet.itinerants.web.rest.data.EventPayload;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/events")
+@Slf4j
 public class EventController {
     private static final Map<String, EventService.SortOrder> stringSortOrderMap = new HashMap<>();
 
@@ -82,6 +84,7 @@ public class EventController {
 
     @PostMapping(value = "")
     public EventResponse create(@RequestBody EventPayload event) {
+        log.info("Create event {}", event.getName());
         String eventId = eventService.create(new EventService.InputEventData() {
             @Override
             public String getName() {
