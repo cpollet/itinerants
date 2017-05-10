@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
 	"net/cpollet/itinerants/cli/cmd"
 	"net/cpollet/itinerants/cli/helpers"
+	"os"
 )
 
 func main() {

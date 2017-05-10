@@ -1,15 +1,15 @@
 package cmd
 
 import (
+	"encoding/csv"
 	"fmt"
+	"net/cpollet/itinerants/cli/helpers"
+	"net/cpollet/itinerants/cli/net"
+	"net/cpollet/itinerants/cli/prefs"
+	"net/cpollet/itinerants/cli/ws"
 	"os"
 	"strconv"
 	"time"
-	"encoding/csv"
-	"net/cpollet/itinerants/cli/prefs"
-	"net/cpollet/itinerants/cli/ws"
-	"net/cpollet/itinerants/cli/helpers"
-	"net/cpollet/itinerants/cli/net"
 )
 
 func Events(program string, args []string) {
@@ -91,7 +91,7 @@ func eventsImport(program string, args []string) {
 			helpers.Dief("Unable to parse hour on line %d (%s is not a valid hour)", index, hour)
 		}
 
-		eventDate := parsedHour.Add(-30 * time.Minute).AddDate(parsedYear, parsedMon-1, parsedDay-1)
+		eventDate := parsedHour.Add(-30*time.Minute).AddDate(parsedYear, parsedMon-1, parsedDay-1)
 
 		parsedEvents[index] = eventData{
 			title:    name,

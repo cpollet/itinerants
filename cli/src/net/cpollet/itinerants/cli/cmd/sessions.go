@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 	"golang.org/x/crypto/ssh/terminal"
-	"syscall"
-	"net/cpollet/itinerants/cli/ws"
-	"net/cpollet/itinerants/cli/prefs"
 	"net/cpollet/itinerants/cli/helpers"
 	"net/cpollet/itinerants/cli/net"
+	"net/cpollet/itinerants/cli/prefs"
+	"net/cpollet/itinerants/cli/ws"
+	"strings"
+	"syscall"
 )
 
 func Login(program string, args []string) {

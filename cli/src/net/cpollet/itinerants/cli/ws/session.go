@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"net/cpollet/itinerants/cli/net"
 	"fmt"
+	"net/cpollet/itinerants/cli/net"
 )
 
 func NewSessionResource(server net.RemoteServer) SessionResource {

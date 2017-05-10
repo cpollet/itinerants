@@ -2,11 +2,11 @@ package ws
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/cpollet/itinerants/cli/net"
 	"time"
-	"encoding/json"
 )
 
 const dateTimeFormat = "2006-01-02T15:04:00"
@@ -20,7 +20,7 @@ func NewEventResource(server net.RemoteServer, authToken Token) EventResource {
 
 type EventResource interface {
 	Future() (string, error)
-	Create(name string, dateTime time.Time) (error)
+	Create(name string, dateTime time.Time) error
 }
 
 type eventResource struct {
@@ -44,7 +44,7 @@ func (resource eventResource) Future() (string, error) {
 	return string(buf.String()), nil
 }
 
-func (resource eventResource) Create(name string, dateTime time.Time) (error) {
+func (resource eventResource) Create(name string, dateTime time.Time) error {
 	payload, err := json.Marshal(createRequest{
 		Name:     name,
 		DateTime: dateTime.Format(dateTimeFormat),
