@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>mailer</module>
         <module>webservice</module>
         <module>nginx</module>
         <module>webapp</module>

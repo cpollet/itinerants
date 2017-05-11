@@ -23,6 +23,7 @@ If you need to remove all generated images, you can run the `clean-docker.sh` sc
 ## Start in dev
 ```
 $ neo4j/start.sh
+$ rabbitmq/start.sh
 $ mvn -f webservice/pom.xml clean install
 $ mvn -f webservice/web/pom.xml spring-boot:run
 $ (cd webapp && npm install && npm start)
@@ -33,6 +34,7 @@ You can access the various services usign the following URLs:
  * webapp: http://localhost:3000
  * webservice: http://localhost:8080 or http://localhost:3000/api
  * neo4j: http://localhost:7474/
+ * rabbitmq: http://localhost:8000 (guest:guest)
 
 # Build the CLI
 ## Using Maven
