@@ -50,7 +50,7 @@ $ go get golang.org/x/crypto/ssh
 $ go install cpollet.net/itinerants
 ```
 
-Provided that `` `go env GOPATH`bin `` is in your `PATH`, you can run `itinerants`.
+Provided that `` `go env GOPATH`/bin `` is in your `PATH`, you can run `itinerants`.
 
 # Build everything
 ```
