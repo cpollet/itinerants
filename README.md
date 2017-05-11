@@ -45,7 +45,7 @@ $ cli/bin/itinerants
 ## Using system GO installation
 Put source files in your `GOPATH` and then install and run the executable.
 ```
-$ mkdir -p $GOPATH/src/cpollet.net && ln -s /path/to/itinerants/cli/src/cpollet.net/itinerants $GOPATH/src/cpollet.net/`
+$ mkdir -p `go env GOPATH`/src/cpollet.net && ln -s /path/to/itinerants/cli/src/cpollet.net/itinerants `go env GOPATH`/src/cpollet.net/`
 $ go get golang.org/x/crypto/ssh
 $ go install cpollet.net/itinerants
 ```
