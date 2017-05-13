@@ -1,6 +1,7 @@
 package net.cpollet.itinerants.web.rest.resource;
 
 import net.cpollet.itinerants.core.domain.Password;
+import net.cpollet.itinerants.core.domain.Person;
 import net.cpollet.itinerants.core.service.PersonService;
 import net.cpollet.itinerants.web.rest.data.CreatePersonPayload;
 import net.cpollet.itinerants.web.rest.data.PersonResponse;
@@ -16,37 +17,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/people")
 public class PersonController {
     private final PersonService personService;
-    private final Password.Factory passwordFactory;
 
-    public PersonController(PersonService personService, Password.Factory passwordFactory) {
+    public PersonController(PersonService personService) {
         this.personService = personService;
-        this.passwordFactory = passwordFactory;
     }
 
     @PostMapping(value = "")
-    public PersonResponse create(@RequestBody CreatePersonPayload person) {
-        String personId = personService.create(new PersonService.InputPersonData() {
+    public PersonResponse create(@RequestBody CreatePersonPayload personPayload) {
+        Person person = personService.create(new PersonService.InputPersonData() {
             @Override
             public String getFirstName() {
-                return person.getFirstName();
+                return personPayload.getFirstName();
             }
 
             @Override
             public String getLastName() {
-                return person.getLastName();
+                return personPayload.getLastName();
             }
 
             @Override
             public String getEmail() {
-                return person.getEmail();
+                return personPayload.getEmail();
             }
 
             @Override
             public String getUsername() {
-                return person.getUsername();
+                return personPayload.getUsername();
             }
         });
 
-        return new PersonResponse(personService.getById(personId));
+        person.notifyCreation();
+
+        return new PersonResponse(person);
     }
 }

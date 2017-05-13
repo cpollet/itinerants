@@ -18,10 +18,12 @@ import java.util.UUID;
 public class Neo4jPersonService implements PersonService {
     private final PersonRepository personRepository;
     private final Password.Factory passwordFactory;
+    private final Person.Notifier notifier;
 
-    public Neo4jPersonService(PersonRepository personRepository, Password.Factory passwordFactory) {
+    public Neo4jPersonService(PersonRepository personRepository, Password.Factory passwordFactory, Person.Notifier notifier) {
         this.personRepository = personRepository;
         this.passwordFactory = passwordFactory;
+        this.notifier = notifier;
     }
 
     @Override
@@ -32,11 +34,15 @@ public class Neo4jPersonService implements PersonService {
             throw new IllegalArgumentException("No node of type " + Neo4JPersonData.class.getAnnotation(NodeEntity.class).label() + " found for UUID " + id);
         }
 
-        return new Person(personData, passwordFactory);
+        return build(personData);
+    }
+
+    private Person build(PersonData personData) {
+        return new Person(personData, passwordFactory, notifier);
     }
 
     @Override
-    public String create(PersonData personData) {
+    public Person create(PersonData personData) {
         // FIXME fails with a nasty exception when username already exists...
         Neo4JPersonData neo4jPerson = new Neo4JPersonData();
         neo4jPerson.setFirstName(personData.getFirstName());
@@ -45,11 +51,11 @@ public class Neo4jPersonService implements PersonService {
         neo4jPerson.setPassword("-");
         neo4jPerson.setUUID(UUID.randomUUID().toString());
 
-        return personRepository.save(neo4jPerson).getUUID();
+        return build(personRepository.save(neo4jPerson));
     }
 
     @Override
     public Person getByUsername(String username) {
-        return new Person(personRepository.findByUsername(username), passwordFactory);
+        return build(personRepository.findByUsername(username));
     }
 }

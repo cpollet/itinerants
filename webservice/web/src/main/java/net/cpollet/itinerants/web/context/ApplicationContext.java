@@ -35,7 +35,12 @@ public class ApplicationContext {
 
     @Bean
     public Person.Factory personFactory() {
-        return personData -> new Person(personData, passwordFactory());
+        return personData -> new Person(personData, passwordFactory(), notifier());
+    }
+
+    @Bean
+    public Person.Notifier notifier() {
+        return new Person.Notifier.LoggerNotifier();
     }
 
     @Bean

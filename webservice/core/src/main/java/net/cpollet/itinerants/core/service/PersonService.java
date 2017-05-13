@@ -10,7 +10,7 @@ import net.cpollet.itinerants.core.domain.data.PersonData;
 public interface PersonService {
     Person getById(String id);
 
-    String create(PersonData personData);
+    Person create(PersonData personData);
 
     Person getByUsername(String username);
 

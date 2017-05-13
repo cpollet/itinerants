@@ -1,5 +1,6 @@
 package net.cpollet.itinerants.core.domain;
 
+import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 
 import java.util.Arrays;
@@ -13,10 +14,12 @@ import java.util.stream.Collectors;
 public class Person {
     private final PersonData personData;
     private final Password.Factory passwordFactory;
+    private final Notifier notifier;
 
-    public Person(PersonData personData, Password.Factory passwordFactory) {
+    public Person(PersonData personData, Password.Factory passwordFactory, Notifier notifier) {
         this.personData = personData;
         this.passwordFactory = passwordFactory;
+        this.notifier = notifier;
     }
 
     public String id() {
@@ -49,6 +52,10 @@ public class Person {
         return personData.getTargetRatio();
     }
 
+    public void notifyCreation() {
+        notifier.notifyNewAccount(this);
+    }
+
     @Override
     public String toString() {
         return "Person[" + personData.getUUID() + ": " + personData.getFirstName() + "]";
@@ -69,5 +76,17 @@ public class Person {
 
     public interface Factory {
         Person create(PersonData personData);
+    }
+
+    public interface Notifier {
+        void notifyNewAccount(Person person);
+
+        @Slf4j
+        class LoggerNotifier implements Notifier {
+            @Override
+            public void notifyNewAccount(Person person) {
+                log.info("Notify person created: {}", person.username());
+            }
+        }
     }
 }
