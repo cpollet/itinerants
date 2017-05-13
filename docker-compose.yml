@@ -4,20 +4,33 @@ services:
     image: "cpollet/net.cpollet.itinerants-webapp"
     ports:
       - "8000:80"
+
   neo4j:
     image: "neo4j:3.0"
-    ports:
-      - "7474:7474"
-      - "7687:7687"
+    #ports:
+      #- "7474:7474"
+      #- "7687:7687"
     environment:
       - "NEO4J_AUTH=none"
     volumes:
       - "neo4j-data:/data"
       - "neo4j-logs:/logs"
+
   webservice:
     image: "cpollet/net.cpollet.itinerants-webservice-web"
     environment:
       - "JAVA_OPTS=-Dspring.profiles.active=prod"
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    #ports:
+      #- "5672:5672"
+      #- "9000:15672"
+
+  mailer:
+    image: "cpollet/net.cpollet.itinerants-mailer-daemon"
+    environment:
+      - "JAVA_OPTS=-Dspring.profiles.active=prod -Dmailgun.apiKey=${MAILGUN_KEY}"
 
 volumes:
   neo4j-data:
