@@ -1,6 +1,7 @@
 package net.cpollet.itinerants.mailer.context;
 
 import net.cpollet.itinerants.mailer.MailBuilderFactory;
+import net.cpollet.itinerants.mailer.emails.NewAccountEmail;
 import net.cpollet.itinerants.mailer.handlers.NewAccountHandler;
 import net.cpollet.itinerants.mailer.handlers.ResetPasswordHandler;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,8 @@ public class ApplicationContext {
     }
 
     @Bean
-    NewAccountHandler newAccountHandler(MailBuilderFactory mailBuilderFactory) {
-        return new NewAccountHandler(mailBuilderFactory);
+    NewAccountHandler newAccountHandler(MailBuilderFactory mailBuilderFactory, NewAccountEmail newAccountEmail) {
+        return new NewAccountHandler(mailBuilderFactory, newAccountEmail);
     }
 
     @Bean

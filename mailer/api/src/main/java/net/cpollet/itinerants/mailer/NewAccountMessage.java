@@ -15,4 +15,5 @@ import java.util.Map;
 public class NewAccountMessage {
     private final String email;
     private final String token;
+    private final String username;
 }
