@@ -18,9 +18,6 @@ import java.util.Map;
  */
 @org.springframework.context.annotation.Configuration
 public class FreemarkerContext {
-    @Autowired
-    private FreeMarkerVariablesProperties freeMarkerVariablesProperties;
-
     @Bean
     Configuration freemarkerConfiguration() {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
@@ -34,7 +31,8 @@ public class FreemarkerContext {
     }
 
     @Bean
-    NewAccountEmail newAccountEmail(Configuration configuration) throws IOException {
+    NewAccountEmail newAccountEmail(Configuration configuration,
+                                    FreeMarkerVariablesProperties freeMarkerVariablesProperties) throws IOException {
         Template template = configuration.getTemplate("newAccount.ftl");
 
         Map<String, Object> defaultValues = new HashMap<>();

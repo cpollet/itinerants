@@ -1,5 +1,6 @@
 package net.cpollet.itinerants.mailer;
 
+import net.cpollet.itinerants.mailer.configuration.MailgunProperties;
 import net.sargue.mailgun.Configuration;
 import net.sargue.mailgun.MailBuilder;
 
@@ -8,12 +9,19 @@ import net.sargue.mailgun.MailBuilder;
  */
 public class MailBuilderFactory {
     private final Configuration configuration;
+    private final MailgunProperties mailgunProperties;
 
-    public MailBuilderFactory(Configuration configuration) {
+    public MailBuilderFactory(Configuration configuration, MailgunProperties mailgunProperties) {
         this.configuration = configuration;
+        this.mailgunProperties = mailgunProperties;
     }
 
     public MailBuilder create() {
-        return new MailBuilder(configuration);
+        return new MailBuilder(configuration) {
+            @Override
+            public MailBuilder subject(String subject) {
+                return super.subject(mailgunProperties.getSubjectPrefix() + subject);
+            }
+        };
     }
 }

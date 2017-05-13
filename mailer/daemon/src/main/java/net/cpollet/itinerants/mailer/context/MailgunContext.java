@@ -19,7 +19,7 @@ public class MailgunContext {
     }
 
     @Bean
-    MailBuilderFactory mailBuilderFactory(Configuration configuration) {
-        return new MailBuilderFactory(configuration);
+    MailBuilderFactory mailBuilderFactory(Configuration configuration, MailgunProperties mailgunProperties) {
+        return new MailBuilderFactory(configuration, mailgunProperties);
     }
 }

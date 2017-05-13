@@ -17,6 +17,7 @@ public class MailgunProperties {
     private From from;
     private String domain;
     private String apikey;
+    private String subjectPrefix;
 
     @Getter
     @Setter
