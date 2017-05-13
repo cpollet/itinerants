@@ -17,7 +17,7 @@ services:
   webservice:
     image: "cpollet/net.cpollet.itinerants-webservice-web"
     environment:
-      - "JAVA_OPTS=-Dspring.profiles.active=docker"
+      - "JAVA_OPTS=-Dspring.profiles.active=prod"
 
 volumes:
   neo4j-data:
