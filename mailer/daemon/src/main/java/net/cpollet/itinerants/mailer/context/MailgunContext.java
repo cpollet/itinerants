@@ -1,6 +1,7 @@
 package net.cpollet.itinerants.mailer.context;
 
 import net.cpollet.itinerants.mailer.MailBuilderFactory;
+import net.cpollet.itinerants.mailer.configuration.MailgunProperties;
 import net.sargue.mailgun.Configuration;
 import org.springframework.context.annotation.Bean;
 
@@ -10,11 +11,11 @@ import org.springframework.context.annotation.Bean;
 @org.springframework.context.annotation.Configuration
 public class MailgunContext {
     @Bean
-    Configuration mailgunConfiguration() {
+    Configuration mailgunConfiguration(MailgunProperties mailgunProperties) {
         return new Configuration()
-                .domain("mg.mubo.space")
-                .apiKey(System.getProperty("apiKey"))
-                .from("Christophe (Arena)", "itinerants@mg.mubo.space");
+                .domain(mailgunProperties.getDomain())
+                .apiKey(mailgunProperties.getApikey())
+                .from(mailgunProperties.getFrom().getName(), mailgunProperties.getFrom().getEmail());
     }
 
     @Bean
