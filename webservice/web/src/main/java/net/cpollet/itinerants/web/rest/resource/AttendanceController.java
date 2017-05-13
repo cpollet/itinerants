@@ -55,7 +55,7 @@ public class AttendanceController {
         Map<Event, Set<Person>> availabilities = mapEventsToPersonsSet(events, Event::availablePeople);
         Map<Event, Set<Person>> attendances = mapEventsToPersonsSet(events, Event::attendingPeople);
 
-        List<EventData> pastEvents = eventService.past(EventService.SortOrder.DESCENDING);
+        List<Event> pastEvents = eventService.past(EventService.SortOrder.DESCENDING);
 
         Map<Person, Integer> pastAttendancesCount = Collections.emptyMap();//TODO
 

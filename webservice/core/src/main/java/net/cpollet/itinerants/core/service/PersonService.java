@@ -1,5 +1,6 @@
 package net.cpollet.itinerants.core.service;
 
+import net.cpollet.itinerants.core.domain.Person;
 import net.cpollet.itinerants.core.domain.data.EventData;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 
@@ -7,11 +8,11 @@ import net.cpollet.itinerants.core.domain.data.PersonData;
  * Created by cpollet on 13.02.17.
  */
 public interface PersonService {
-    PersonData getById(String id);
+    Person getById(String id);
 
     String create(PersonData personData);
 
-    PersonData getByUsername(String username);
+    Person getByUsername(String username);
 
     abstract class InputPersonData implements PersonData {
         @Override

@@ -11,17 +11,17 @@ import java.util.Set;
  * Created by cpollet on 11.02.17.
  */
 public interface EventService {
-    EventData getById(String id);
+    Event getById(String id);
 
     List<Event> getByIds(List<String> ids);
 
     String create(EventData eventData);
 
-    List<EventData> future(SortOrder sortOrder);
+    List<Event> future(SortOrder sortOrder);
 
-    List<EventData> future(String username, SortOrder sortOrder);
+    List<Event> future(String username, SortOrder sortOrder);
 
-    List<EventData> past(SortOrder sortOrder);
+    List<Event> past(SortOrder sortOrder);
 
     enum SortOrder {
         ASCENDING, DESCENDING

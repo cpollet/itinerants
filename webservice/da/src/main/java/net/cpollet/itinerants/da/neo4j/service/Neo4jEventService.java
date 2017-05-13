@@ -40,14 +40,14 @@ public class Neo4jEventService implements EventService {
     }
 
     @Override
-    public EventData getById(String id) {
+    public Event getById(String id) {
         Neo4JEventData eventData = eventRepository.findOneByUUID(id);
 
         if (eventData == null) {
             throw new IllegalArgumentException("No node of type " + Neo4JEventData.class.getAnnotation(NodeEntity.class).label() + " found for UUID " + id);
         }
 
-        return eventData;
+        return new Event(eventData, personFactory);
     }
 
     @Override
@@ -74,23 +74,29 @@ public class Neo4jEventService implements EventService {
     }
 
     @Override
-    public List<EventData> future(SortOrder sortOrder) {
+    public List<Event> future(SortOrder sortOrder) {
         long fromTimestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0));
-        // noinspection unchecked
-        return (List<EventData>) (List<?>) eventRepository.future(fromTimestamp, sortOrderNeo4jMap.get(sortOrder));
+
+        return eventRepository.future(fromTimestamp, sortOrderNeo4jMap.get(sortOrder)).stream()
+                .map(e -> new Event(e, personFactory))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<EventData> future(String username, SortOrder sortOrder) {
+    public List<Event> future(String username, SortOrder sortOrder) {
         long fromTimestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0));
-        // noinspection unchecked
-        return (List<EventData>) (List<?>) eventRepository.future(fromTimestamp, username, sortOrderNeo4jMap.get(sortOrder));
+
+        return eventRepository.future(fromTimestamp, username, sortOrderNeo4jMap.get(sortOrder)).stream()
+                .map(e -> new Event(e, personFactory))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<EventData> past(SortOrder sortOrder) {
+    public List<Event> past(SortOrder sortOrder) {
         long toTimestamp = LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0));
-        //noinspection unchecked
-        return (List<EventData>) (List<?>) eventRepository.past(toTimestamp, sortOrderNeo4jMap.get(sortOrder));
+
+        return eventRepository.past(toTimestamp, sortOrderNeo4jMap.get(sortOrder)).stream()
+                .map(e -> new Event(e, personFactory))
+                .collect(Collectors.toList());
     }
 }

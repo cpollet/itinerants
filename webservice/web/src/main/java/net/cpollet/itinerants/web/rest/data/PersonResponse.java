@@ -1,6 +1,7 @@
 package net.cpollet.itinerants.web.rest.data;
 
 import lombok.Data;
+import net.cpollet.itinerants.core.domain.Person;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 
 /**
@@ -22,7 +23,7 @@ public class PersonResponse {
         this(personId, name, null);
     }
 
-    public PersonResponse(PersonData personData) {
-        this(personData.getUUID(), personData.getFirstName(), personData.getUsername());
+    public PersonResponse(Person person) {
+        this(person.id(), person.firstName(), person.username());
     }
 }

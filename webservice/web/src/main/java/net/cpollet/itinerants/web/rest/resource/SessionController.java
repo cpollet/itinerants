@@ -2,7 +2,6 @@ package net.cpollet.itinerants.web.rest.resource;
 
 import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.domain.Person;
-import net.cpollet.itinerants.core.domain.data.PersonData;
 import net.cpollet.itinerants.core.service.PersonService;
 import net.cpollet.itinerants.web.authentication.AuthenticationPrincipal;
 import net.cpollet.itinerants.web.authentication.TokenService;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,24 +29,20 @@ import java.util.stream.Collectors;
 public class SessionController {
     private final TokenService tokenService;
     private final PersonService personService;
-    private final Person.Factory personFactory;
 
-    public SessionController(TokenService tokenService, PersonService personService, Person.Factory personFactory) {
+    public SessionController(TokenService tokenService, PersonService personService) {
         this.tokenService = tokenService;
         this.personService = personService;
-        this.personFactory = personFactory;
     }
 
     @PutMapping(value = "")
     public ResponseEntity<LoginResponse> create(@RequestBody LoginPayload credentials) {
         log.info("Creating session for {}", credentials.getUsername());
-        PersonData personData = personService.getByUsername(credentials.getUsername());
+        Person person = personService.getByUsername(credentials.getUsername());
 
-        if (personData == null) {
+        if (person == null) {
             return new ResponseEntity<>(LoginResponse.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
         }
-
-        Person person = personFactory.create(personData);
 
         if (!person.password().matches(credentials.getPassword())) {
             return new ResponseEntity<>(LoginResponse.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
@@ -67,6 +60,6 @@ public class SessionController {
 
         tokenService.store(token, authentication);
 
-        return new ResponseEntity<>(new LoginResponse(token, personData.getUUID(), person.roles()), HttpStatus.OK);
+        return new ResponseEntity<>(new LoginResponse(token, person.id(), person.roles()), HttpStatus.OK);
     }
 }

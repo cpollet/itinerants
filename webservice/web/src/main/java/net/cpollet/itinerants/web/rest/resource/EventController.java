@@ -1,7 +1,7 @@
 package net.cpollet.itinerants.web.rest.resource;
 
 import lombok.extern.slf4j.Slf4j;
-import net.cpollet.itinerants.core.domain.data.EventData;
+import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.service.EventService;
 import net.cpollet.itinerants.web.rest.data.EventPayload;
 import net.cpollet.itinerants.web.rest.data.EventResponse;
@@ -43,7 +43,7 @@ public class EventController {
 
     @GetMapping(value = "/{id}")
     public EventResponse get(@PathVariable("id") String id) {
-        EventData e = eventService.getById(id);
+        Event e = eventService.getById(id);
         return new EventResponse(e);
     }
 
@@ -54,15 +54,15 @@ public class EventController {
             throw new IllegalArgumentException("Sort order " + sort + " is not a valid order");
         }
 
-        List<EventData> events = getFutureEvents(sort, request);
+        List<Event> events = getFutureEvents(sort, request);
 
         return events.stream()
                 .map(EventResponse::new)
                 .collect(Collectors.toList());
     }
 
-    private List<EventData> getFutureEvents(String sort, HttpServletRequest request) {
-        List<EventData> events;
+    private List<Event> getFutureEvents(String sort, HttpServletRequest request) {
+        List<Event> events;
         if (request.isUserInRole("ADMIN")) {
             events = eventService.future(stringSortOrderMap.get(sort.toLowerCase()));
         } else {

@@ -1,5 +1,7 @@
 package net.cpollet.itinerants.da.neo4j.service;
 
+import net.cpollet.itinerants.core.domain.Password;
+import net.cpollet.itinerants.core.domain.Person;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 import net.cpollet.itinerants.core.service.PersonService;
 import net.cpollet.itinerants.da.neo4j.data.Neo4JPersonData;
@@ -15,20 +17,22 @@ import java.util.UUID;
 @Service
 public class Neo4jPersonService implements PersonService {
     private final PersonRepository personRepository;
+    private final Password.Factory passwordFactory;
 
-    public Neo4jPersonService(PersonRepository personRepository) {
+    public Neo4jPersonService(PersonRepository personRepository, Password.Factory passwordFactory) {
         this.personRepository = personRepository;
+        this.passwordFactory = passwordFactory;
     }
 
     @Override
-    public PersonData getById(String id) {
+    public Person getById(String id) {
         Neo4JPersonData personData = personRepository.findOneByUUID(id);
 
         if (personData == null) {
             throw new IllegalArgumentException("No node of type " + Neo4JPersonData.class.getAnnotation(NodeEntity.class).label() + " found for UUID " + id);
         }
 
-        return personData;
+        return new Person(personData, passwordFactory);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class Neo4jPersonService implements PersonService {
     }
 
     @Override
-    public PersonData getByUsername(String username) {
-        return personRepository.findByUsername(username);
+    public Person getByUsername(String username) {
+        return new Person(personRepository.findByUsername(username), passwordFactory);
     }
 }
