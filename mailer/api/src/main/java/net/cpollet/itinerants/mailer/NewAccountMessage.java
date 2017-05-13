@@ -12,8 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 @ToString
 @Getter
-public class Notification {
+public class NewAccountMessage {
     private final String email;
-    private final String type;
-    private Map<String,String> properties;
+    private final String token;
 }
