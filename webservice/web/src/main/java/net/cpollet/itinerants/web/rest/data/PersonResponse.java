@@ -23,6 +23,6 @@ public class PersonResponse {
     }
 
     public PersonResponse(PersonData personData) {
-        this(personData.getUUID(), personData.getName(), personData.getUsername());
+        this(personData.getUUID(), personData.getFirstName(), personData.getUsername());
     }
 }

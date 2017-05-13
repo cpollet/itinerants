@@ -8,6 +8,9 @@ match (n) delete n;
 CREATE (p1:Person {
     uuid: 'cpollet-uuid',
     name: 'Christophe',
+    firstName: 'Christophe',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'cpollet',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user,admin',
@@ -17,6 +20,9 @@ CREATE (p1:Person {
 CREATE (p2:Person {
     uuid: 'user2-uuid',
     name: 'Jonathan',
+    firstName: 'Jonathan',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user2',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -26,6 +32,9 @@ CREATE (p2:Person {
 CREATE (p3:Person {
     uuid: 'user3-uuid',
     name: 'Daniela',
+    firstName: 'Daniela',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user3',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -35,6 +44,9 @@ CREATE (p3:Person {
 CREATE (p4:Person {
     uuid: 'user4-uuid',
     name: 'David',
+    firstName: 'David',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user4',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -44,6 +56,9 @@ CREATE (p4:Person {
 CREATE (p5:Person {
     uuid: 'user5-uuid',
     name: 'Valentina',
+    firstName: 'Valentina',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user5',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -53,6 +68,9 @@ CREATE (p5:Person {
 CREATE (p6:Person {
     uuid: 'user6-uuid',
     name: 'Cyril',
+    firstName: 'Cyril',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user6',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -62,6 +80,9 @@ CREATE (p6:Person {
 CREATE (p7:Person {
     uuid: 'user7-uuid',
     name: 'Raquel',
+    firstName: 'Raquel',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user7',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -71,6 +92,9 @@ CREATE (p7:Person {
 CREATE (p8:Person {
     uuid: 'user8-uuid',
     name: 'Arnaud',
+    firstName: 'Arnaud',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user8',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -80,6 +104,9 @@ CREATE (p8:Person {
 CREATE (p9:Person {
     uuid: 'user9-uuid',
     name: 'Amandine',
+    firstName: 'Amandine',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user9',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -89,6 +116,9 @@ CREATE (p9:Person {
 CREATE (p10:Person {
     uuid: 'user10-uuid',
     name: 'Philippe',
+    firstName: 'Philippe',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user10',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -98,6 +128,9 @@ CREATE (p10:Person {
 CREATE (p11:Person {
     uuid: 'user11-uuid',
     name: 'Thomas',
+    firstName: 'Thomas',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user11',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -107,6 +140,9 @@ CREATE (p11:Person {
 CREATE (p12:Person {
     uuid: 'user12-uuid',
     name: 'Yves',
+    firstName: 'Yves',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user12',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -116,6 +152,9 @@ CREATE (p12:Person {
 CREATE (p13:Person {
     uuid: 'user13-uuid',
     name: 'Lynn',
+    firstName: 'Lynn',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user13',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -125,6 +164,9 @@ CREATE (p13:Person {
 CREATE (p14:Person {
     uuid: 'user14-uuid',
     name: 'Mateo',
+    firstName: 'Mateo',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user14',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
@@ -134,16 +176,21 @@ CREATE (p14:Person {
 CREATE (p15:Person {
     uuid: 'user15-uuid',
     name: 'Sebastian',
+    firstName: 'Sebastian',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user15',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',
     targetRatio: 1.0
 })
 
-
 CREATE (p16:Person {
     uuid: 'user16-uuid',
     name: 'Claudia',
+    firstName: 'Claudia',
+    lastName: 'LastName',
+    email: 'email@example.com',
     username: 'user16',
     password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
     roles: 'user',

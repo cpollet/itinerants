@@ -6,11 +6,15 @@ package net.cpollet.itinerants.core.domain.data;
 public interface PersonData {
     String getUUID();
 
-    String getName();
+    String getFirstName();
+
+    String getLastName();
 
     String getUsername();
 
     String getPassword();
+
+    String getEmail();
 
     String getRoles();
 

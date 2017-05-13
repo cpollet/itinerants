@@ -23,8 +23,8 @@ public class Person {
         return personData.getUUID();
     }
 
-    public String name() {
-        return personData.getName();
+    public String firstName() {
+        return personData.getFirstName();
     }
 
     public String username() {
@@ -51,7 +51,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person[" + personData.getUUID() + ": " + personData.getName() + "]";
+        return "Person[" + personData.getUUID() + ": " + personData.getFirstName() + "]";
     }
 
     @Override

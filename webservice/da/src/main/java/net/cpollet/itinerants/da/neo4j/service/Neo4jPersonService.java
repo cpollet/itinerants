@@ -35,9 +35,10 @@ public class Neo4jPersonService implements PersonService {
     public String create(PersonData personData) {
         // FIXME fails with a nasty exception when username already exists...
         Neo4JPersonData neo4jPerson = new Neo4JPersonData();
-        neo4jPerson.setName(personData.getName());
+        neo4jPerson.setFirstName(personData.getFirstName());
+        neo4jPerson.setLastName(personData.getLastName());
         neo4jPerson.setUsername(personData.getUsername());
-        neo4jPerson.setPassword(personData.getPassword());
+        neo4jPerson.setPassword("-");
         neo4jPerson.setUUID(UUID.randomUUID().toString());
 
         return personRepository.save(neo4jPerson).getUUID();

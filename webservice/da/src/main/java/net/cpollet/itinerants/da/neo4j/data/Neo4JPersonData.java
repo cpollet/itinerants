@@ -19,7 +19,10 @@ public class Neo4JPersonData implements PersonData {
     @Property(name = "uuid")
     private String UUID;
     private String username;
+    private String firstName;
+    private String lastName;
     private String name;
+    private String email;
     private String password;
     private String roles;
     private float targetRatio;
@@ -27,5 +30,14 @@ public class Neo4JPersonData implements PersonData {
     @Override
     public void availableFor(EventData eventData) {
         ((Neo4JEventData) eventData).availablePeople().add(this);
+    }
+
+    public void setName(String name) {
+        // nothing
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName=firstName;
+        name = firstName;
     }
 }

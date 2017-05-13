@@ -32,7 +32,7 @@ public class EventResponse {
                 eventData.getName(),
                 eventData.getDateTime(),
                 eventData.availablePeople().stream()
-                        .map(p -> new PersonResponse(p.getUUID(), p.getName()))
+                        .map(p -> new PersonResponse(p.getUUID(), p.getFirstName()))
                         .collect(Collectors.toList())
         );
     }

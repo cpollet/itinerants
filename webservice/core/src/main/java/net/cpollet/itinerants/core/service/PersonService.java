@@ -33,5 +33,10 @@ public interface PersonService {
         public float getTargetRatio() {
             throw new IllegalStateException();
         }
+
+        @Override
+        public String getPassword() {
+            throw new IllegalStateException();
+        }
     }
 }

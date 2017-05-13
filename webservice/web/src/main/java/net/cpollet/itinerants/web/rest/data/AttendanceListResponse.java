@@ -28,7 +28,7 @@ public class AttendanceListResponse {
         attendees = input.values().stream()
                 .flatMap(Set::stream)
                 .distinct()
-                .map(e -> new AttendeeResponse(e.id(), e.name(), e.targetRatio()))
+                .map(e -> new AttendeeResponse(e.id(), e.firstName(), e.targetRatio()))
                 .collect(Collectors.toMap(AttendeeResponse::getPersonId, e -> e));
     }
 
