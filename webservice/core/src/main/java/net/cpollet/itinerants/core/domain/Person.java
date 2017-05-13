@@ -34,6 +34,10 @@ public class Person {
         return personData.getUsername();
     }
 
+    public String email() {
+        return personData.getEmail();
+    }
+
     public Password password() {
         return passwordFactory.create(personData.getPassword());
     }

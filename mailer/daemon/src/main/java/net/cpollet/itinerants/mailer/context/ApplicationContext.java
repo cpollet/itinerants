@@ -1,9 +1,9 @@
 package net.cpollet.itinerants.mailer.context;
 
 import net.cpollet.itinerants.mailer.MailBuilderFactory;
+import net.cpollet.itinerants.mailer.Receiver;
 import net.cpollet.itinerants.mailer.emails.NewAccountEmail;
 import net.cpollet.itinerants.mailer.handlers.NewAccountHandler;
-import net.cpollet.itinerants.mailer.handlers.ResetPasswordHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,7 +25,7 @@ public class ApplicationContext {
     }
 
     @Bean
-    ResetPasswordHandler resetPasswordHandler() {
-        return new ResetPasswordHandler();
+    Receiver receiver(NewAccountHandler newAccountHandler) {
+        return new Receiver(newAccountHandler);
     }
 }
