@@ -56,8 +56,8 @@ public class Person {
         return personData.getTargetRatio();
     }
 
-    public void notifyCreation() {
-        notifier.notifyNewAccount(this);
+    public void notifyCreation(Notifier.NewAccountData data) {
+        notifier.notifyNewAccount(this, data);
     }
 
     @Override
@@ -83,12 +83,16 @@ public class Person {
     }
 
     public interface Notifier {
-        void notifyNewAccount(Person person);
+        void notifyNewAccount(Person person, NewAccountData newAccountData);
+
+        interface NewAccountData {
+            String token();
+        }
 
         @Slf4j
         class LoggerNotifier implements Notifier {
             @Override
-            public void notifyNewAccount(Person person) {
+            public void notifyNewAccount(Person person, NewAccountData newAccountData) {
                 log.info("Notify person created: {}", person.username());
             }
         }

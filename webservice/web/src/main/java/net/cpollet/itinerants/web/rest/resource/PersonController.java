@@ -1,7 +1,7 @@
 package net.cpollet.itinerants.web.rest.resource;
 
-import net.cpollet.itinerants.core.domain.Password;
 import net.cpollet.itinerants.core.domain.Person;
+import net.cpollet.itinerants.core.service.PasswordService;
 import net.cpollet.itinerants.core.service.PersonService;
 import net.cpollet.itinerants.web.rest.data.CreatePersonPayload;
 import net.cpollet.itinerants.web.rest.data.PersonResponse;
@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/people")
 public class PersonController {
     private final PersonService personService;
+    private final PasswordService passwordService;
 
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, PasswordService passwordService) {
         this.personService = personService;
+        this.passwordService = passwordService;
     }
 
     @PostMapping(value = "")
@@ -46,7 +48,8 @@ public class PersonController {
             }
         });
 
-        person.notifyCreation();
+        String token = passwordService.reset(person.username());
+        person.notifyCreation(() -> token);
 
         return new PersonResponse(person);
     }
