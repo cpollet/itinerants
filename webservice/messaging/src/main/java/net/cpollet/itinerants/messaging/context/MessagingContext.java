@@ -1,6 +1,7 @@
 package net.cpollet.itinerants.messaging.context;
 
 import lombok.extern.slf4j.Slf4j;
+import net.cpollet.itinerants.messaging.configuration.RabbitmqConfiguration;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionNameStrategy;
@@ -20,8 +21,6 @@ import java.util.UUID;
 @Configuration
 @Slf4j
 public class MessagingContext {
-    private static final String EXCHANGE_NAME = "account-events.fx"; // TODO move to properties
-
     @SuppressWarnings("Duplicates")
     @Bean
     ConnectionFactory connectionFactory(ConnectionNameStrategy connectionNameStrategy,
@@ -42,9 +41,9 @@ public class MessagingContext {
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    public RabbitTemplate rabbitTemplate(RabbitmqConfiguration rabbitmqConfiguration, ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setExchange(EXCHANGE_NAME);
+        rabbitTemplate.setExchange(rabbitmqConfiguration.getExchangeName());
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
         return rabbitTemplate;
     }

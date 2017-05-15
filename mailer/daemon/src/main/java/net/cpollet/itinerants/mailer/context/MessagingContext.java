@@ -2,6 +2,7 @@ package net.cpollet.itinerants.mailer.context;
 
 import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.mailer.Receiver;
+import net.cpollet.itinerants.mailer.configuration.RabbitmqConfiguration;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
@@ -28,8 +29,8 @@ import java.util.UUID;
 @Slf4j
 public class MessagingContext {
     @Bean
-    String exchangeName() {
-        return "account-events.fx"; // TODO move to properties
+    String exchangeName(RabbitmqConfiguration rabbitmqConfiguration) {
+        return rabbitmqConfiguration.getExchangeName();
     }
 
     @Bean

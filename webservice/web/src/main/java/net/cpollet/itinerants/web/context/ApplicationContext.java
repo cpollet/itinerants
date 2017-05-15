@@ -1,10 +1,13 @@
 package net.cpollet.itinerants.web.context;
 
+import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.algorithm.AttendeeSelection;
 import net.cpollet.itinerants.core.algorithm.SimpleAttendeeSelection;
 import net.cpollet.itinerants.core.domain.Password;
 import net.cpollet.itinerants.core.domain.Person;
 import net.cpollet.itinerants.core.service.SaltedSha256PasswordHashingService;
+import net.cpollet.itinerants.web.configuration.ApplicationProperties;
+import net.cpollet.itinerants.web.configuration.AuthenticationProperties;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.CacheConfiguration;
@@ -22,12 +25,11 @@ import java.util.concurrent.TimeUnit;
  * Created by cpollet on 29.03.17.
  */
 @Configuration
+@Slf4j
 public class ApplicationContext {
-    private static final String APPLICATION_NAME = "webservice-web";
-
     @Bean
-    String applicationName() {
-        return APPLICATION_NAME;
+    String applicationName(ApplicationProperties applicationProperties) {
+        return applicationProperties.getName();
     }
 
     @Bean
@@ -67,10 +69,12 @@ public class ApplicationContext {
     }
 
     @Bean
-    public Cache<String, String> passwordResetTokenCache(CacheManager cacheManager) {
+    public Cache<String, String> passwordResetTokenCache(CacheManager cacheManager, AuthenticationProperties authenticationProperties) {
+        log.info("Reset password token timeout: {}", authenticationProperties.getResetPasswordTokenTimeout());
         CacheConfiguration<String, String> cacheConfiguration = CacheConfigurationBuilder
                 .newCacheConfigurationBuilder(String.class, String.class, ResourcePoolsBuilder.heap(100))
-                .withExpiry(Expirations.timeToIdleExpiration(new Duration(8, TimeUnit.HOURS)))
+                .withExpiry(Expirations.timeToIdleExpiration(new Duration(authenticationProperties.getResetPasswordTokenTimeout(), TimeUnit.HOURS)))
+                .withExpiry(Expirations.timeToIdleExpiration(new Duration(12, TimeUnit.HOURS)))
                 .build();
 
         return cacheManager.createCache("passwordResetTokenCache", cacheConfiguration);

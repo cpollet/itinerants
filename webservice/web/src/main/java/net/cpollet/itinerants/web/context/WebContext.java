@@ -15,7 +15,7 @@ public class WebContext {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.US); // change this
+        localeResolver.setDefaultLocale(Locale.forLanguageTag("fr-CH"));
         return localeResolver;
     }
 }

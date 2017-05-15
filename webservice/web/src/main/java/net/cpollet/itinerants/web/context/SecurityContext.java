@@ -1,9 +1,11 @@
 package net.cpollet.itinerants.web.context;
 
+import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.web.authentication.AuthenticationFilter;
 import net.cpollet.itinerants.web.authentication.EhcacheTokenService;
 import net.cpollet.itinerants.web.authentication.TokenAuthenticationProvider;
 import net.cpollet.itinerants.web.authentication.TokenService;
+import net.cpollet.itinerants.web.configuration.AuthenticationProperties;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.ehcache.config.CacheConfiguration;
@@ -32,9 +34,13 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Slf4j
 public class SecurityContext extends WebSecurityConfigurerAdapter {
     @Autowired
     private CacheManager cacheManager;
+
+    @Autowired
+    private AuthenticationProperties authenticationProperties;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -77,9 +83,10 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 
     @Bean
     public Cache<String, Authentication> tokenCache() {
+        log.info("Session token timeout: {}", authenticationProperties.getResetPasswordTokenTimeout());
         CacheConfiguration<String, Authentication> cacheConfiguration = CacheConfigurationBuilder
                 .newCacheConfigurationBuilder(String.class, Authentication.class, ResourcePoolsBuilder.heap(100))
-                .withExpiry(Expirations.timeToIdleExpiration(new Duration(15, TimeUnit.HOURS)))
+                .withExpiry(Expirations.timeToIdleExpiration(new Duration(authenticationProperties.getSessionTokenTimeout(), TimeUnit.MINUTES)))
                 .build();
 
         return cacheManager.createCache("tokenCache", cacheConfiguration);

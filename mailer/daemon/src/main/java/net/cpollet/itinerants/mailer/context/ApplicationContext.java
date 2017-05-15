@@ -2,6 +2,7 @@ package net.cpollet.itinerants.mailer.context;
 
 import net.cpollet.itinerants.mailer.MailBuilderFactory;
 import net.cpollet.itinerants.mailer.Receiver;
+import net.cpollet.itinerants.mailer.configuration.ApplicationProperties;
 import net.cpollet.itinerants.mailer.emails.NewAccountEmail;
 import net.cpollet.itinerants.mailer.handlers.NewAccountHandler;
 import org.springframework.context.annotation.Bean;
@@ -12,11 +13,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ApplicationContext {
-    private static final String APP_NAME = "mailer-daemon";
-
     @Bean
-    String applicationName() {
-        return APP_NAME;
+    String applicationName(ApplicationProperties applicationProperties) {
+        return applicationProperties.getName();
     }
 
     @Bean
