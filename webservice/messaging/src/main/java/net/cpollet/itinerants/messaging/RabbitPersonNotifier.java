@@ -18,7 +18,7 @@ public class RabbitPersonNotifier implements Person.Notifier {
 
     @Override
     public void notifyNewAccount(Person person, NewAccountData newAccountData) {
-        log.info("Notify new account for {}", person.username());
+        log.info("Notify new account for username '{}'", person.username());
         rabbitTemplate.convertAndSend(new NewAccountMessage(person.email(), newAccountData.token(), person.username()));
     }
 }

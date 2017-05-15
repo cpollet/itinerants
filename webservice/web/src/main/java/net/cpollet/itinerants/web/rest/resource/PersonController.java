@@ -48,7 +48,7 @@ public class PersonController {
             }
         });
 
-        String token = passwordService.reset(person.username());
+        String token = passwordService.generateResetToken(person.username());
         person.notifyCreation(() -> token);
 
         return new PersonResponse(person);
