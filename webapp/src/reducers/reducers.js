@@ -1,23 +1,25 @@
 import {
-    REQUEST_FUTURE_EVENTS,
-    RECEIVE_FUTURE_EVENTS,
+    DECREASE_SYNC_TIMEOUT,
     FAIL_FUTURE_EVENTS,
-    SYNC_START,
-    SYNC_SUCCESS,
+    INVALIDATE_STATE,
+    LOGIN_EXPIRED,
+    LOGIN_INVALID,
+    LOGIN_SUCCESS,
+    PASSWORDS_DONT_MATCH,
+    RECEIVE_AVAILABILITIES,
+    RECEIVE_FUTURE_EVENTS,
+    RECEIVE_PLAN_PROPOSAL,
+    REQUEST_FUTURE_EVENTS,
     SYNC_ERROR,
     SYNC_FAILURE,
-    RECEIVE_AVAILABILITIES,
+    SYNC_PLAN,
+    SYNC_PLAN_SUCCESS,
+    SYNC_START,
+    SYNC_SUCCESS,
     TOGGLE_AVAILABILITY,
     TOGGLE_PLANNING,
     TOGGLE_SELECTION,
-    RECEIVE_PLAN_PROPOSAL,
-    SYNC_PLAN,
-    SYNC_PLAN_SUCCESS,
-    INVALIDATE_STATE,
-    DECREASE_SYNC_TIMEOUT,
-    LOGIN_SUCCESS,
-    LOGIN_EXPIRED,
-    LOGIN_INVALID
+    PASSWORDS_MATCH
 } from './actions';
 import constants from '../constants';
 
@@ -45,7 +47,7 @@ const initialState = {
     availabilities: [
 //      eventId, ...
     ],
-    serverSync: {
+    serverSync: { // TODO: move to futureEvents
         retryCount: 4,
         stale: false,
         syncPending: false,
@@ -58,10 +60,13 @@ const initialState = {
             events: [],
             attendees: {}
         },
-        sync: {
+        sync: { // TODO rename to serverSync
             pending: false,
             syncFailure: false
         }
+    },
+    resetPassword: {
+        passwordsMatch: true
     }
 };
 
@@ -243,6 +248,19 @@ function planningReducer(state = initialState.planning, action) {
     return state;
 }
 
+function resetPasswordReducer(state, action) {
+    console.log('resetPasswordReducer', state, action);
+    switch (action.type) {
+        case PASSWORDS_MATCH: {
+            return Object.assign({}, state, {
+                passwordsMatch: action.value
+            });
+        }
+    }
+
+    return state;
+}
+
 export default function reducer(state = initialState, action) {
     return {
         auth: authReducer(state.auth, action),
@@ -250,5 +268,6 @@ export default function reducer(state = initialState, action) {
         availabilities: availabilityReducer(state.availabilities, action),
         serverSync: serverSyncReducer(state.serverSync, action),
         planning: planningReducer(state.planning, action),
+        resetPassword: resetPasswordReducer(state.resetPassword, action)
     };
 }

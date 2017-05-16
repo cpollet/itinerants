@@ -7,6 +7,7 @@ import NoMatch from './screens/NoMatch';
 import App from './components/App';
 import LoginContainer from './components/containers/LoginContainer';
 import LogoutContainer from './components/containers/LogoutContainer';
+import ResetPasswordContainer from './components/containers/ResetPasswordContainer';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
@@ -129,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <Route path="/" component={App}>
                         <Route path="login" component={UserIsNotAuthenticated(LoginContainer)}/>
                         <Route path="logout" component={LogoutContainer}/>
+                        <Route path="resetPassword" component={UserIsNotAuthenticated(ResetPasswordContainer)}/>
                         <Route component={Authenticated}>
                             <IndexRoute component={FutureEventsContainer}/>
                             <Route path="future" component={FutureEventsContainer}/>
