@@ -9,6 +9,7 @@ import net.cpollet.itinerants.da.neo4j.repositories.PersonRepository;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -38,7 +39,11 @@ public class Neo4jPersonService implements PersonService {
     }
 
     private Person build(PersonData personData) {
-        return new Person(personData, passwordFactory, notifier);
+        PersonData nonNullPersonData = Optional
+                .ofNullable(personData)
+                .orElse(PersonData.EMPTY);
+
+        return new Person(nonNullPersonData, passwordFactory, notifier);
     }
 
     @Override
@@ -50,6 +55,7 @@ public class Neo4jPersonService implements PersonService {
         neo4jPerson.setUsername(personData.getUsername());
         neo4jPerson.setPassword("-");
         neo4jPerson.setEmail(personData.getEmail());
+        neo4jPerson.setRoles("user");
         neo4jPerson.setUUID(UUID.randomUUID().toString());
 
         return build(personRepository.save(neo4jPerson));
@@ -58,5 +64,12 @@ public class Neo4jPersonService implements PersonService {
     @Override
     public Person getByUsername(String username) {
         return build(personRepository.findByUsername(username));
+    }
+
+    @Override
+    public Person save(Person person) {
+        Neo4JPersonData personData = personRepository.findOneByUUID(person.id());
+
+        return build(personRepository.save(personData));
     }
 }

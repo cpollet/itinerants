@@ -14,6 +14,8 @@ public interface PersonService {
 
     Person getByUsername(String username);
 
+    Person save(Person person);
+
     abstract class InputPersonData implements PersonData {
         @Override
         public String getUUID() {

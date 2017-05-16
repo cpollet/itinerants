@@ -79,4 +79,9 @@ public class ApplicationContext {
 
         return cacheManager.createCache("passwordResetTokenCache", cacheConfiguration);
     }
+
+    @Bean
+    String resetPasswordTokenSalt(AuthenticationProperties authenticationProperties) {
+        return authenticationProperties.getResetPasswordTokenSalt();
+    }
 }

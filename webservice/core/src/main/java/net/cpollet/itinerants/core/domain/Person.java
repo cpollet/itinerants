@@ -46,6 +46,10 @@ public class Person {
         return passwordFactory.create(personData.getPassword());
     }
 
+    public void password(String password) {
+        personData.setPassword(passwordFactory.hash(password).toString());
+    }
+
     /**
      * @return the roles assigned to user, in lower case.
      */

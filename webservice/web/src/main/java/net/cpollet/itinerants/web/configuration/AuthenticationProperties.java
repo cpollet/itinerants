@@ -15,4 +15,5 @@ import org.springframework.context.annotation.Configuration;
 public class AuthenticationProperties {
     private Integer sessionTokenTimeout;
     private Integer resetPasswordTokenTimeout;
+    private String resetPasswordTokenSalt;
 }

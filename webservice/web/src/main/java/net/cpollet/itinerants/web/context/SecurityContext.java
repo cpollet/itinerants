@@ -48,6 +48,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/sessions/**").permitAll()
+                .antMatchers("/people/*/passwords/*").permitAll()
                 .antMatchers("/**").hasAnyRole("USER", "ADMIN");
 
         http
