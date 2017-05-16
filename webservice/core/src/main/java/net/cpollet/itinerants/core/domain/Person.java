@@ -30,6 +30,10 @@ public class Person {
         return personData.getFirstName();
     }
 
+    public String lastName(){
+        return personData.getLastName();
+    }
+
     public String username() {
         return personData.getUsername();
     }
