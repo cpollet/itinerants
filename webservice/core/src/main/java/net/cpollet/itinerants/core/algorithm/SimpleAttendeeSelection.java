@@ -6,6 +6,7 @@ import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.domain.Person;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +28,7 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
     @Override
     public Map<Event, Set<Person>> selection() {
         List<Event> events = availabilities.keySet().stream()
-                .sorted((e1, e2) -> e1.dateTime().compareTo(e2.dateTime()))
+                .sorted(Comparator.comparing(Event::dateTime))
                 .collect(Collectors.toList());
 
         if (events.isEmpty()) {

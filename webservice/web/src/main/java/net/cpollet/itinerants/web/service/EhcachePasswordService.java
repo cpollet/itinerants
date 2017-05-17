@@ -38,7 +38,7 @@ public class EhcachePasswordService implements PasswordService {
         String hashedToken = passwordHashingService.hash(token, salt);
 
         passwordResetTokenCache.put(hashedToken, username);
-        log.info("Password reset hashed token for username '{}' starts with '{}'", username, hashedToken.substring(0, 5));
+        log.info("Password reset hashed token for username '{}' starts with '{}'", username, hashedToken.substring(0, 10));
 
         return token;
     }
