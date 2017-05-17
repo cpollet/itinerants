@@ -37,6 +37,7 @@ public class FreemarkerContext {
 
         Map<String, Object> defaultValues = new HashMap<>();
         defaultValues.put("httpRoot", freeMarkerVariablesProperties.getHttpRoot());
+        defaultValues.put("changePassword", freeMarkerVariablesProperties.getChangePassword());
 
         return new NewAccountEmail(template, defaultValues);
     }

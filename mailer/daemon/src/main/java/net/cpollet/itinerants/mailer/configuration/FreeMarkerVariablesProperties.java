@@ -14,4 +14,5 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "freemarker.variables")
 public class FreeMarkerVariablesProperties {
     private String httpRoot;
+    private String changePassword;
 }

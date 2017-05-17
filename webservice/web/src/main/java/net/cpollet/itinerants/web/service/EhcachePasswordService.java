@@ -47,6 +47,9 @@ public class EhcachePasswordService implements PasswordService {
     public Person findPerson(String token) {
         String hashedToken = passwordHashingService.hash(token, salt);
         String username = passwordResetTokenCache.get(hashedToken);
+
+        passwordResetTokenCache.remove(token);
+
         return personService.getByUsername(username);
     }
 }

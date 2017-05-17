@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const store = createStore(rootReducer, compose(
         applyMiddleware(thunk),
-        applyMiddleware(logger),
+        //applyMiddleware(logger),
         applyMiddleware(routingMiddleware),
         window.devToolsExtension ? window.devToolsExtension() : f => f
     ));
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <Route path="/" component={App}>
                         <Route path="login" component={UserIsNotAuthenticated(LoginContainer)}/>
                         <Route path="logout" component={LogoutContainer}/>
-                        <Route path="resetPassword" component={UserIsNotAuthenticated(ResetPasswordContainer)}/>
+                        <Route path="users/passwords/:token" component={UserIsNotAuthenticated(ResetPasswordContainer)}/>
                         <Route component={Authenticated}>
                             <IndexRoute component={FutureEventsContainer}/>
                             <Route path="future" component={FutureEventsContainer}/>

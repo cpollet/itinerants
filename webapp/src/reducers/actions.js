@@ -23,6 +23,9 @@ export const LOGIN_INVALID = 'LOGIN_INVALID';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGOUT = 'LOGOUT';
 export const PASSWORDS_MATCH = 'PASSWORDS_MATCH';
+export const PASSWORD_TOO_SHORT = 'PASSWORD_TOO_SHORT';
+export const TOKEN_VALID = 'TOKEN_VALID';
+export const USERNAME_EMPTY='USERNAME_EMPTY';
 
 function authenticatedFetch(url, dispatch, state, options = {}) {
     function extractOr(object, key, defaultValue) {
@@ -296,10 +299,33 @@ export function logout() {
     };
 }
 
-export function resetPassword(username, password1, password2) {
-    console.log(username, password1, password2);
-
+export function resetPassword(username, password1, password2, hash) {
     return function (dispatch) {
+        dispatch({
+            type: PASSWORD_TOO_SHORT,
+            value: false
+        });
+        dispatch({
+            type: PASSWORDS_MATCH,
+            value: true
+        });
+        dispatch({
+            type: TOKEN_VALID,
+            value: true
+        });
+        dispatch({
+            type: USERNAME_EMPTY,
+            value: false
+        });
+
+        if (username.trim() === '') {
+            dispatch({
+                type: USERNAME_EMPTY,
+                value: true
+            });
+            return;
+        }
+
         if (password1 !== password2) {
             dispatch({
                 type: PASSWORDS_MATCH,
@@ -308,12 +334,53 @@ export function resetPassword(username, password1, password2) {
             return;
         }
 
-        dispatch({
-            type: PASSWORDS_MATCH,
-            value: true
+        fetch('/api/people/' + username + '/passwords/' + hash, {
+            method: 'PUT',
+            body: JSON.stringify({
+                password1,
+                password2
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => {
+            response.json().then((msg) => {
+                switch (msg.result) {
+                    case 'PASSWORD_TOO_SHORT':
+                        dispatch({
+                            type: PASSWORD_TOO_SHORT,
+                            value: true
+                        });
+                        break;
+                    case 'PASSWORDS_DONT_MATCH':
+                        dispatch({
+                            type: PASSWORDS_MATCH,
+                            value: false
+                        });
+                        break;
+                    case 'INVALID_RESET_PASSWORD_TOKEN':
+                        dispatch({
+                            type: TOKEN_VALID,
+                            value: false
+                        });
+                        break;
+                    case 'SUCCESS':
+                        dispatch({
+                            type: LOGIN_SUCCESS,
+                            username: username,
+                            personId: msg.personId,
+                            token: msg.token,
+                            roles: msg.roles
+                        });
+                        break;
+                }
+            });
+        }).catch((/* ex */) => {
+            console.log('fatal error');
+            // dispatch({
+            //     type: LOGIN_ERROR
+            // });
         });
-
-        // TODO implement fetch() call here...
     };
 
 }

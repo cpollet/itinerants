@@ -18,11 +18,14 @@ class ResetPassword extends React.Component {
                 <h2>Réinitialisation du mot de passe</h2>
 
                 {!this.props.passwordsMatch && <Alert type="error" text="Les mots de passe ne correspondent pas."/>}
+                {this.props.passwordTooShort && <Alert type="error" text="Le mot de passe est trop court."/>}
+                {this.props.tokenNotValid && <Alert type="error" text="Le lien de modification de mot de passe n'est pas valide."/>}
+                {this.props.usernameEmpty && <Alert type="error" text="Le nom d'utilisateur est vide."/>}
 
                 <FormContainer name="resetPassword"
                                onSubmit={(e, data) => {
                                    if (typeof data !== 'undefined') {
-                                       this.props.send(data.username, data.password1, data.password2);
+                                       this.props.send(data.username, data.password1, data.password2, this.props.token);
                                    }
                                    e.preventDefault();
                                }}
@@ -67,7 +70,11 @@ class ResetPassword extends React.Component {
 
 ResetPassword.propTypes = {
     send: React.PropTypes.func.isRequired,
+    token: React.PropTypes.string,
     passwordsMatch: React.PropTypes.bool.isRequired,
+    passwordTooShort: React.PropTypes.bool.isRequired,
+    tokenNotValid: React.PropTypes.bool.isRequired,
+    usernameEmpty: React.PropTypes.bool.isRequired,
 };
 
 export default ResetPassword;
