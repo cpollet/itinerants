@@ -45,7 +45,7 @@ public class MessagingContext {
 
     @Bean
     ConnectionNameStrategy connectionNameStrategy(String hostname, String applicationName) {
-        return connectionFactory -> hostname + "." + applicationName + "." + UUID.randomUUID().toString();
+        return connectionFactory -> applicationName + "@" + hostname;
     }
 
     @SuppressWarnings("Duplicates")
