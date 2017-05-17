@@ -5,4 +5,6 @@ package net.cpollet.itinerants.mailer.handlers;
  */
 public interface Handler<T> {
     void handle(T payload) throws HandlerException;
+
+    Class<T> handledMessage();
 }

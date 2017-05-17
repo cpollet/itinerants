@@ -37,6 +37,11 @@ public class NewAccountHandler implements Handler<NewAccountMessage> {
                 .send();
     }
 
+    @Override
+    public Class<NewAccountMessage> handledMessage() {
+        return NewAccountMessage.class;
+    }
+
     private String content(NewAccountMessage newAccountMessage) throws HandlerException {
         Map<String, Object> variables = new HashMap<>();
         variables.put("token", newAccountMessage.getToken());
