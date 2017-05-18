@@ -1,6 +1,7 @@
 package net.cpollet.itinerants.core.algorithm;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.truth.Truth;
 import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.domain.Person;
 import org.junit.Before;
@@ -290,5 +291,52 @@ public class TestSimpleAttendeeSelection {
         assertThat(result).containsKey(event1);
         //noinspection ResultOfMethodCallIgnored
         assertThat(result.get(event1)).containsExactly(person1, person2);
+    }
+
+    @Test
+    public void compute_returnsNoAttendeeList_whenEventHasNoAttendeeCountDefined() {
+        // GIVEN
+        Mockito.when(event1.attendeesCount()).thenReturn(null);
+
+        Map<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, Collections.emptySet())
+                .build();
+
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
+                2,
+                Collections.emptyMap(),
+                availabilities,
+                Collections.emptyMap()
+        );
+
+        // WHEN
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
+
+        // THEN
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    public void compute_returnsEmptyAttendeeList_whenEventHasAttendeeCountIsZero() {
+        // GIVEN
+        Mockito.when(event1.attendeesCount()).thenReturn(0);
+
+        Map<Event, Set<Person>> availabilities = ImmutableMap.<Event, Set<Person>>builder()
+                .put(event1, new HashSet<>(Collections.singletonList(person1)))
+                .build();
+
+        SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
+                2,
+                Collections.emptyMap(),
+                availabilities,
+                Collections.emptyMap()
+        );
+
+        // WHEN
+        Map<Event, Set<Person>> result = simpleAttendeeSelection.selection();
+
+        // THEN
+        assertThat(result).isNotEmpty();
+        assertThat(result.get(event1)).hasSize(0);
     }
 }

@@ -29,6 +29,7 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
     public Map<Event, Set<Person>> selection() {
         List<Event> events = availabilities.keySet().stream()
                 .sorted(Comparator.comparing(Event::dateTime))
+                .filter(e -> e.attendeesCount() != null)
                 .collect(Collectors.toList());
 
         if (events.isEmpty()) {
