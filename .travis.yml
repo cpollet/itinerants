@@ -1,0 +1,8 @@
+language: java
+
+install:
+  - mvn install -Pbuild-docker-image
+
+branches:
+  only:
+    - master
