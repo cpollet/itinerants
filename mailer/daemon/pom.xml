@@ -90,7 +90,7 @@
                     <images>
                         <image>
                             <name>cpollet/${project.groupId}-${project.artifactId}</name>
-                            <alias>webservice</alias>
+                            <alias>mailer-daemon</alias>
                             <build>
                                 <tags combine.children="append">
                                     <tag>latest</tag>

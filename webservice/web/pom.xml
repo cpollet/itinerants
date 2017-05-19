@@ -102,7 +102,7 @@
                     <images>
                         <image>
                             <name>cpollet/${project.groupId}-${project.artifactId}</name>
-                            <alias>webservice</alias>
+                            <alias>webservice-web</alias>
                             <build>
                                 <tags combine.children="append">
                                     <tag>latest</tag>

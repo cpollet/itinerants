@@ -13,14 +13,14 @@ cache:
 
 install: true
 
-script: mvn install -Pbuild-docker-image
+script: mvn package -Pbuild-docker-image
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push cpollet/net.cpollet.itinerants-mailer-daemon:latest
   - docker push cpollet/net.cpollet.itinerants-webapp:latest
   - docker push cpollet/net.cpollet.itinerants-webservice-web:latest
-  - curl "https://webhook.cpollet.io/hooks/net.cpollet.itinerants:redeploy?token=$WEBHOOK_TOKEN"
+  - curl -k "http://webhook.cpollet.io/hooks/net.cpollet.itinerants:redeploy?token=$WEBHOOK_TOKEN"
 
 branches:
   only:
