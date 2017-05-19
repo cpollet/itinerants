@@ -7,8 +7,9 @@ sudo: required
 services:
   - docker
 
-install:
-  - mvn install -Pbuild-docker-image
+install: true
+
+script: mvn install -Pbuild-docker-image
 
 branches:
   only:
