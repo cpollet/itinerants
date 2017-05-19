@@ -9,11 +9,17 @@ services:
 
 cache:
   directories:
-  - $HOME/.m2
+    - $HOME/.m2
 
-install: echo $TESTVAL
+install: true
 
 script: mvn install -Pbuild-docker-image
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push cpollet/net.cpollet.itinerants-mailer-daemon:latest
+  - docker push cpollet/net.cpollet.itinerants-webapp:latest
+  - docker push cpollet/net.cpollet.itinerants-webservice-web:latest
 
 branches:
   only:
