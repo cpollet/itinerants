@@ -20,7 +20,7 @@ after_success:
   - docker push cpollet/net.cpollet.itinerants-mailer-daemon:latest
   - docker push cpollet/net.cpollet.itinerants-webapp:latest
   - docker push cpollet/net.cpollet.itinerants-webservice-web:latest
-  - curl -k "http://webhook.cpollet.io/hooks/net.cpollet.itinerants:redeploy?token=$WEBHOOK_TOKEN"
+  - curl -k "https://webhook.cpollet.io/hooks/net.cpollet.itinerants:redeploy?token=$WEBHOOK_TOKEN"
 
 branches:
   only:
