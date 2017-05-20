@@ -1,9 +1,0 @@
-.component :global .fadein-enter, .component :global .fadein-appear {
-    opacity: 0.01;
-}
-
-.component :global .fadein-enter.fadein-enter-active, .component :global .fadein-appear.fadein-appear-active {
-    opacity: 1;
-    -webkit-transition: opacity 500ms ease-in;
-    transition: opacity 500ms ease-in;
-}

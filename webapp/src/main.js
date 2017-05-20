@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const store = createStore(rootReducer, compose(
         applyMiddleware(thunk),
-        //applyMiddleware(logger),
+        applyMiddleware(logger),
         applyMiddleware(routingMiddleware),
         window.devToolsExtension ? window.devToolsExtension() : f => f
     ));

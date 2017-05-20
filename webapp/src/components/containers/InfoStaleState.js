@@ -1,22 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import FadeIn from '../animation/FadeIn';
 
 class InfoStaleState extends React.Component {
     render() {
         return !this.props.stale ? null :
             (
-                <FadeIn>
-                    <div style={{position: 'relative'}}>
-                        <div style={{
-                            position: 'absolute',
-                            top: -20,
-                            right: -15,
-                            zIndex: 999,
-                            fontSize: '80%',
-                        }}>{this.props.text}</div>
-                    </div>
-                </FadeIn>
+                <div style={{position: 'relative'}}>
+                    <div style={{
+                        position: 'absolute',
+                        top: -20,
+                        right: -15,
+                        zIndex: 999,
+                        fontSize: '80%',
+                    }}>{this.props.text}</div>
+                </div>
             );
     }
 }
