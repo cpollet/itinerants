@@ -1,0 +1,53 @@
+@import "variables";
+
+.component {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover .checkbox {
+    border: 1px solid @main-color;
+  }
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #aaa;
+  display: inline-block;
+  margin: 0 5px;
+  position: relative;
+}
+
+.inner {
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  background-color: @main-color;
+  top: 2px;
+  left: 2px;
+}
+
+.outer {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid @main-color;
+  cursor: pointer;
+}
+
+.disabled, .disabled:hover {
+  cursor: default;
+  border: 1px solid #ddd;
+}
+
+.disabled .inner {
+  background-color: #ddd;
+}
+
+.disabled .outer {
+  border-color: #ddd;
+}

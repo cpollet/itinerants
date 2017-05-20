@@ -1,26 +1,26 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FutureEventsContainer from './components/containers/FutureEventsContainer';
-import PlanContainer from './components/containers/PlanContainer';
-import NoMatch from './screens/NoMatch';
-import App from './components/App';
-import LoginContainer from './components/containers/LoginContainer';
-import LogoutContainer from './components/containers/LogoutContainer';
-import ResetPasswordContainer from './components/containers/ResetPasswordContainer';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import FutureEventsContainer from './app/futureEvents/containers/FutureEventsContainer';
+import PlanContainer from './app/planning/containers/PlanContainer';
+import NoMatch from './app/error404/screens/NoMatch';
+import App from './app/App';
+import LoginContainer from './app/auth/containers/LoginContainer';
+import LogoutContainer from './app/auth/containers/LogoutContainer';
+import ResetPasswordContainer from './app/resetPassword/containers/ResetPasswordContainer';
+import {browserHistory, IndexRoute, Route, Router} from 'react-router';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import {logger} from 'redux-logger';
-import appReducer from './reducers/reducers';
+import appReducer from './app/reducer';
 import thunk from 'redux-thunk';
 import moment from 'moment';
-import {sync, decreaseSyncTimeout} from './reducers/actions';
-import {LOGIN_SUCCESS, LOGOUT} from './reducers/actions';
-import SyncManager from './SyncManager';
+import {decreaseSyncTimeout, sync} from './app/availability/actions';
+import {LOGIN_SUCCESS, LOGOUT} from './app/actions';
+import SyncManager from './app/availability/SyncManager';
 import {reducer as formReducer} from './lib/form/FormContainer';
 import FormProvider from './lib/form/FormProvider';
-import {routerReducer, routerMiddleware, routerActions, syncHistoryWithStore} from 'react-router-redux';
+import {routerActions, routerMiddleware, routerReducer, syncHistoryWithStore} from 'react-router-redux';
 import {UserAuthWrapper} from 'redux-auth-wrapper';
 import './main.less';
 
@@ -72,9 +72,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const syncManager = new SyncManager({
         syncTimerInterval: 1000,
-        stale: () => store.getState().app.serverSync.stale,
-        syncPending: () => store.getState().app.serverSync.syncPending,
-        syncTimedOut: () => store.getState().app.serverSync.syncTimeoutMs === 0,
+        stale: () => store.getState().app.availabilities.serverSync.stale,
+        syncPending: () => store.getState().app.availabilities.serverSync.syncPending,
+        syncTimedOut: () => store.getState().app.availabilities.serverSync.syncTimeoutMs === 0,
         decreaseSyncTimeout: () => store.dispatch(decreaseSyncTimeout()),
         sync: () => store.dispatch(sync()),
     });
@@ -130,7 +130,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <Route path="/" component={App}>
                         <Route path="login" component={UserIsNotAuthenticated(LoginContainer)}/>
                         <Route path="logout" component={LogoutContainer}/>
-                        <Route path="users/passwords/:token" component={UserIsNotAuthenticated(ResetPasswordContainer)}/>
+                        <Route path="users/passwords/:token"
+                               component={UserIsNotAuthenticated(ResetPasswordContainer)}/>
                         <Route component={Authenticated}>
                             <IndexRoute component={FutureEventsContainer}/>
                             <Route path="future" component={FutureEventsContainer}/>
