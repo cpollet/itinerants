@@ -10,10 +10,17 @@ services:
 cache:
   directories:
     - $HOME/.m2
+    - $HOME/.sonar/cache
 
 install: true
 
-script: mvn package -Pbuild-docker-image
+addons:
+  sonarqube:
+    organization: "cpollet-github"
+    token:
+      secure: $SONARQUBE_TOKEN
+
+script: mvn org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Pbuild-docker-image
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
