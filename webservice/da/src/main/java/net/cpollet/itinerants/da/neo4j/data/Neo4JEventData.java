@@ -52,7 +52,7 @@ public class Neo4JEventData implements EventData {
     @Override
     public Set<Neo4JPersonData> availablePeople() {
         if (availablePeople == null) {
-            return availablePeople = new HashSet<>();
+            availablePeople = new HashSet<>();
         }
         return availablePeople;
     }
@@ -60,7 +60,7 @@ public class Neo4JEventData implements EventData {
     @Override
     public Set<? extends PersonData> attendingPeople() {
         if (attendingPeople == null) {
-            return attendingPeople = new HashSet<>();
+            attendingPeople = new HashSet<>();
         }
         return attendingPeople;
     }

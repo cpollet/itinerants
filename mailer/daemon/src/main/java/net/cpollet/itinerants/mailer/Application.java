@@ -3,7 +3,6 @@ package net.cpollet.itinerants.mailer;
 import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.mailer.configuration.ApplicationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -19,12 +18,12 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class Application {
+    @Autowired
+    private ApplicationProperties applicationProperties;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-    @Autowired
-    private ApplicationProperties applicationProperties;
 
     @EventListener
     void onStartup(ApplicationReadyEvent event) {

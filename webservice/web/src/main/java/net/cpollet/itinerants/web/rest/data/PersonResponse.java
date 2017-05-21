@@ -2,7 +2,6 @@ package net.cpollet.itinerants.web.rest.data;
 
 import lombok.Data;
 import net.cpollet.itinerants.core.domain.Person;
-import net.cpollet.itinerants.core.domain.data.PersonData;
 
 /**
  * Created by cpollet on 13.02.17.

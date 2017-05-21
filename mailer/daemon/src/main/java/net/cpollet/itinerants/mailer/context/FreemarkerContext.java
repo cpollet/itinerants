@@ -5,7 +5,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 import net.cpollet.itinerants.mailer.configuration.FreeMarkerVariablesProperties;
 import net.cpollet.itinerants.mailer.emails.NewAccountEmail;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;

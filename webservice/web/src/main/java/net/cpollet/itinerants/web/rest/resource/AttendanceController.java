@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.cpollet.itinerants.core.algorithm.AttendeeSelection;
 import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.domain.Person;
-import net.cpollet.itinerants.core.domain.data.EventData;
 import net.cpollet.itinerants.core.service.AttendanceService;
 import net.cpollet.itinerants.core.service.EventService;
 import net.cpollet.itinerants.web.rest.data.AttendanceListResponse;
@@ -57,7 +56,7 @@ public class AttendanceController {
 
         List<Event> pastEvents = eventService.past(EventService.SortOrder.DESCENDING);
 
-        Map<Person, Integer> pastAttendancesCount = Collections.emptyMap();//TODO
+        Map<Person, Integer> pastAttendancesCount = Collections.emptyMap(); // TODO fill this map...
 
         Map<Event, Set<Person>> selection = attendanceStrategyFactory.create(
                 pastEvents.size(),

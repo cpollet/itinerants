@@ -6,7 +6,6 @@ import net.cpollet.itinerants.core.domain.data.PersonData;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
-import org.neo4j.ogm.annotation.Transient;
 
 /**
  * Created by cpollet on 13.02.17.
@@ -37,7 +36,7 @@ public class Neo4JPersonData implements PersonData {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName=firstName;
+        this.firstName = firstName;
         name = firstName;
     }
 }

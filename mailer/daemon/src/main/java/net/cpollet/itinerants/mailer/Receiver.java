@@ -17,7 +17,7 @@ public class Receiver {
         this.handlers = handlers;
     }
 
-    public void handle(NewAccountMessage newAccountMessage) throws HandlerException {
+    public void handle(NewAccountMessage newAccountMessage) {
         handlers.stream()
                 .filter(h -> h.handledMessage().equals(NewAccountMessage.class))
                 .forEach(h -> {

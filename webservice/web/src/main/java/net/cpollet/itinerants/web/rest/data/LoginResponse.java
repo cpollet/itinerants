@@ -9,7 +9,7 @@ import java.util.Set;
  */
 @Data
 public class LoginResponse {
-    public final static LoginResponse INVALID_CREDENTIALS;
+    public static final LoginResponse INVALID_CREDENTIALS;
     public static final LoginResponse PASSWORDS_DONT_MATCH;
     public static final LoginResponse PASSWORD_TOO_SHORT;
     public static final LoginResponse INVALID_RESET_PASSWORD_TOKEN;

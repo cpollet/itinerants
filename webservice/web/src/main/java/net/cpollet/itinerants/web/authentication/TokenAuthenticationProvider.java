@@ -17,7 +17,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
         String token = (String) authentication.getPrincipal();
 
         if (!tokenService.isTokenValid(token)) {

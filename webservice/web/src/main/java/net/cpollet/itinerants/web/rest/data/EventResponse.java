@@ -3,7 +3,6 @@ package net.cpollet.itinerants.web.rest.data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import net.cpollet.itinerants.core.domain.Event;
-import net.cpollet.itinerants.core.domain.data.EventData;
 
 import java.time.LocalDateTime;
 import java.util.List;

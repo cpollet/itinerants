@@ -93,7 +93,7 @@ public class MessagingContext {
     SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
                                              Receiver receiver,
                                              String queueName,
-                                             ConsumerTagStrategy consumerTagStrategy) throws UnknownHostException {
+                                             ConsumerTagStrategy consumerTagStrategy) {
 
         MessageListenerAdapter messageListener = new MessageListenerAdapter(receiver, new Jackson2JsonMessageConverter());
         messageListener.setDefaultListenerMethod("handle");
