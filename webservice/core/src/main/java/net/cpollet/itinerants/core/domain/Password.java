@@ -14,9 +14,9 @@ public class Password {
 
     public boolean matches(String clearPassword) {
         String salt = passwordHashingService.extractSalt(hashedPassword);
-        String hashedPassword = passwordHashingService.hash(clearPassword, salt);
+        String hashedPasswordToVerify = passwordHashingService.hash(clearPassword, salt);
 
-        return this.hashedPassword.equals(hashedPassword);
+        return this.hashedPassword.equals(hashedPasswordToVerify);
     }
 
     @Override
