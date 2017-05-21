@@ -22,7 +22,7 @@ addons:
 
 script:
  - mvn package -Pbuild-docker-image
- - mvn -f pom-sonar.pom -P sonar-java org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+ - mvn -f pom-sonar.xml -P sonar-java org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
