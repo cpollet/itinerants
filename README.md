@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/cpollet/itinerants.svg?branch=master)](https://travis-ci.org/cpollet/itinerants)
+[![Tech. Debt](https://sonarqube.com//api/badges/measure?key=net.cpollet.itinerants%3Aitinerants-sonar-aggregator&metric=sqale_debt_ratio)](https://sonarqube.com/dashboard?id=net.cpollet.itinerants%3Aitinerants-sonar-aggregator)
 
 # Build everything
 ```
