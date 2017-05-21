@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.UUID;
 
 /**
  * Created by cpollet on 12.05.17.
