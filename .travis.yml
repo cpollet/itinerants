@@ -31,6 +31,10 @@ after_success:
   - docker push cpollet/net.cpollet.itinerants-webservice-web:latest
   - curl "https://webhook.cpollet.io/hooks/net.cpollet.itinerants:redeploy?token=$WEBHOOK_TOKEN"
 
+notifications:
+  email:
+    - $NOTIFICATION_EMAIL
+
 branches:
   only:
     - master
