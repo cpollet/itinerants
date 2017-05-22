@@ -96,6 +96,7 @@ const ConnectedFormContainer = connect(mapStateToProps, mapDispatchToProps)(Form
 
 const FORM_UPDATE_VALUE = 'FORM_UPDATE_VALUE';
 const initialState = {};
+
 function reduce(state = initialState, action) {
     function initialFormState(formName, state) {
         if (typeof state[formName] === 'undefined') {

@@ -2,7 +2,15 @@ import React from 'react';
 
 class FormFieldContainer extends React.Component {
     onChange(event) {
-        this.context.update(this.props.name, event.target.value);
+        if (typeof event.target.selectedOptions !== 'undefined') {
+            let value = [];
+            for (let i = 0; i < event.target.selectedOptions.length; i++) {
+                value.push(event.target.selectedOptions[i].value);
+            }
+            this.context.update(this.props.name, value);
+        } else {
+            this.context.update(this.props.name, event.target.value);
+        }
     }
 
     componentWillMount() {
