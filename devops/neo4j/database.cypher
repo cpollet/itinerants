@@ -6,7 +6,7 @@ match ()-[r]->() delete r;
 match (n) delete n;
 
 CREATE (p1:Person {
-    uuid: 'cpollet-uuid',
+    uuid: '4249085e-3f22-11e7-a919-92ebcb67fe33',
     name: 'Christophe',
     firstName: 'Christophe',
     lastName: 'LastName',
