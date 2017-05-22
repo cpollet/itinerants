@@ -22,7 +22,9 @@ import {reducer as formReducer} from './lib/form/FormContainer';
 import FormProvider from './lib/form/FormProvider';
 import {routerActions, routerMiddleware, routerReducer, syncHistoryWithStore} from 'react-router-redux';
 import {UserAuthWrapper} from 'redux-auth-wrapper';
+import CreateUserContainer from './app/users/create/containers/CreateUserContainer';
 import './main.less';
+import AdminMenu from './app/admin/screens/AdminMenu';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
@@ -112,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         failureRedirectPath: () => '/future',
         allowRedirectBack: false
     });
-    const Admin = UserIsAdmin((props) => React.cloneElement(props.children, props));
+    // const Admin = UserIsAdmin((props) => React.cloneElement(props.children, props));
 
     const UserIsNotAuthenticated = UserAuthWrapper({
         authSelector: state => authData(state),
@@ -138,8 +140,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             <Route path="past" component={NoMatch}/>
                             <Route path="settings" component={NoMatch}/>
                         </Route>
-                        <Route component={Admin}>
+                        <Route path="admin" component={UserIsAdmin(AdminMenu)}>
                             <Route path="plan" component={PlanContainer}/>
+                            <Route path="users/create" component={CreateUserContainer}/>
                         </Route>
                         <Route path="*" component={NoMatch}/>
                     </Route>

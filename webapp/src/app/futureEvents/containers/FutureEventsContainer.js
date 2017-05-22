@@ -37,7 +37,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         request: () => dispatch(fetchFutureEvents()),
-        plan: () => dispatch(push('/plan')),
+        plan: () => dispatch(push('/admin/plan')),
     };
 }
 
