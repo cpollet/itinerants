@@ -18,7 +18,7 @@ func main() {
 		cmd.Events(program, args)
 		break
 	case "help":
-		helpers.Die("CSV format: event;day;month:year;time (hh:mm);people")
+		helpers.Die("CSV format: event,day,month,year,time (hh:mm),people")
 	default:
 		usage(program)
 	}
