@@ -4,6 +4,7 @@ const initialState = {
     passwordsMatch: true,
     passwordTooShort: false,
     tokenValid: true,
+    usernameEmpty: false,
 };
 
 export default function (state = initialState, action) {
