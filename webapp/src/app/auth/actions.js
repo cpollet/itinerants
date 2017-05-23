@@ -17,7 +17,8 @@ export function login(username, password) {
                 switch (msg.result) {
                     case 'INVALID_CREDENTIALS':
                         dispatch({
-                            type: LOGIN_INVALID
+                            type: LOGIN_INVALID,
+                            username: username,
                         });
                         break;
                     case 'SUCCESS':

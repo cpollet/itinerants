@@ -17,10 +17,24 @@ class Login extends React.Component {
         return (
             <div>
                 <h2>Connection</h2>
-                {renderIf(this.props.invalidCredentials,
-                    <Alert type="error" text="Nom d'utilisateur ou mot de passe invalide."/>)}
+                {
+                    this.props.invalidCredentials &&
+                    <Alert type="error">
+                        Nom d'utilisateur ou mot de passe invalide.&nbsp;
+                        <a href="#" onClick={(e) => {
+                            this.props.sendPasswordResetToken(this.props.username);
+                            e.preventDefault();
+                        }}>Mot de passe oublié ?</a>
+                    </Alert>
+                }
                 {renderIf(this.props.loginExpired,
                     <Alert type="info" text="Session expirée."/>)}
+                {
+                    this.props.resetPasswordTokenSent &&
+                    <Alert type="success">
+                        Un email content le lien de réinitialisation du mot de passe a été envoyé.
+                    </Alert>
+                }
 
                 <FormContainer name="login"
                                onSubmit={(e, data) => {
@@ -63,7 +77,10 @@ Login.propTypes = {
     login: React.PropTypes.func.isRequired,
     invalidCredentials: React.PropTypes.bool,
     loginExpired: React.PropTypes.bool,
-    rememberMeUsername: React.PropTypes.string
+    rememberMeUsername: React.PropTypes.string,
+    sendPasswordResetToken: React.PropTypes.func.isRequired,
+    username: React.PropTypes.string,
+    resetPasswordTokenSent: React.PropTypes.bool.isRequired,
 };
 
 export default Login;

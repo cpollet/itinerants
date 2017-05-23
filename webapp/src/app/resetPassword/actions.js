@@ -1,4 +1,11 @@
-import {LOGIN_SUCCESS, PASSWORD_TOO_SHORT, PASSWORDS_MATCH, TOKEN_VALID, USERNAME_EMPTY} from '../actions';
+import {
+    LOGIN_SUCCESS,
+    PASSWORD_TOO_SHORT,
+    PASSWORDS_MATCH,
+    RESET_PASSWORD_TOKEN_SENT,
+    TOKEN_VALID,
+    USERNAME_EMPTY
+} from '../actions';
 
 export function resetPassword(username, password1, password2, hash) {
     return function (dispatch) {
@@ -62,7 +69,8 @@ export function resetPassword(username, password1, password2, hash) {
                     case 'INVALID_RESET_PASSWORD_TOKEN':
                         dispatch({
                             type: TOKEN_VALID,
-                            value: false
+                            value: false,
+                            username: username,
                         });
                         break;
                     case 'SUCCESS':
@@ -78,10 +86,23 @@ export function resetPassword(username, password1, password2, hash) {
             });
         }).catch((/* ex */) => {
             console.log('fatal error');
-            // dispatch({
-            //     type: LOGIN_ERROR
-            // });
         });
     };
+}
 
+export function sendResetPasswordToken(username) {
+    return function (dispatch) {
+        fetch('/api/people/' + username + '/passwords/resetTokens', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((/*response*/) => {
+            dispatch({
+                type: RESET_PASSWORD_TOKEN_SENT
+            });
+        }).catch((/* ex */) => {
+            console.log('fatal error');
+        });
+    };
 }
