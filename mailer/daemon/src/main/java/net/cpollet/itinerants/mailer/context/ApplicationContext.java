@@ -9,8 +9,8 @@ import net.cpollet.itinerants.mailer.emails.ResetPasswordEmail;
 import net.cpollet.itinerants.mailer.handlers.Handler;
 import net.cpollet.itinerants.mailer.handlers.NewAccountHandler;
 import net.cpollet.itinerants.mailer.handlers.NewAccountHandlerMock;
-import net.cpollet.itinerants.mailer.handlers.ResetPasswordHandler;
 import net.cpollet.itinerants.mailer.handlers.PasswordResetHandlerMock;
+import net.cpollet.itinerants.mailer.handlers.ResetPasswordHandler;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,15 +33,19 @@ public class ApplicationContext {
     @Profile("mock")
     @Qualifier("newAccountHandler")
     NewAccountHandlerMock newAccountHandlerMock() {
-        log.info("Creating {}", NewAccountHandlerMock.class);
+        logBeanCreation(NewAccountHandlerMock.class);
         return new NewAccountHandlerMock();
+    }
+
+    private void logBeanCreation(Class<?> clazz) {
+        log.info("Creating {}", clazz);
     }
 
     @Bean
     @Profile("!mock")
     @Qualifier("newAccountHandler")
     NewAccountHandler newAccountHandler(MailBuilderFactory mailBuilderFactory, NewAccountEmail newAccountEmail) {
-        log.info("Creating {}", NewAccountHandler.class);
+        logBeanCreation(NewAccountHandler.class);
         return new NewAccountHandler(mailBuilderFactory, newAccountEmail);
     }
 
@@ -49,7 +53,7 @@ public class ApplicationContext {
     @Profile("mock")
     @Qualifier("passwordResetHandler")
     PasswordResetHandlerMock passwordResetHandlerMock() {
-        log.info("Creating {}", PasswordResetHandlerMock.class);
+        logBeanCreation(PasswordResetHandlerMock.class);
         return new PasswordResetHandlerMock();
     }
 
@@ -57,7 +61,7 @@ public class ApplicationContext {
     @Profile("!mock")
     @Qualifier("passwordResetHandler")
     ResetPasswordHandler passwordResetHandler(MailBuilderFactory mailBuilderFactory, ResetPasswordEmail resetPasswordTokenEmail) {
-        log.info("Creating {}", ResetPasswordHandler.class);
+        logBeanCreation(ResetPasswordHandler.class);
         return new ResetPasswordHandler(mailBuilderFactory, resetPasswordTokenEmail);
     }
 
