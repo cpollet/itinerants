@@ -94,4 +94,18 @@ public class PersonController {
 
         return sessionController.create(new LoginPayload(username, payload.getPassword1()));
     }
+
+    @PutMapping(value = "/{username}/passwords/resetTokens")
+    public ResponseEntity createResetPasswordToken(@PathVariable String username) {
+        Person person = personService.getByUsername(username);
+
+        if (!person.username().equals(username)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String token = passwordService.generateResetToken(person.username());
+        person.notifyResetPassword(() -> token);
+
+        return ResponseEntity.ok().build();
+    }
 }

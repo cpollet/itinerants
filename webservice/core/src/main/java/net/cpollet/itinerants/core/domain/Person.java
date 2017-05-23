@@ -64,8 +64,12 @@ public class Person {
         return personData.getTargetRatio();
     }
 
-    public void notifyCreation(Notifier.NewAccountData data) {
+    public void notifyCreation(Notifier.PasswordResetData data) {
         notifier.notifyNewAccount(this, data);
+    }
+
+    public void notifyResetPassword(Notifier.PasswordResetData data) {
+        notifier.notifyResetPassword(this, data);
     }
 
     @Override
@@ -91,17 +95,24 @@ public class Person {
     }
 
     public interface Notifier {
-        void notifyNewAccount(Person person, NewAccountData newAccountData);
+        void notifyNewAccount(Person person, PasswordResetData passwordResetData);
 
-        interface NewAccountData {
+        void notifyResetPassword(Person person, PasswordResetData passwordResetData);
+
+        interface PasswordResetData {
             String token();
         }
 
         @Slf4j
         class LoggerNotifier implements Notifier {
             @Override
-            public void notifyNewAccount(Person person, NewAccountData newAccountData) {
-                log.info("Notify person created: {}", person.username());
+            public void notifyNewAccount(Person person, PasswordResetData passwordResetData) {
+                log.info("Notify person created: {} {}", person.username(), passwordResetData.token());
+            }
+
+            @Override
+            public void notifyResetPassword(Person person, PasswordResetData passwordResetData) {
+                log.info("Notify password reset token: {} {}", person.username(), passwordResetData.token());
             }
         }
     }
