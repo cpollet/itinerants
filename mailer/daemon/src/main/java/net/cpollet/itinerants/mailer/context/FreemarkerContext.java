@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 import net.cpollet.itinerants.mailer.configuration.FreeMarkerVariablesProperties;
 import net.cpollet.itinerants.mailer.emails.NewAccountEmail;
+import net.cpollet.itinerants.mailer.emails.ResetPasswordEmail;
 import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
@@ -39,5 +40,17 @@ public class FreemarkerContext {
         defaultValues.put("changePassword", freeMarkerVariablesProperties.getChangePassword());
 
         return new NewAccountEmail(template, defaultValues);
+    }
+
+    @Bean
+    ResetPasswordEmail passwordResetEmail(Configuration configuration,
+                                          FreeMarkerVariablesProperties freeMarkerVariablesProperties) throws IOException {
+        Template template = configuration.getTemplate("resetPassword.ftl");
+
+        Map<String, Object> defaultValues = new HashMap<>();
+        defaultValues.put("httpRoot", freeMarkerVariablesProperties.getHttpRoot());
+        defaultValues.put("changePassword", freeMarkerVariablesProperties.getChangePassword());
+
+        return new ResetPasswordEmail(template, defaultValues);
     }
 }

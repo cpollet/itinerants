@@ -29,4 +29,17 @@ public class Receiver {
                     }
                 });
     }
+
+    public void handle(ResetPasswordMessage resetPasswordMessage) {
+        handlers.stream()
+                .filter(h -> h.handledMessage().equals(ResetPasswordMessage.class))
+                .forEach(h -> {
+                    try {
+                        //noinspection unchecked
+                        ((Handler<ResetPasswordMessage>) h).handle(resetPasswordMessage);
+                    } catch (HandlerException e) {
+                        log.error("Handler {} threw an exception: {}", h.getClass(), e.getMessage(), e);
+                    }
+                });
+    }
 }
