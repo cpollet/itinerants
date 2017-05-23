@@ -1,4 +1,4 @@
-import {LOGIN_EXPIRED, LOGIN_INVALID, LOGIN_SUCCESS, RESET_PASSWORD_TOKEN_SENT} from '../actions';
+import {LOGIN_EXPIRED, LOGIN_INVALID, LOGIN_SUCCESS, RESET_LOGIN_FORM, RESET_PASSWORD_TOKEN_SENT} from '../actions';
 import constants from './constants';
 
 const initialState = {
@@ -38,6 +38,8 @@ export default function (state = initialState, action) {
                 error: null,
                 resetPasswordTokenSent: true,
             });
+        case RESET_LOGIN_FORM:
+            return Object.assign({}, state, initialState);
     }
     return state;
 }

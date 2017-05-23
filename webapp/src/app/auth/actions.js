@@ -1,8 +1,11 @@
 import fetch from 'isomorphic-fetch';
-import {LOGIN_ERROR, LOGIN_EXPIRED, LOGIN_INVALID, LOGIN_SUCCESS, LOGOUT} from '../actions';
+import {LOGIN_ERROR, LOGIN_EXPIRED, LOGIN_INVALID, LOGIN_SUCCESS, LOGOUT, RESET_LOGIN_FORM} from '../actions';
 
 export function login(username, password) {
     return function (dispatch/* , getState */) {
+        dispatch({
+            type: RESET_LOGIN_FORM
+        });
         fetch('/api/sessions', {
             method: 'PUT',
             body: JSON.stringify({
