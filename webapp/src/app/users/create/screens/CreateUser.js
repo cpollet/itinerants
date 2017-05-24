@@ -51,7 +51,7 @@ class CreateUser extends React.Component {
                             <FormLabel>Prénom</FormLabel>
                             <FormField>
                                 <FormFieldContainer name="firstName">
-                                    <TextInput placeholder="Prénoom"/>
+                                    <TextInput placeholder="Prénom"/>
                                 </FormFieldContainer>
                             </FormField>
                         </FormRow>
