@@ -29,7 +29,7 @@ function mapStateToProps(state) {
             available: availabilities.indexOf(e.eventId) > -1,
             toPlan: !isAdmin ? false : state.app.planning.eventsToPlan.indexOf(e.eventId) > -1
         })))(state.app.futureEvents.items, state.app.availabilities.events),
-        title: 'Événement à venir',
+        title: 'Événements à venir',
         isAdmin: isAdmin,
     };
 }
