@@ -1,7 +1,7 @@
 import {FAIL_FUTURE_EVENTS, RECEIVE_FUTURE_EVENTS, REQUEST_FUTURE_EVENTS} from '../actions';
 
 const initialState = {
-    isFetching: false,
+    ready: false,
     didInvalidate: false,
     lastUpdated: 0,
     items: [
@@ -17,27 +17,16 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case REQUEST_FUTURE_EVENTS:
-            return Object.assign({}, state, {
-                isFetching: true,
-                didInvalidate: false,
-                lastUpdated: 0,
-                items: [],
-            });
+            return initialState;
         case RECEIVE_FUTURE_EVENTS:
-            return Object.assign({}, state, {
-                isFetching: false,
-                didInvalidate: false,
+            return Object.assign({}, initialState, {
+                ready: true,
                 lastUpdated: action.receivedAt,
-                items: action.items
+                items: action.items,
             });
         case FAIL_FUTURE_EVENTS:
-            return Object.assign({}, state, {
-                isFetching: false,
-                didInvalidate: false,
-                lastUpdated: 0,
-                items: []
-            });
-        default:
-            return state;
+            return initialState;
     }
+
+    return state;
 }

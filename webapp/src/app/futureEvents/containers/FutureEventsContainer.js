@@ -4,6 +4,7 @@ import Events from '../screens/FutureEvents';
 import {fetchFutureEvents} from '../actions';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
+import Spinner from '../../../widgets/Spinner';
 
 class FutureEventsContainer extends React.Component {
     componentDidMount() {
@@ -11,12 +12,18 @@ class FutureEventsContainer extends React.Component {
     }
 
     render() {
-        return <Events {...this.props} />;
+        return (
+            <div>
+                {this.props.ready || <Spinner/>}
+                {this.props.ready && <Events {...this.props} />}
+            </div>
+        );
     }
 }
 
 FutureEventsContainer.propTypes = {
     request: React.PropTypes.func.isRequired,
+    ready: React.PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -31,6 +38,7 @@ function mapStateToProps(state) {
         })))(state.app.futureEvents.items, state.app.availabilities.events),
         title: 'Événements à venir',
         isAdmin: isAdmin,
+        ready: state.app.futureEvents.ready,
     };
 }
 
