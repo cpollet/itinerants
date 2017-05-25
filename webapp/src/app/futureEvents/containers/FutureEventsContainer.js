@@ -29,13 +29,14 @@ FutureEventsContainer.propTypes = {
 function mapStateToProps(state) {
     const isAdmin = state.app.auth.roles.indexOf('admin') > -1;
     return {
-        events: ((events, availabilities) => events.map(e => ({
+        events: ((events, availabilities, attendances) => events.map(e => ({
             id: e.eventId,
             name: e.name,
             dateTime: moment(e.dateTime),
             available: availabilities.indexOf(e.eventId) > -1,
+            attending: attendances.indexOf(e.eventId) > -1,
             toPlan: !isAdmin ? false : state.app.planning.eventsToPlan.indexOf(e.eventId) > -1
-        })))(state.app.futureEvents.items, state.app.availabilities.events),
+        })))(state.app.futureEvents.items, state.app.availabilities.events, state.app.attendances.events),
         title: 'Événements à venir',
         isAdmin: isAdmin,
         ready: state.app.futureEvents.ready,

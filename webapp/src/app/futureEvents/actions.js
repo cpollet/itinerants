@@ -1,5 +1,6 @@
 import {
     FAIL_FUTURE_EVENTS,
+    RECEIVE_ATTENDANCES,
     RECEIVE_AVAILABILITIES,
     RECEIVE_FUTURE_EVENTS,
     REQUEST_FUTURE_EVENTS
@@ -37,6 +38,12 @@ export function fetchFutureEvents() {
                         type: RECEIVE_AVAILABILITIES,
                         availabilities: json
                             .filter(e => e.availablePeople.filter(p => p.personId === personId).length > 0)
+                            .map(e => e.eventId),
+                    });
+                    dispatch({
+                        type: RECEIVE_ATTENDANCES,
+                        attendances: json
+                            .filter(e => e.attendingPeople.filter(p => p.personId === personId).length > 0)
                             .map(e => e.eventId),
                     });
                 } else {

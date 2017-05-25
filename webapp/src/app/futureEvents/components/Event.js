@@ -6,7 +6,7 @@ import {renderIf} from '../../../lib/helpers';
 class Event extends React.Component {
     render() {
         return (
-            <div className={styles.component}>
+            <div className={styles.component + (this.props.event.attending ? ' ' + styles.attending : '')}>
                 <div onClick={this.props.toggleAvailability.bind(this, this.props.event.id)}>
                     <div className={styles.checkboxContainer}>
                         <Checkbox checked={this.props.event.available}/>
@@ -33,6 +33,7 @@ Event.propTypes = {
         name: React.PropTypes.string.isRequired,
         dateTime: React.PropTypes.object.isRequired, // must be a moment() object
         available: React.PropTypes.bool.isRequired,
+        attending: React.PropTypes.bool.isRequired,
         toPlan: React.PropTypes.bool.isRequired,
     }).isRequired,
     toggleAvailability: React.PropTypes.func.isRequired,
