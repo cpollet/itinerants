@@ -7,7 +7,6 @@ match (n) delete n;
 
 CREATE (p1:Person {
     uuid: '4249085e-3f22-11e7-a919-92ebcb67fe33',
-    name: 'Christophe',
     firstName: 'Christophe',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -19,7 +18,6 @@ CREATE (p1:Person {
 
 CREATE (p2:Person {
     uuid: 'user2-uuid',
-    name: 'Jonathan',
     firstName: 'Jonathan',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -31,7 +29,6 @@ CREATE (p2:Person {
 
 CREATE (p3:Person {
     uuid: 'user3-uuid',
-    name: 'Daniela',
     firstName: 'Daniela',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -43,7 +40,6 @@ CREATE (p3:Person {
 
 CREATE (p4:Person {
     uuid: 'user4-uuid',
-    name: 'David',
     firstName: 'David',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -55,7 +51,6 @@ CREATE (p4:Person {
 
 CREATE (p5:Person {
     uuid: 'user5-uuid',
-    name: 'Valentina',
     firstName: 'Valentina',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -67,7 +62,6 @@ CREATE (p5:Person {
 
 CREATE (p6:Person {
     uuid: 'user6-uuid',
-    name: 'Cyril',
     firstName: 'Cyril',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -79,7 +73,6 @@ CREATE (p6:Person {
 
 CREATE (p7:Person {
     uuid: 'user7-uuid',
-    name: 'Raquel',
     firstName: 'Raquel',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -91,7 +84,6 @@ CREATE (p7:Person {
 
 CREATE (p8:Person {
     uuid: 'user8-uuid',
-    name: 'Arnaud',
     firstName: 'Arnaud',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -103,7 +95,6 @@ CREATE (p8:Person {
 
 CREATE (p9:Person {
     uuid: 'user9-uuid',
-    name: 'Amandine',
     firstName: 'Amandine',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -115,7 +106,6 @@ CREATE (p9:Person {
 
 CREATE (p10:Person {
     uuid: 'user10-uuid',
-    name: 'Philippe',
     firstName: 'Philippe',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -127,7 +117,6 @@ CREATE (p10:Person {
 
 CREATE (p11:Person {
     uuid: 'user11-uuid',
-    name: 'Thomas',
     firstName: 'Thomas',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -139,7 +128,6 @@ CREATE (p11:Person {
 
 CREATE (p12:Person {
     uuid: 'user12-uuid',
-    name: 'Yves',
     firstName: 'Yves',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -151,7 +139,6 @@ CREATE (p12:Person {
 
 CREATE (p13:Person {
     uuid: 'user13-uuid',
-    name: 'Lynn',
     firstName: 'Lynn',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -163,7 +150,6 @@ CREATE (p13:Person {
 
 CREATE (p14:Person {
     uuid: 'user14-uuid',
-    name: 'Mateo',
     firstName: 'Mateo',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -175,7 +161,6 @@ CREATE (p14:Person {
 
 CREATE (p15:Person {
     uuid: 'user15-uuid',
-    name: 'Sebastian',
     firstName: 'Sebastian',
     lastName: 'LastName',
     email: 'email@example.com',
@@ -187,7 +172,6 @@ CREATE (p15:Person {
 
 CREATE (p16:Person {
     uuid: 'user16-uuid',
-    name: 'Claudia',
     firstName: 'Claudia',
     lastName: 'LastName',
     email: 'email@example.com',

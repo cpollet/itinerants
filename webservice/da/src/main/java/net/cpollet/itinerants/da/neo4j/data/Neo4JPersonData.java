@@ -20,7 +20,6 @@ public class Neo4JPersonData implements PersonData {
     private String username;
     private String firstName;
     private String lastName;
-    private String name;
     private String email;
     private String password;
     private String roles;
@@ -31,12 +30,7 @@ public class Neo4JPersonData implements PersonData {
         ((Neo4JEventData) eventData).availablePeople().add(this);
     }
 
-    public void setName(String name) {
-        // nothing
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-        name = firstName;
     }
 }
