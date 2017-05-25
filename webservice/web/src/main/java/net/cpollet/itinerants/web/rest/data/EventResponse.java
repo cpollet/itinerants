@@ -18,12 +18,14 @@ public class EventResponse {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private final LocalDateTime dateTime;
     private final List<PersonResponse> availablePeople;
+    private final List<PersonResponse> attendingPeople;
 
-    public EventResponse(String eventId, String name, LocalDateTime date, List<PersonResponse> availablePeople) {
+    public EventResponse(String eventId, String name, LocalDateTime date, List<PersonResponse> availablePeople, List<PersonResponse> attendingPeople) {
         this.eventId = eventId;
         this.name = name;
         this.dateTime = date;
         this.availablePeople = availablePeople;
+        this.attendingPeople = attendingPeople;
     }
 
     public EventResponse(Event event) {
@@ -32,6 +34,9 @@ public class EventResponse {
                 event.name(),
                 event.dateTime(),
                 event.availablePeople().stream()
+                        .map(p -> new PersonResponse(p.id(), p.firstName()))
+                        .collect(Collectors.toList()),
+                event.attendingPeople().stream()
                         .map(p -> new PersonResponse(p.id(), p.firstName()))
                         .collect(Collectors.toList())
         );

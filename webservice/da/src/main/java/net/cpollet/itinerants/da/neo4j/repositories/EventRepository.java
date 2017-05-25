@@ -12,15 +12,14 @@ import java.util.List;
  * Created by cpollet on 11.02.17.
  */
 public interface EventRepository extends GraphRepository<Neo4JEventData> {
-    @Query("MATCH (e:Event), (p), path=(e)-[*0..1]-(p) " +
+    @Query("MATCH (e:Event), (p:Person), path=(e)-[]-(p) " +
             "WHERE e.timestamp > {timestamp} " +
             "RETURN path")
     List<Neo4JEventData> future(@Param("timestamp") long timestamp, Sort sort);
 
-    @Query("MATCH (e:Event) " +
-            "WHERE e.timestamp > {timestamp} " +
-            "OPTIONAL MATCH (p:Person {username: {username}}), path=(e)-[:IS_AVAILABLE]-(p) " +
-            "RETURN e, path")
+    @Query("MATCH (e:Event), (p:Person {username: {username}}), path=(e)-[]-(p) " +
+            "WHERE e.timestamp > {timestamp}" +
+            "RETURN e, p, path")
     List<Neo4JEventData> future(@Param("timestamp") long timestamp, @Param("username") String username, Sort sort);
 
     @Query("MATCH (e:Event), (p), path=(e)-[*0..1]-(p) " +
@@ -39,6 +38,6 @@ public interface EventRepository extends GraphRepository<Neo4JEventData> {
             "WHERE n.uuid IN {uuid} " +
             "WITH n " +
             "MATCH p=(n)-[*0..1]-(m) " +
-            "RETURN p, ID(n)")
+            "RETURN p, id(n)")
     List<Neo4JEventData> findByUUID(@Param("uuid") List<String> uuids);
 }
