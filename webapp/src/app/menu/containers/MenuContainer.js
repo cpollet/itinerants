@@ -14,11 +14,10 @@ function mapStateToProps(state, ownProps) {
                     return 'future';
                 case '/plan':
                     return 'plan';
-                case '/past':
-                    return 'past';
-                case '/settings':
-                    return 'settings';
+                case '/profile':
+                    return 'profile';
                 case '/admin':
+                case '/admin/users/create':
                     return 'admin';
             }
         }(ownProps.location.pathname),

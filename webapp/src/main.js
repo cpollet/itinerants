@@ -138,7 +138,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         <Route component={Authenticated}>
                             <IndexRoute component={FutureEventsContainer}/>
                             <Route path="future" component={FutureEventsContainer}/>
-                            <Route path="past" component={NoMatch}/>
                             <Route path="profile" component={EditUserContainer}/>
                         </Route>
                         <Route path="admin" component={UserIsAdmin(AdminMenu)}>
