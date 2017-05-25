@@ -30,8 +30,16 @@ public class Person {
         return personData.getFirstName();
     }
 
+    public void firstName(String firstName) {
+        personData.setFirstName(firstName);
+    }
+
     public String lastName(){
         return personData.getLastName();
+    }
+
+    public void lastName(String lastName) {
+        personData.setLastName(lastName);
     }
 
     public String username() {
@@ -40,6 +48,10 @@ public class Person {
 
     public String email() {
         return personData.getEmail();
+    }
+
+    public void email(String email) {
+        personData.setEmail(email);
     }
 
     public Password password() {

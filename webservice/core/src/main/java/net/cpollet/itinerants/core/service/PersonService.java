@@ -41,5 +41,25 @@ public interface PersonService {
         public String getPassword() {
             throw new IllegalStateException();
         }
+
+        @Override
+        public void setPassword(String password) {
+            // do nothing
+        }
+
+        @Override
+        public void setFirstName(String firstName) {
+            // do nothing
+        }
+
+        @Override
+        public void setLastName(String lastName) {
+            // do nothing
+        }
+
+        @Override
+        public void setEmail(String email) {
+            // do nothing
+        }
     }
 }

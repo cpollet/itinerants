@@ -16,8 +16,18 @@ public interface PersonData {
         }
 
         @Override
+        public void setFirstName(String firstName) {
+            // do nothing
+        }
+
+        @Override
         public String getLastName() {
             return "";
+        }
+
+        @Override
+        public void setLastName(String lastName) {
+            // do nothing
         }
 
         @Override
@@ -41,6 +51,11 @@ public interface PersonData {
         }
 
         @Override
+        public void setEmail(String email) {
+            // no nothing
+        }
+
+        @Override
         public String getRoles() {
             return "";
         }
@@ -60,7 +75,11 @@ public interface PersonData {
 
     String getFirstName();
 
+    void setFirstName(String firstName);
+
     String getLastName();
+
+    void setLastName(String lastName);
 
     String getUsername();
 
@@ -69,6 +88,8 @@ public interface PersonData {
     void setPassword(String password);
 
     String getEmail();
+
+    void setEmail(String email);
 
     String getRoles();
 

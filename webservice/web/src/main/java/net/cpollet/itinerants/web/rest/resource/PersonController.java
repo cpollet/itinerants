@@ -8,9 +8,13 @@ import net.cpollet.itinerants.web.rest.data.ChangePasswordPayload;
 import net.cpollet.itinerants.web.rest.data.CreatePersonPayload;
 import net.cpollet.itinerants.web.rest.data.LoginPayload;
 import net.cpollet.itinerants.web.rest.data.LoginResponse;
+import net.cpollet.itinerants.web.rest.data.PersonProfilePayload;
+import net.cpollet.itinerants.web.rest.data.PersonProfileResponse;
 import net.cpollet.itinerants.web.rest.data.PersonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/people")
 @Slf4j
 public class PersonController {
+    private static final String AUTHORIZE_OWN_OR_ADMIN = "principal.personId == #personId or hasRole('ADMIN')";
+
     private final PersonService personService;
     private final PasswordService passwordService;
     private final SessionController sessionController; // I'm drunk :D
@@ -33,6 +39,35 @@ public class PersonController {
         this.personService = personService;
         this.passwordService = passwordService;
         this.sessionController = sessionController;
+    }
+
+    @GetMapping(value = "/{personId}")
+    @PreAuthorize(AUTHORIZE_OWN_OR_ADMIN)
+    public ResponseEntity<PersonProfileResponse> get(@PathVariable String personId) {
+        Person person = personService.getById(personId);
+
+        if (!person.id().equals(personId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(new PersonProfileResponse(person));
+    }
+
+    @PutMapping(value="/{personId}")
+    @PreAuthorize(AUTHORIZE_OWN_OR_ADMIN)
+    public ResponseEntity save(@PathVariable String personId, @RequestBody PersonProfilePayload personProfilePayload) {
+        Person person = personService.getById(personId);
+
+        if (!person.id().equals(personId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        person.firstName(personProfilePayload.getFirstName());
+        person.lastName(personProfilePayload.getLastName());
+        person.email(personProfilePayload.getEmail());
+        personService.save(person);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "")
@@ -56,11 +91,6 @@ public class PersonController {
             @Override
             public String getUsername() {
                 return personPayload.getUsername();
-            }
-
-            @Override
-            public void setPassword(String password) {
-                // do nothing
             }
         });
 

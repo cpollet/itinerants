@@ -30,7 +30,7 @@ class Menu extends React.Component {
                 {renderIf(
                     this.props.isAuthenticated,
                     <MenuItem active={this.props.active === 'settings'}>
-                        <Link to={'/settings'}>Paramètres</Link>
+                        <Link to={'/profile'}>Profil</Link>
                     </MenuItem>
                 )}
                 {renderIf(

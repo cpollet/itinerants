@@ -25,6 +25,7 @@ import {UserAuthWrapper} from 'redux-auth-wrapper';
 import CreateUserContainer from './app/users/create/containers/CreateUserContainer';
 import './main.less';
 import AdminMenu from './app/admin/screens/AdminMenu';
+import EditUserContainer from './app/users/edit/containers/EditUserContainer';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
@@ -138,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <IndexRoute component={FutureEventsContainer}/>
                             <Route path="future" component={FutureEventsContainer}/>
                             <Route path="past" component={NoMatch}/>
-                            <Route path="settings" component={NoMatch}/>
+                            <Route path="profile" component={EditUserContainer}/>
                         </Route>
                         <Route path="admin" component={UserIsAdmin(AdminMenu)}>
                             <Route path="plan" component={PlanContainer}/>
