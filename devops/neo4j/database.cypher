@@ -17,6 +17,18 @@ CREATE (p1:Person {
     targetRatio: 1.0
 })
 
+CREATE (p0:Person {
+  uuid: 'a646a4e2-0b2e-4af2-9b38-e31d632a0d7c',
+  name: 'User',
+  firstName: 'User',
+  lastName: 'LastName',
+  email: 'email@example.com',
+  username: 'user',
+  password: '1f540711!4b623a04ebbb8655f0c64b98bb268262fabd477dd876d94f97943661aac80d72',
+  roles: 'user',
+  targetRatio: 1.0
+})
+
 CREATE (p2:Person {
     uuid: 'user2-uuid',
     name: 'Jonathan',
