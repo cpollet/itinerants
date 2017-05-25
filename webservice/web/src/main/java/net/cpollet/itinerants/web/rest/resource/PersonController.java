@@ -53,7 +53,7 @@ public class PersonController {
         return ResponseEntity.ok(new PersonProfileResponse(person));
     }
 
-    @PutMapping(value="/{personId}")
+    @PutMapping(value = "/{personId}")
     @PreAuthorize(AUTHORIZE_OWN_OR_ADMIN)
     public ResponseEntity save(@PathVariable String personId, @RequestBody PersonProfilePayload personProfilePayload) {
         Person person = personService.getById(personId);
@@ -125,12 +125,15 @@ public class PersonController {
         return sessionController.create(new LoginPayload(username, payload.getPassword1()));
     }
 
-    @PutMapping(value = "/{username}/passwords/resetTokens")
-    public ResponseEntity createResetPasswordToken(@PathVariable String username) {
-        Person person = personService.getByUsername(username);
+    @PutMapping(value = "/{usernameOrId}/passwords/resetTokens")
+    public ResponseEntity createResetPasswordToken(@PathVariable String usernameOrId) {
+        Person person = personService.getByUsername(usernameOrId);
 
-        if (!person.username().equals(username)) {
-            return ResponseEntity.notFound().build();
+        if (!person.username().equals(usernameOrId)) {
+            person = personService.getById(usernameOrId);
+            if (!person.id().equals(usernameOrId)) {
+                return ResponseEntity.notFound().build();
+            }
         }
 
         String token = passwordService.generateResetToken(person.username());

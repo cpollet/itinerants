@@ -8,12 +8,20 @@ import FormLabel from '../../../../widgets/FormLabel';
 import TextInput from '../../../../widgets/TextInput';
 import Button from '../../../../widgets/Button';
 import styles from './EditUser.less';
+import Alert from '../../../../widgets/Alert';
 
 class EditUser extends React.Component {
     render() {
         return (
             <div>
                 <h2>Modification de profil</h2>
+
+                {
+                    this.props.resetPasswordTokenSent &&
+                    <Alert type="success"
+                           text="Un email content le lien de réinitialisation du mot de passe a été envoyé."/>
+                }
+
                 <FormContainer name="editUser"
                                onSubmit={(e, data) => {
                                    if (typeof data !== 'undefined') {
@@ -58,7 +66,10 @@ class EditUser extends React.Component {
                         </FormRow>
                         <FormRow>
                             <div className={styles.buttonsRow}>
-                                <Button type="default" submit={false} enabled={!this.props.saving}>
+                                <Button type="default" submit={false} enabled={!this.props.saving} onClick={(e) => {
+                                    this.props.sendResetPasswordToken(this.props.personId);
+                                    e.preventDefault();
+                                }}>
                                     Changer mon mot de passe
                                 </Button>
                                 <Button type="primary" submit={true} enabled={!this.props.saving}>
@@ -75,10 +86,13 @@ class EditUser extends React.Component {
 
 EditUser.propTypes = {
     save: React.PropTypes.func.isRequired,
+    sendResetPasswordToken: React.PropTypes.func.isRequired,
     firstName: React.PropTypes.string.isRequired,
     lastName: React.PropTypes.string.isRequired,
+    personId: React.PropTypes.string.isRequired,
     email: React.PropTypes.string.isRequired,
     saving: React.PropTypes.bool.isRequired,
+    resetPasswordTokenSent: React.PropTypes.bool.isRequired,
 };
 
 export default EditUser;

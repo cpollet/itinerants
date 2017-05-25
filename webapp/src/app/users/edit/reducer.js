@@ -1,4 +1,4 @@
-import {FETCH_PROFILE, RECEIVED_PROFILE, SAVE_PROFILE, SAVED_PROFILE} from '../../actions';
+import {FETCH_PROFILE, RECEIVED_PROFILE, RESET_PASSWORD_TOKEN_SENT, SAVE_PROFILE, SAVED_PROFILE} from '../../actions';
 
 const initialState = {
     data: {
@@ -9,6 +9,7 @@ const initialState = {
     },
     ready: false,
     saving: false,
+    resetPasswordTokenSent: false,
 };
 
 export default function (state = initialState, action) {
@@ -34,6 +35,11 @@ export default function (state = initialState, action) {
         case SAVED_PROFILE:
             return Object.assign({}, state, {
                 saving: false,
+            });
+
+        case RESET_PASSWORD_TOKEN_SENT:
+            return Object.assign({}, state, {
+                resetPasswordTokenSent: true,
             });
     }
 

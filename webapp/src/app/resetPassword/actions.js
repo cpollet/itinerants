@@ -90,9 +90,9 @@ export function resetPassword(username, password1, password2, hash) {
     };
 }
 
-export function sendResetPasswordToken(username) {
+export function sendResetPasswordToken(usernameOrId) {
     return function (dispatch) {
-        fetch('/api/people/' + username + '/passwords/resetTokens', {
+        fetch('/api/people/' + usernameOrId + '/passwords/resetTokens', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
