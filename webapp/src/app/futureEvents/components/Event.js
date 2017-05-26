@@ -4,12 +4,18 @@ import styles from './Event.less';
 import {renderIf} from '../../../lib/helpers';
 
 class Event extends React.Component {
+    toggle() {
+        if (!this.props.event.attending) {
+            this.props.toggleAvailability(this.props.event.id);
+        }
+    }
+
     render() {
         return (
             <div className={styles.component + (this.props.event.attending ? ' ' + styles.attending : '')}>
-                <div onClick={this.props.toggleAvailability.bind(this, this.props.event.id)}>
+                <div onClick={this.toggle.bind(this)}>
                     <div className={styles.checkboxContainer}>
-                        <Checkbox checked={this.props.event.available}/>
+                        <Checkbox checked={this.props.event.available} disabled={this.props.event.attending}/>
                     </div>
                     <div className={styles.eventDetailContainer}>
                         <div>{this.props.event.dateTime.format('ddd D MMMM YYYY, HH:mm')}</div>
