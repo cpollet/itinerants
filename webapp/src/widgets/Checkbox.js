@@ -4,7 +4,11 @@ import styles from './Checkbox.less';
 class Checkbox extends React.Component {
     render() {
         return (
-            <div className={styles.component} onClick={this.props.onClick}>
+            <div className={styles.component} onClick={() => {
+                if (!this.props.disabled) {
+                    this.props.onClick();
+                }
+            }}>
                 <div className={styles.checkbox + (this.props.disabled ? ' ' + styles.disabled : '')}>
                     {this.props.checked &&
                     <div>
