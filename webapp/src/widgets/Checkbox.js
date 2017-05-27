@@ -25,9 +25,14 @@ class Checkbox extends React.Component {
 Checkbox.propTypes = {
     checked: React.PropTypes.bool.isRequired,
     disabled: React.PropTypes.bool,
-    onClick: React.PropTypes.func,
+    onClick: React.PropTypes.func.isRequired,
     label: React.PropTypes.node,
     children: React.PropTypes.node
+};
+
+Checkbox.defaultProps = {
+    onClick: () => {
+    }
 };
 
 export default Checkbox;
