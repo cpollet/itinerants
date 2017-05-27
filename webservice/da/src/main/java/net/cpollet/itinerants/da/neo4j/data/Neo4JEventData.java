@@ -58,7 +58,7 @@ public class Neo4JEventData implements EventData {
     }
 
     @Override
-    public Set<? extends PersonData> attendingPeople() {
+    public Set<Neo4JPersonData> attendingPeople() {
         if (attendingPeople == null) {
             attendingPeople = new HashSet<>();
         }
