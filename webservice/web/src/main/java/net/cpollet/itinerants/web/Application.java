@@ -48,7 +48,7 @@ public class Application {
 
             tokenService.store("admin", authentication);
 
-            log.warn("!!! CREATING A FAKE USER SESSION FOR TOKEN 'uer' !!!");
+            log.warn("!!! CREATING A FAKE USER SESSION FOR TOKEN 'user' !!!");
             authentication = new UsernamePasswordAuthenticationToken(
                     new AuthenticationPrincipal("user", "a646a4e2-0b2e-4af2-9b38-e31d632a0d7c"),
                     "", Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
