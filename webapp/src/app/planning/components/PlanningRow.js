@@ -1,5 +1,6 @@
 import React from 'react';
 import Checkbox from '../../../widgets/Checkbox';
+import Circle from '../../../icons/Circle';
 import styles from './PlanningRow.less';
 
 class PlanningRow extends React.Component {
@@ -10,12 +11,28 @@ class PlanningRow extends React.Component {
         }
 
         function ratioToTarget(person) {
+            if (person.targetRatio === 0) {
+                return 'INF';
+            }
+
             return round(person.ratio / person.targetRatio, 2);
         }
 
         function ratioToTargetString(person) {
             return round(person.ratio, 2) + ':' + person.targetRatio;
         }
+
+        function ratioColor(ratio) {
+            if (ratio === 'INF' || ratio > 1) {
+                return 'red';
+            } else if (ratio === 1) {
+                return 'green';
+            } else {
+                return 'orange';
+            }
+        }
+
+        const ratio = ratioToTarget(this.props.person);
 
         return (
             <div className={styles.component}
@@ -28,7 +45,10 @@ class PlanningRow extends React.Component {
                         {this.props.person.name}
                     </div>
                     <div>
-                        {ratioToTarget(this.props.person)} ({ratioToTargetString(this.props.person)})
+                        <span className={styles.light}><Circle color={ratioColor(ratio)}/></span>
+                        <span title="ratio : target">{ratioToTargetString(this.props.person)}</span>
+                        &nbsp;&rarr;&nbsp;
+                        <span title="ratio / target">{ratio === 'INF' ? '\u221E' : ratio}</span>
                     </div>
                 </div>
             </div>
