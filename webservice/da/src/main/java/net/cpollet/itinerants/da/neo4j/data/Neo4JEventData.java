@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.cpollet.itinerants.core.domain.data.EventData;
-import net.cpollet.itinerants.core.domain.data.PersonData;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
