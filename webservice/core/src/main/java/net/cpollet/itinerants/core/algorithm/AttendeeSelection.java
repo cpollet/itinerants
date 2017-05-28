@@ -14,7 +14,7 @@ public interface AttendeeSelection {
 
     interface Factory {
         AttendeeSelection create(int pastEventsCount,
-                                 Map<Person, Integer> pastAttendancesCount,
+                                 Map<Person, Long> pastAttendancesCount,
                                  Map<Event, Set<Person>> availabilities,
                                  Map<Event, Set<Person>> initialAttendances);
     }

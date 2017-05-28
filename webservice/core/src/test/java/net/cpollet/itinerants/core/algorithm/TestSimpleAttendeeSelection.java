@@ -1,7 +1,6 @@
 package net.cpollet.itinerants.core.algorithm;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.truth.Truth;
 import net.cpollet.itinerants.core.domain.Event;
 import net.cpollet.itinerants.core.domain.Person;
 import org.junit.Before;
@@ -14,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -170,8 +168,8 @@ public class TestSimpleAttendeeSelection {
                 .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
                 .build();
 
-        ImmutableMap<Person, Integer> pastAttendancesCount = ImmutableMap.<Person, Integer>builder()
-                .put(person1, 1)
+        ImmutableMap<Person, Long> pastAttendancesCount = ImmutableMap.<Person, Long>builder()
+                .put(person1, 1L)
                 .build();
 
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
@@ -206,9 +204,9 @@ public class TestSimpleAttendeeSelection {
                 .put(event3, new HashSet<>(Arrays.asList(person1, person2, person3)))
                 .build();
 
-        ImmutableMap<Person, Integer> pastAttendancesCount = ImmutableMap.<Person, Integer>builder()
-                .put(person2, 1)
-                .put(person3, 1)
+        ImmutableMap<Person, Long> pastAttendancesCount = ImmutableMap.<Person, Long>builder()
+                .put(person2, 1L)
+                .put(person3, 1L)
                 .build();
 
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
@@ -246,9 +244,10 @@ public class TestSimpleAttendeeSelection {
                 .put(event1, new HashSet<>(Arrays.asList(person1, person2)))
                 .build();
 
-        Map<Person, Integer> pastAttendancesCount = new HashMap<>();
-        pastAttendancesCount.put(person1, 1);
-        pastAttendancesCount.put(person2, 2);
+        Map<Person, Long> pastAttendancesCount = ImmutableMap.<Person, Long>builder()
+                .put(person1, 1L)
+                .put(person2, 2L)
+                .build();
 
         SimpleAttendeeSelection simpleAttendeeSelection = new SimpleAttendeeSelection(
                 2,

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SimpleAttendeeSelection implements AttendeeSelection {
     private final int pastEventsCount;
-    private final Map<Person, Integer> pastAttendancesCount;
+    private final Map<Person, Long> pastAttendancesCount;
     private final Map<Event, Set<Person>> availabilities;
     private final Map<Event, Set<Person>> initialAttendances;
 
@@ -38,7 +38,7 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
 
         State state = State.create(pastEventsCount, events);
 
-        for (Map.Entry<Person, Integer> personAttendance : pastAttendancesCount.entrySet()) {
+        for (Map.Entry<Person, Long> personAttendance : pastAttendancesCount.entrySet()) {
             state.addPreviousAttendances(personAttendance.getKey(), personAttendance.getValue());
         }
 
@@ -65,10 +65,10 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
 
     private static class State {
         private final int eventsCount;
-        private final Map<Person, Integer> attendancesCount;
+        private final Map<Person, Long> attendancesCount;
         private final Map<Event, Set<Person>> attendances;
 
-        private State(int eventsCount, Map<Person, Integer> attendancesCount, Map<Event, Set<Person>> attendances) {
+        private State(int eventsCount, Map<Person, Long> attendancesCount, Map<Event, Set<Person>> attendances) {
             this.eventsCount = eventsCount;
             this.attendancesCount = attendancesCount;
             this.attendances = attendances;
@@ -81,12 +81,12 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
             return new State(pastEventsCount + events.size(), new HashMap<>(), attendances);
         }
 
-        void addPreviousAttendances(Person person, int count) {
-            attendancesCount.put(person, attendancesCount.getOrDefault(person, 0) + count);
+        void addPreviousAttendances(Person person, long count) {
+            attendancesCount.put(person, attendancesCount.getOrDefault(person, 0L) + count);
         }
 
         void select(Person person, Event event) {
-            attendancesCount.put(person, attendancesCount.getOrDefault(person, 0) + 1);
+            attendancesCount.put(person, attendancesCount.getOrDefault(person, 0L) + 1);
 
             attendances.put(event, mergeSet(attendances.getOrDefault(event, Collections.emptySet()), person));
         }
@@ -122,7 +122,7 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
         }
 
         private float score(Person person) {
-            float ratio = (float) attendancesCount.getOrDefault(person, 0) / eventsCount;
+            float ratio = (float) attendancesCount.getOrDefault(person, 0L) / eventsCount;
             return ratio / person.targetRatio();
         }
     }

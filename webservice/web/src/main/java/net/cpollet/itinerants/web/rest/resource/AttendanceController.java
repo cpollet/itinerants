@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -56,7 +58,10 @@ public class AttendanceController {
 
         List<Event> pastEvents = eventService.past(EventService.SortOrder.DESCENDING);
 
-        Map<Person, Integer> pastAttendancesCount = Collections.emptyMap(); // TODO fill this map...
+        Map<Person, Long> pastAttendancesCount = pastEvents.stream()
+                .map(Event::attendingPeople)
+                .flatMap(Collection::stream)
+                .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
 
         Map<Event, Set<Person>> selection = attendanceStrategyFactory.create(
                 pastEvents.size(),
@@ -65,7 +70,7 @@ public class AttendanceController {
                 attendances
         ).selection();
 
-        return new AttendanceListResponse(selection, availabilities, pastEvents.size());
+        return new AttendanceListResponse(selection, availabilities, pastAttendancesCount, pastEvents.size());
     }
 
     private Map<Event, Set<Person>> mapEventsToPersonsSet(List<Event> events, Function<Event, Set<Person>> function) {
