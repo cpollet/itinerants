@@ -5,11 +5,7 @@ class AdminMenu extends React.Component {
     render() {
         return (
             <div>
-                {!this.props.children &&
-                <ul>
-                    <li><Link to={'/admin/users/create'}>Create user</Link></li>
-                </ul>
-                }
+                {!this.props.children && <Link to={'/admin/users/create'}>Créer un itinérant</Link>}
                 {this.props.children}
             </div>
         );
