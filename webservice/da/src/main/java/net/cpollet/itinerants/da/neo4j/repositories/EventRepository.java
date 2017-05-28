@@ -12,15 +12,15 @@ import java.util.List;
  * Created by cpollet on 11.02.17.
  */
 public interface EventRepository extends GraphRepository<Neo4JEventData> {
-    @Query("MATCH (e:Event), (p:Person) " +
-            "OPTIONAL MATCH path=(e)-[]-(p) " +
+    @Query("MATCH (e:Event) " +
             "WHERE e.timestamp > {timestamp} " +
+            "OPTIONAL MATCH path=(e)-[]-(p:Person) " +
             "RETURN e, p, path")
     List<Neo4JEventData> future(@Param("timestamp") long timestamp, Sort sort);
 
-    @Query("MATCH (e:Event), (p:Person {username: {username}}) " +
-            "OPTIONAL MATCH path=(e)-[]-(p) " +
+    @Query("MATCH (e:Event) " +
             "WHERE e.timestamp > {timestamp} " +
+            "OPTIONAL MATCH path=(e)-[]-(p:Person {username: {username}}) " +
             "RETURN e, p, path")
     List<Neo4JEventData> future(@Param("timestamp") long timestamp, @Param("username") String username, Sort sort);
 

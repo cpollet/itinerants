@@ -12,7 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +34,61 @@ public class ITestEventRepository {
     public void cleanupDatabase() {
         eventRepository.deleteAll();
     }
+
+    @Test
+    public void future_returnsFutureEvents() {
+        // GIVEN
+        Neo4JEventData futureEvent = new Neo4JEventData();
+        futureEvent.setUUID("future");
+        futureEvent.setDateTime(LocalDateTime.now().plusDays(1));
+
+        Neo4JEventData pastEvent = new Neo4JEventData();
+        pastEvent.setUUID("past");
+        pastEvent.setDateTime(LocalDateTime.now().minusDays(1));
+
+        eventRepository.save(Arrays.asList(pastEvent, futureEvent));
+
+        // WHEN
+        List<Neo4JEventData> futureEvents = eventRepository.future(
+                LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0)),
+                new Sort(Sort.Direction.ASC, "e.timestamp")
+        );
+
+        // THEN
+        assertThat(futureEvents).hasSize(1);
+        assertThat(futureEvents.get(0).getUUID()).isEqualTo("future");
+    }
+
+    @Test
+    public void future_returnsFutureEventsWhenLinkedPeople() {
+        // GIVEN
+        Neo4JPersonData person = new Neo4JPersonData();
+        person.setUUID("person-1");
+
+        Neo4JEventData futureEvent = new Neo4JEventData();
+        futureEvent.setUUID("future");
+        futureEvent.setDateTime(LocalDateTime.now().plusDays(1));
+        futureEvent.setAttendingPeople(new HashSet<>(Collections.singleton(person)));
+
+        Neo4JEventData pastEvent = new Neo4JEventData();
+        pastEvent.setUUID("past");
+        pastEvent.setDateTime(LocalDateTime.now().minusDays(1));
+        futureEvent.setAttendingPeople(new HashSet<>(Collections.singleton(person)));
+
+
+        eventRepository.save(Arrays.asList(pastEvent, futureEvent));
+
+        // WHEN
+        List<Neo4JEventData> futureEvents = eventRepository.future(
+                LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(0)),
+                new Sort(Sort.Direction.ASC, "e.timestamp")
+        );
+
+        // THEN
+        assertThat(futureEvents).hasSize(1);
+        assertThat(futureEvents.get(0).getUUID()).isEqualTo("future");
+    }
+
 
     @Test
     public void future_returnsEmptyAvailablePeople_whenNobodyIsAvailable() {

@@ -132,10 +132,8 @@
                                     <port>${integration.neo4j.port}:7474</port>
                                 </ports>
                                 <wait>
-                                    <http>
-                                        <url>http://localhost:${integration.neo4j.port}/browser</url>
-                                    </http>
-                                    <time>10000</time>
+                                    <log>Started.</log>
+                                    <time>60000</time>
                                 </wait>
                                 <env>
                                     <NEO4J_AUTH>none</NEO4J_AUTH>
