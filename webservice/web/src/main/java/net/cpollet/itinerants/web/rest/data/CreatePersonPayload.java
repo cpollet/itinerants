@@ -11,4 +11,5 @@ public class CreatePersonPayload {
     private final String lastName;
     private final String email;
     private final String username;
+    private final float targetRatio;
 }

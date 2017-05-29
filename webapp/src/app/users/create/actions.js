@@ -8,7 +8,8 @@ export function create(data) {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 username: data.username,
-                email: data.email
+                email: data.email,
+                targetRatio: data.targetRatio,
             }),
             headers: {
                 'Content-Type': 'application/json',

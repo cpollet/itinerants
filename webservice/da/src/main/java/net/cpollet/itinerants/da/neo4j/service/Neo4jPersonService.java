@@ -56,6 +56,7 @@ public class Neo4jPersonService implements PersonService {
         neo4jPerson.setPassword("-");
         neo4jPerson.setEmail(personData.getEmail());
         neo4jPerson.setRoles("user");
+        neo4jPerson.setTargetRatio(personData.getTargetRatio());
         neo4jPerson.setUUID(UUID.randomUUID().toString());
 
         return build(personRepository.save(neo4jPerson));
