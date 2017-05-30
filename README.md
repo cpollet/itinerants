@@ -36,6 +36,8 @@ If you need to remove all generated images, you can run the `clean-docker.sh` sc
 ## Start in dev
 ```
 $ devops/start.sh
+$ mvn -f mailer/pom.xml clean install
+$ mvn -f mailer/daemon/pom.xml spring-boot:run
 $ mvn -f webservice/pom.xml clean install
 $ mvn -f webservice/web/pom.xml spring-boot:run
 ```
