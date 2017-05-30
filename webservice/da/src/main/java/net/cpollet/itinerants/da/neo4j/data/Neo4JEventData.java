@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import net.cpollet.itinerants.core.domain.data.EventData;
+import net.cpollet.itinerants.core.domain.data.PersonData;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
@@ -15,6 +16,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by cpollet on 11.02.17.
@@ -49,18 +51,18 @@ public class Neo4JEventData implements EventData {
     }
 
     @Override
-    public Set<Neo4JPersonData> availablePeople() {
+    public Set<PersonData> availablePeople() {
         if (availablePeople == null) {
             availablePeople = new HashSet<>();
         }
-        return availablePeople;
+        return new HashSet<>(availablePeople);
     }
 
     @Override
-    public Set<Neo4JPersonData> attendingPeople() {
+    public Set<PersonData> attendingPeople() {
         if (attendingPeople == null) {
             attendingPeople = new HashSet<>();
         }
-        return attendingPeople;
+        return new HashSet<>(attendingPeople);
     }
 }

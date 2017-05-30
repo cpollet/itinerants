@@ -1,5 +1,6 @@
 package net.cpollet.itinerants.da.neo4j.repositories;
 
+import net.cpollet.itinerants.core.domain.data.PersonData;
 import net.cpollet.itinerants.da.neo4j.Context;
 import net.cpollet.itinerants.da.neo4j.data.Neo4JEventData;
 import net.cpollet.itinerants.da.neo4j.data.Neo4JPersonData;
@@ -144,7 +145,7 @@ public class ITestEventRepository {
         assertThat(futureEvents).hasSize(1);
         assertThat(futureEvents.get(0).availablePeople()).hasSize(2);
         assertThat(futureEvents.get(0).availablePeople().stream()
-                .map(Neo4JPersonData::getUUID)
+                .map(PersonData::getUUID)
                 .collect(Collectors.toList()))
                 .containsExactly(person1.getUUID(), person2.getUUID());
     }
@@ -171,7 +172,7 @@ public class ITestEventRepository {
         assertThat(futureEvents).hasSize(1);
         assertThat(futureEvents.get(0).attendingPeople()).hasSize(2);
         assertThat(futureEvents.get(0).attendingPeople().stream()
-                .map(Neo4JPersonData::getUUID)
+                .map(PersonData::getUUID)
                 .collect(Collectors.toList()))
                 .containsExactly(person1.getUUID(), person2.getUUID());
     }
@@ -200,7 +201,7 @@ public class ITestEventRepository {
         assertThat(futureEvents).hasSize(1);
         assertThat(futureEvents.get(0).availablePeople()).hasSize(1);
         assertThat(futureEvents.get(0).availablePeople().stream()
-                .map(Neo4JPersonData::getUUID)
+                .map(PersonData::getUUID)
                 .collect(Collectors.toList()))
                 .containsExactly(person1.getUUID());
     }
@@ -229,7 +230,7 @@ public class ITestEventRepository {
         assertThat(futureEvents).hasSize(1);
         assertThat(futureEvents.get(0).attendingPeople()).hasSize(1);
         assertThat(futureEvents.get(0).attendingPeople().stream()
-                .map(Neo4JPersonData::getUUID)
+                .map(PersonData::getUUID)
                 .collect(Collectors.toList()))
                 .containsExactly(person1.getUUID());
     }

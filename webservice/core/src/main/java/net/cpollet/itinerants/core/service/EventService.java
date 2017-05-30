@@ -34,12 +34,12 @@ public interface EventService {
         }
 
         @Override
-        public Set<? extends PersonData> availablePeople() {
+        public Set<PersonData> availablePeople() {
             throw new IllegalStateException();
         }
 
         @Override
-        public Set<? extends PersonData> attendingPeople() {
+        public Set<PersonData> attendingPeople() {
             throw new IllegalStateException();
         }
 
