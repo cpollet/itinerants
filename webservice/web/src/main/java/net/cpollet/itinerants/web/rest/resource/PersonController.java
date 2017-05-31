@@ -97,6 +97,11 @@ public class PersonController {
             public float getTargetRatio() {
                 return personPayload.getTargetRatio();
             }
+
+            @Override
+            public String getRoles() {
+                return String.join(",", personPayload.getRoles());
+            }
         });
 
         String token = passwordService.generateResetToken(person.username());

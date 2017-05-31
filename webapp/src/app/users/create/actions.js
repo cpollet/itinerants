@@ -10,6 +10,7 @@ export function create(data) {
                 username: data.username,
                 email: data.email,
                 targetRatio: data.targetRatio,
+                roles: data.roles,
             }),
             headers: {
                 'Content-Type': 'application/json',
