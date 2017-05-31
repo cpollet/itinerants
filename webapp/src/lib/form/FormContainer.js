@@ -95,6 +95,7 @@ function mapDispatchToProps(dispatch) {
 const ConnectedFormContainer = connect(mapStateToProps, mapDispatchToProps)(FormContainer);
 
 const FORM_UPDATE_VALUE = 'FORM_UPDATE_VALUE';
+const FORM_RESET = 'FORM_RESET';
 const initialState = {};
 
 function reduce(state = initialState, action) {
@@ -117,13 +118,27 @@ function reduce(state = initialState, action) {
             });
         }
 
+        case FORM_RESET: {
+            return Object.assign({}, state, {
+                [action.form]: undefined
+            });
+        }
+
         default:
             return state;
     }
 }
 
+function reset(dispatch, form) {
+    dispatch({
+        type: FORM_RESET,
+        form: form,
+    });
+}
+
 export {
     ConnectedFormContainer as FormContainer,
-    reduce as reducer
+    reduce as reducer,
+    reset as reset
 };
 

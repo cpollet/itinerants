@@ -2,8 +2,10 @@ import {connect} from 'react-redux';
 import CreateUser from '../screens/CreateUser';
 import {create} from '../actions';
 
-function mapStateToProps(/*state, ownProps*/) {
-    return {};
+function mapStateToProps(state) {
+    return {
+        createUserError: state.app.userCreation.error,
+    };
 }
 
 function mapDispatchToProps(dispatch) {

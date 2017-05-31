@@ -9,12 +9,16 @@ import TextInput from '../../../../widgets/TextInput';
 import styles from './CreateUser.less';
 import Button from '../../../../widgets/Button';
 import MultiSelect from '../../../../widgets/MultiSelect';
+import Alert from '../../../../widgets/Alert';
 
 class CreateUser extends React.Component {
     render() {
         return (
             <div>
                 <h2>Création d'un utilisateur</h2>
+
+                {this.props.createUserError && <Alert type="error">Une erreur est survenue</Alert>}
+
                 <FormContainer name="createUser"
                                onSubmit={(e, data) => {
                                    if (typeof data !== 'undefined') {
@@ -103,7 +107,8 @@ class CreateUser extends React.Component {
 }
 
 CreateUser.propTypes = {
-    create: React.PropTypes.func.isRequired
+    create: React.PropTypes.func.isRequired,
+    createUserError: React.PropTypes.bool,
 };
 
 export default CreateUser;
