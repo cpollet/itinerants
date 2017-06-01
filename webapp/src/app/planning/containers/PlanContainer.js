@@ -4,11 +4,15 @@ import moment from 'moment';
 import {push} from 'react-router-redux';
 import Planning from '../screens/Planning';
 import {fetchPlanProposal, savePlan, toggleSelection} from '../actions';
+import Spinner from '../../../widgets/Spinner';
 
 class PlanContainer extends React.Component {
     render() {
         return (
-            <Planning {...this.props}/>
+            <div>
+                {this.props.ready || <Spinner/> }
+                {this.props.ready && <Planning {...this.props}/>}
+            </div>
         );
     }
 
@@ -17,9 +21,14 @@ class PlanContainer extends React.Component {
     }
 }
 
+PlanContainer.defaultProps = {
+    ready: false,
+};
+
 PlanContainer.propTypes = {
     request: React.PropTypes.func.isRequired,
     eventIds: React.PropTypes.array.isRequired,
+    ready: React.PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -44,6 +53,7 @@ function mapStateToProps(state) {
             })).sort((p1, p2) => (p1.name > p2.name))
         })))(state.app.planning.proposal).sort((e1, e2) => (e1.dateTime > e2.dateTime)),
         saving: state.app.planning.sync.pending,
+        ready: state.app.planning.sync.ready,
     };
 }
 

@@ -3,7 +3,8 @@ import {
     SYNC_PLAN,
     SYNC_PLAN_SUCCESS,
     TOGGLE_PLANNING,
-    TOGGLE_SELECTION
+    TOGGLE_SELECTION,
+    FETCH_PLAN_PROPOSAL
 } from '../actions';
 import {authenticatedFetch} from '../helpers';
 
@@ -18,6 +19,10 @@ export function togglePlanning(eventId) {
 
 export function fetchPlanProposal(eventIds) {
     return function (dispatch, getState) {
+        dispatch({
+            type: FETCH_PLAN_PROPOSAL,
+        });
+
         const params = eventIds.map(e => 'eventId=' + e).join('&');
 
         return authenticatedFetch('/api/attendances?' + params, dispatch, getState())

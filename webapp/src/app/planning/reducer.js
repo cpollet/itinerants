@@ -1,4 +1,5 @@
 import {
+    FETCH_PLAN_PROPOSAL,
     RECEIVE_PLAN_PROPOSAL,
     SYNC_PLAN,
     SYNC_PLAN_SUCCESS,
@@ -13,6 +14,7 @@ const initialState = {
         attendees: {}
     },
     sync: { // TODO rename to serverSync
+        ready: false,
         pending: false,
         syncFailure: false
     }
@@ -33,9 +35,22 @@ export default function (state = initialState, action) {
                 eventsToPlan: eventsArray
             });
         }
+        case FETCH_PLAN_PROPOSAL:
+            return Object.assign({}, state, {
+                sync: {
+                    pending: state.sync.pending,
+                    syncFailure: state.sync.syncFailure,
+                    ready: false
+                }
+            });
         case RECEIVE_PLAN_PROPOSAL:
             return Object.assign({}, state, {
-                proposal: action.payload
+                proposal: action.payload,
+                sync: {
+                    pending: state.sync.pending,
+                    syncFailure: state.sync.syncFailure,
+                    ready: true
+                }
             });
         case TOGGLE_SELECTION: {
             const otherEvents = state.proposal.events.filter(e => e.eventId !== action.eventId);
@@ -67,7 +82,8 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 sync: {
                     pending: true,
-                    syncFailure: false
+                    syncFailure: false,
+                    ready: state.sync.ready
                 }
             });
         }
@@ -75,7 +91,8 @@ export default function (state = initialState, action) {
             return Object.assign({}, state, {
                 sync: {
                     pending: false,
-                    syncFailure: false
+                    syncFailure: false,
+                    ready: state.sync.ready
                 }
             });
         }
