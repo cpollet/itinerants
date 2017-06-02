@@ -1,5 +1,5 @@
-import {authenticatedFetch} from '../../helpers';
-import {FETCH_PROFILE, RECEIVED_PROFILE, SAVE_PROFILE, SAVED_PROFILE} from '../../actions';
+import {authenticatedFetch, guardedFetch} from '../../helpers';
+import {FAIL_PROFILE, FETCH_PROFILE, RECEIVED_PROFILE, SAVE_PROFILE, SAVED_PROFILE} from '../../actions';
 
 export function fetchProfile() {
     return function (dispatch, getState) {
@@ -9,28 +9,33 @@ export function fetchProfile() {
 
         const personId = getState().app.auth.personId;
 
-        authenticatedFetch('/api/people/' + personId, dispatch, getState())
+        guardedFetch(dispatch, authenticatedFetch('/api/people/' + personId, dispatch, getState())
             .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
+                if (!response.ok) {
+                    throw 'Received HTTP status code ' + response.status;
                 }
-                return null; // do something useful...
+                return response.json();
             })
             .then((json) => {
-                if (json !== null) {
-                    dispatch({
-                        type: RECEIVED_PROFILE,
-                        data: {
-                            firstName: json.firstName,
-                            lastName: json.lastName,
-                            email: json.email,
-                        }
-                    });
+                if (json === null) {
+                    throw 'Received null payload';
                 }
+
+                dispatch({
+                    type: RECEIVED_PROFILE,
+                    data: {
+                        firstName: json.firstName,
+                        lastName: json.lastName,
+                        email: json.email,
+                    }
+                });
             })
-            .catch((/*ex*/) => {
-                // do something useful...
-            });
+            .catch(ex => {
+                dispatch({
+                    type: FAIL_PROFILE,
+                });
+                throw ex;
+            }));
     };
 }
 
@@ -42,21 +47,25 @@ export function saveProfile(data) {
 
         const personId = getState().app.auth.personId;
 
-        authenticatedFetch('/api/people/' + personId, dispatch, getState(), {
+        guardedFetch(dispatch, authenticatedFetch('/api/people/' + personId, dispatch, getState(), {
             method: 'PUT',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json',
             },
         }).then((response) => {
-            if (response.status === 200) {
-                dispatch({
-                    type: SAVED_PROFILE,
-                });
+            if (!response.ok) {
+                throw 'Received HTTP status code ' + response.status;
             }
-            // handle error
-        }).catch((/*ex*/) => {
-            // do something useful
-        });
+
+            dispatch({
+                type: SAVED_PROFILE,
+            });
+        }).catch(ex => {
+            dispatch({
+                type: FAIL_PROFILE,
+            });
+            throw ex;
+        }));
     };
 }

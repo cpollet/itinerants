@@ -23,7 +23,6 @@ export function toggleAvailability(eventId) {
 
 export function sync() {
     return function (dispatch, getState) {
-        // console.log('sync...');
         dispatch({
             type: SYNC_START,
         });

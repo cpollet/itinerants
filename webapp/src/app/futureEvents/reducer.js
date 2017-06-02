@@ -25,7 +25,9 @@ export default function (state = initialState, action) {
                 items: action.items,
             });
         case FAIL_FUTURE_EVENTS:
-            return initialState;
+            return Object.assign({}, initialState, {
+                ready: true,
+            });
     }
 
     return state;

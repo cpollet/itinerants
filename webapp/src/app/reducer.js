@@ -6,9 +6,31 @@ import availabilityReducer from './availability/reducer';
 import attendanceReducer from './attendance/reducer';
 import userCreationReducer from './users/create/reducer';
 import userModificationReducer from './users/edit/reducer';
+import {FETCH_ERROR} from './actions';
+import {FETCH_ERROR_RESET} from './actions';
+
+const initialState = {
+    fetchError: false
+};
+
+function appStateReducer(state = initialState, action) {
+    switch (action.type) {
+        case FETCH_ERROR:
+            return Object.assign({}, state, {
+                fetchError: true,
+            });
+        case FETCH_ERROR_RESET:
+            return Object.assign({}, state, {
+                fetchError: false,
+            });
+    }
+
+    return state;
+}
 
 export default function reducer(state = {}, action) {
     return {
+        appState: appStateReducer(state.appState, action),
         auth: authReducer(state.auth, action),
         futureEvents: futureEventsReducer(state.futureEvents, action),
         availabilities: availabilityReducer(state.availabilities, action),

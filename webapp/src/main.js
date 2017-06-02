@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import FutureEventsContainer from './app/futureEvents/containers/FutureEventsContainer';
 import PlanContainer from './app/planning/containers/PlanContainer';
 import NoMatch from './app/error404/screens/NoMatch';
-import App from './app/App';
 import LoginContainer from './app/auth/containers/LoginContainer';
 import LogoutContainer from './app/auth/containers/LogoutContainer';
 import ResetPasswordContainer from './app/resetPassword/containers/ResetPasswordContainer';
@@ -26,6 +25,7 @@ import CreateUserContainer from './app/users/create/containers/CreateUserContain
 import './main.less';
 import AdminMenu from './app/admin/screens/AdminMenu';
 import EditUserContainer from './app/users/edit/containers/EditUserContainer';
+import AppContainer from './app/AppContainer';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <Provider store={store}>
             <FormProvider stateKey="forms">
                 <Router history={history}>
-                    <Route path="/" component={App}>
+                    <Route path="/" component={AppContainer}>
                         <Route path="login" component={UserIsNotAuthenticated(LoginContainer)}/>
                         <Route path="logout" component={LogoutContainer}/>
                         <Route path="users/passwords/:token"
