@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/cpollet/itinerants.svg?branch=master)](https://travis-ci.org/cpollet/itinerants)
-[![Tech. Debt](https://sonarqube.com//api/badges/measure?key=net.cpollet.itinerants%3Aitinerants-sonar-aggregator&metric=sqale_debt_ratio)](https://sonarqube.com/dashboard?id=net.cpollet.itinerants%3Aitinerants-sonar-aggregator)
+[![Tech. Debt](https://sonarcloud.io/api/badges/measure?key=net.cpollet.itinerants%253Aitinerants-sonar-aggregator&metric=sqale_debt_ratio)](https://sonarcloud.io/dashboard?id=net.cpollet.itinerants%3Aitinerants-sonar-aggregator)
 [![Next issues](https://badge.waffle.io/cpollet/itinerants.svg?label=next&title=Next%20Issues)](http://waffle.io/cpollet/itinerants)
 
 # Build everything
