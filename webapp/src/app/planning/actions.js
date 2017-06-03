@@ -1,10 +1,11 @@
+import {push} from 'react-router-redux';
 import {
+    FETCH_PLAN_PROPOSAL,
     RECEIVE_PLAN_PROPOSAL,
     SYNC_PLAN,
     SYNC_PLAN_SUCCESS,
     TOGGLE_PLANNING,
-    TOGGLE_SELECTION,
-    FETCH_PLAN_PROPOSAL
+    TOGGLE_SELECTION
 } from '../actions';
 import {authenticatedFetch} from '../helpers';
 
@@ -24,6 +25,10 @@ export function fetchPlanProposal(eventIds) {
         });
 
         const params = eventIds.map(e => 'eventId=' + e).join('&');
+
+        if (params === '') {
+            dispatch(push('/future'));
+        }
 
         return authenticatedFetch('/api/attendances?' + params, dispatch, getState())
             .then(response => {
