@@ -33,7 +33,9 @@ class Menu extends React.Component {
                         <Link to={'/admin'}>Admin</Link>
                     </MenuItem>
                 )}
-
+                <MenuItem active={this.props.active === 'about'}>
+                    <Link to={'/about'}>À propos</Link>
+                </MenuItem>
                 {renderIf(
                     this.props.isAuthenticated,
                     <MenuItem>

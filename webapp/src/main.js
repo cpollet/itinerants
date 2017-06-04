@@ -26,6 +26,7 @@ import './main.less';
 import AdminMenu from './app/admin/screens/AdminMenu';
 import EditUserContainer from './app/users/edit/containers/EditUserContainer';
 import AppContainer from './app/AppContainer';
+import About from './app/about/screen/About';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
@@ -131,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <FormProvider stateKey="forms">
                 <Router history={history}>
                     <Route path="/" component={AppContainer}>
+                        <Route path="about" component={About}/>
                         <Route path="login" component={UserIsNotAuthenticated(LoginContainer)}/>
                         <Route path="logout" component={LogoutContainer}/>
                         <Route path="users/passwords/:token"

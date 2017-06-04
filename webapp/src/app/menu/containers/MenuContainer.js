@@ -19,6 +19,8 @@ function mapStateToProps(state, ownProps) {
                 case '/admin':
                 case '/admin/users/create':
                     return 'admin';
+                case '/about':
+                    return 'about';
             }
         }(ownProps.location.pathname),
         isAdmin: state.app.auth.roles.indexOf('admin') > -1,
