@@ -38,6 +38,7 @@ function mapStateToProps(state) {
         ready: state.app.userModification.ready,
         saving: state.app.userModification.saving,
         resetPasswordTokenSent: state.app.userModification.resetPasswordTokenSent,
+        errors: state.app.userModification.errors,
     };
 }
 

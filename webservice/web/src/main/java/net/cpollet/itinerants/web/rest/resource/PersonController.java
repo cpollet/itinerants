@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * Created by cpollet on 13.02.17.
  */
@@ -55,7 +57,7 @@ public class PersonController {
 
     @PutMapping(value = "/{personId}")
     @PreAuthorize(AUTHORIZE_OWN_OR_ADMIN)
-    public ResponseEntity save(@PathVariable String personId, @RequestBody PersonProfilePayload personProfilePayload) {
+    public ResponseEntity save(@PathVariable String personId, @Valid @RequestBody PersonProfilePayload personProfilePayload) {
         Person person = personService.getById(personId);
 
         if (!person.id().equals(personId)) {

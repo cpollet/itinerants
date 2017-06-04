@@ -1,5 +1,6 @@
 import {
     FAIL_PROFILE,
+    FAIL_VALIDATION_PROFILE,
     FETCH_PROFILE,
     RECEIVED_PROFILE,
     RESET_PASSWORD_TOKEN_SENT,
@@ -17,6 +18,7 @@ const initialState = {
     ready: false,
     saving: false,
     resetPasswordTokenSent: false,
+    errors: {},
 };
 
 export default function (state = initialState, action) {
@@ -37,6 +39,7 @@ export default function (state = initialState, action) {
         case SAVE_PROFILE:
             return Object.assign({}, state, {
                 saving: true,
+                errors: {},
             });
 
         case SAVED_PROFILE:
@@ -54,6 +57,20 @@ export default function (state = initialState, action) {
                 ready: true,
                 saving: false,
             });
+        case FAIL_VALIDATION_PROFILE: {
+            let errors = {};
+
+            action.errors.forEach((e) => {
+                errors = Object.assign({}, errors, {
+                    [e.field]: Array.concat(errors[e.field] || [], e.message)
+                });
+            });
+
+            return Object.assign({}, state, {
+                saving: false,
+                errors: errors,
+            });
+        }
     }
 
     return state;

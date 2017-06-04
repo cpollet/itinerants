@@ -1,5 +1,12 @@
 import {authenticatedFetch, guardedFetch} from '../../helpers';
-import {FAIL_PROFILE, FETCH_PROFILE, RECEIVED_PROFILE, SAVE_PROFILE, SAVED_PROFILE} from '../../actions';
+import {
+    FAIL_PROFILE,
+    FAIL_VALIDATION_PROFILE,
+    FETCH_PROFILE,
+    RECEIVED_PROFILE,
+    SAVE_PROFILE,
+    SAVED_PROFILE
+} from '../../actions';
 
 export function fetchProfile() {
     return function (dispatch, getState) {
@@ -54,8 +61,18 @@ export function saveProfile(data) {
                 'Content-Type': 'application/json',
             },
         }).then((response) => {
-            if (!response.ok) {
+            if (!response.ok && response.status !== 400) {
                 throw 'Received HTTP status code ' + response.status;
+            }
+
+            if (response.status === 400) {
+                response.json().then(json => {
+                    dispatch({
+                        type: FAIL_VALIDATION_PROFILE,
+                        errors: json.errors
+                    });
+                });
+                return;
             }
 
             dispatch({
