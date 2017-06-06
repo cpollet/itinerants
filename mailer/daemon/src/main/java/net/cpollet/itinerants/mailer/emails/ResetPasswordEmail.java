@@ -14,6 +14,6 @@ public class ResetPasswordEmail extends BaseEmail {
 
     @Override
     public String subject() throws EmailException {
-        return "Changement du mot de passe";
+        return "Itinérants - Changement du mot de passe";
     }
 }

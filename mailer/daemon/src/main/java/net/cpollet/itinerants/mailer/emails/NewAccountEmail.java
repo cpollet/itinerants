@@ -14,6 +14,6 @@ public class NewAccountEmail extends BaseEmail {
 
     @Override
     public String subject() throws EmailException {
-        return "Nouveau compte";
+        return "Itinérants - Nouveau compte";
     }
 }
