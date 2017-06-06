@@ -47,9 +47,11 @@ public class AttendanceController {
     @GetMapping(value = "")
     @PreAuthorize(AUTHORIZE_ADMIN)
     public AttendanceListResponse getAttendances(@RequestParam("eventId") List<String> eventIds) {
-        log.info("Creating availabilities list for [{}]", eventIds.stream().collect(Collectors.joining(", ")));
-
         List<Event> events = eventService.getByIds(eventIds);
+
+        log.info("Creating availabilities list for [{}]", events.stream()
+                .map(Event::name)
+                .collect(Collectors.joining(", ")));
 
         Map<Event, Set<Person>> availabilities = mapEventsToPersonsSet(events, Event::availablePeople);
         Map<Event, Set<Person>> attendances = mapEventsToPersonsSet(events, Event::attendingPeople);

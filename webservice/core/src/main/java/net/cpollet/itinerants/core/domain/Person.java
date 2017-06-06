@@ -12,9 +12,18 @@ import java.util.stream.Collectors;
  * Created by cpollet on 29.03.17.
  */
 public class Person {
+    public static final Person NONE = new Person();
+
     private final PersonData personData;
     private final Password.Factory passwordFactory;
     private final Notifier notifier;
+
+    /**
+     * Private constructor to instantiate the "null" person.
+     */
+    private Person() {
+        this(PersonData.EMPTY, null, null);
+    }
 
     public Person(PersonData personData, Password.Factory passwordFactory, Notifier notifier) {
         this.personData = personData;
@@ -34,7 +43,7 @@ public class Person {
         personData.setFirstName(firstName);
     }
 
-    public String lastName(){
+    public String lastName() {
         return personData.getLastName();
     }
 

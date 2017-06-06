@@ -50,13 +50,14 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
 
         for (Event event : events) {
             while (state.attendees(event).size() < event.attendeesCount()) {
-                try {
-                    Person person = state.find(event, availabilities.getOrDefault(event, Collections.emptySet()));
-                    state.select(person, event);
-                } catch (Exception e) {
-                    log.info("unable to find enough attendee for {} (found {})", event.id(), state.attendees(event).size(), e);
+                Person person = state.find(event, availabilities.getOrDefault(event, Collections.emptySet()));
+
+                if (person.equals(Person.NONE)) {
+                    log.info("Unable to find enough attendee for {} (found {})", event.name(), state.attendees(event).size());
                     break;
                 }
+
+                state.select(person, event);
             }
         }
 
@@ -102,7 +103,7 @@ public class SimpleAttendeeSelection implements AttendeeSelection {
                     .filter(p -> !alreadySelected(p, event))
                     .sorted(this::compareScore)
                     .findFirst()
-                    .orElseThrow(() -> new IllegalStateException("No more available person"));
+                    .orElse(Person.NONE);
         }
 
         Set<Person> attendees(Event event) {
