@@ -39,7 +39,6 @@ public class TestSimpleAttendeeSelection {
 
     @Before
     public void setup() {
-        Mockito.when(event1.id()).thenReturn("e1");
         Mockito.when(event1.dateTime()).thenReturn(LocalDateTime.now().plusDays(1));
         Mockito.when(event2.dateTime()).thenReturn(LocalDateTime.now().plusDays(2));
         Mockito.when(event3.dateTime()).thenReturn(LocalDateTime.now().plusDays(3));
