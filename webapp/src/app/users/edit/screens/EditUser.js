@@ -45,7 +45,7 @@ class EditUser extends React.Component {
                                }}
                 >
                     <Form>
-                        <FormRow className={this.props.errors.firstName && styles.error}>
+                        <FormRow className={this.props.errors.firstName ? styles.error : ''}>
                             <FormLabel>Prénom</FormLabel>
                             <FormField>
                                 <FormFieldContainer name="firstName">
@@ -53,7 +53,7 @@ class EditUser extends React.Component {
                                 </FormFieldContainer>
                             </FormField>
                         </FormRow>
-                        <FormRow className={this.props.errors.lastName && styles.error}>
+                        <FormRow className={this.props.errors.lastName ? styles.error : ''}>
                             <FormLabel>Nom</FormLabel>
                             <FormField>
                                 <FormFieldContainer name="lastName">
@@ -61,7 +61,7 @@ class EditUser extends React.Component {
                                 </FormFieldContainer>
                             </FormField>
                         </FormRow>
-                        <FormRow className={this.props.errors.email && styles.error}>
+                        <FormRow className={this.props.errors.email ? styles.error : ''}>
                             <FormLabel>Email</FormLabel>
                             <FormField>
                                 <FormFieldContainer name="email">
