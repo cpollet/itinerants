@@ -44,6 +44,7 @@ function mapStateToProps(state) {
             eventSize: event.eventSize,
             dateTime: moment(event.dateTime),
             selectedPeople: event.selectedPeople,
+            savedAttendances: event.savedAttendances,
             availablePeople: event.availablePeople.map(p => ({
                 personId: p,
                 name: proposals.attendees[p].name,

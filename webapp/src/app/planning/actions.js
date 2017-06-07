@@ -7,7 +7,7 @@ import {
     TOGGLE_PLANNING,
     TOGGLE_SELECTION
 } from '../actions';
-import {authenticatedFetch} from '../helpers';
+import {authenticatedFetch, guardedFetch} from '../helpers';
 
 export function togglePlanning(eventId) {
     return function (dispatch) {
@@ -60,7 +60,6 @@ export function toggleSelection(eventId, personId) {
 
 export function savePlan() {
     return function (dispatch, getState) {
-        console.log('save plan');
         const payload = getState()['app'].planning.proposal.events.map(e => ({
             eventId: e.eventId,
             personIds: e.selectedPeople
@@ -70,7 +69,7 @@ export function savePlan() {
             type: SYNC_PLAN,
         });
 
-        authenticatedFetch('/api/attendances', dispatch, getState(), {
+        guardedFetch(dispatch, authenticatedFetch('/api/attendances', dispatch, getState(), {
             method: 'PUT',
             body: JSON.stringify(payload),
             headers: {
@@ -82,8 +81,12 @@ export function savePlan() {
                     type: SYNC_PLAN_SUCCESS
                 });
             } else {
-                response.json().then((msg) => console.log(msg));
+                response.json().then((msg) => {
+                    throw msg;
+                });
             }
-        }).catch((ex) => console.log(ex));
+
+            fetchPlanProposal(getState()['app'].planning.proposal.events.map(e => e.eventId))(dispatch, getState);
+        }));
     };
 }

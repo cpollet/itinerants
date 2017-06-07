@@ -21,6 +21,7 @@ class Planning extends React.Component {
                                                 key={proposal.eventId + ':' + person.personId}
                                                 person={person}
                                                 isSelected={this.isSelected(proposal.selectedPeople, person.personId)}
+                                                isSaved={this.isSelected(proposal.savedAttendances, person.personId)}
                                                 onClick={this.props.toggleSelection.bind(this, proposal.eventId, person.personId)}/>
                                         )}
                                     </div>

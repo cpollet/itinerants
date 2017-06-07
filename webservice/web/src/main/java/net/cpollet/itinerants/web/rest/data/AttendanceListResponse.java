@@ -21,6 +21,7 @@ public class AttendanceListResponse {
     private final int pastEventsCount;
 
     public AttendanceListResponse(Map<Event, Set<Person>> selection,
+                                  Map<Event, Set<Person>> savedAttendances,
                                   Map<Event, Set<Person>> availabilities,
                                   Map<Person, Long> pastAttendancesCount,
                                   int pastEventsCount) {
@@ -30,7 +31,12 @@ public class AttendanceListResponse {
                 .collect(Collectors.toMap(e -> e.getKey().id(), Map.Entry::getValue));
 
         events = selection.entrySet().stream()
-                .map(e -> new AttendanceResponse(e.getKey(), e.getValue(), availabilities.get(e.getKey())))
+                .map(e -> new AttendanceResponse(
+                        e.getKey(),
+                        e.getValue(),
+                        availabilities.get(e.getKey()),
+                        savedAttendances.get(e.getKey())
+                ))
                 .collect(Collectors.toList());
 
         attendees = availabilities.values().stream()
@@ -69,16 +75,21 @@ public class AttendanceListResponse {
         private final LocalDateTime dateTime;
         private final Set<String> selectedPeople;
         private final Set<String> availablePeople;
+        private final Set<String> savedAttendances;
 
-        private AttendanceResponse(Event event, Set<Person> attendees, Set<Person> availablePeople) {
+        private AttendanceResponse(Event event, Set<Person> attendees, Set<Person> availablePeople, Set<Person> savedAttendances) {
             eventId = event.id();
             name = event.name();
             eventSize = event.size();
             dateTime = event.dateTime();
-            this.selectedPeople = attendees.stream()
-                    .map(Person::id)
-                    .collect(Collectors.toSet());
-            this.availablePeople = availablePeople.stream()
+
+            this.selectedPeople = reduceToPersonId(attendees);
+            this.availablePeople = reduceToPersonId(availablePeople);
+            this.savedAttendances = reduceToPersonId(savedAttendances);
+        }
+
+        private Set<String> reduceToPersonId(Set<Person> persons) {
+            return persons.stream()
                     .map(Person::id)
                     .collect(Collectors.toSet());
         }

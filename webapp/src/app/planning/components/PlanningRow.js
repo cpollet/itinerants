@@ -35,7 +35,7 @@ class PlanningRow extends React.Component {
         const ratio = ratioToTarget(this.props.person);
 
         return (
-            <div className={styles.component}
+            <div className={styles.component + (this.props.isSaved ? ' ' + styles.saved : '')}
                  onClick={this.props.onClick}>
                 <div className={styles.checkboxContainer}>
                     <Checkbox checked={this.props.isSelected}/>
@@ -59,6 +59,7 @@ class PlanningRow extends React.Component {
 PlanningRow.propTypes = {
     person: React.PropTypes.object.isRequired,
     isSelected: React.PropTypes.bool.isRequired,
+    isSaved: React.PropTypes.bool.isRequired,
     onClick: React.PropTypes.func.isRequired
 };
 

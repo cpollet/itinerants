@@ -70,7 +70,7 @@ public class AttendanceController {
                 attendances
         ).selection();
 
-        return new AttendanceListResponse(selection, availabilities, pastAttendancesCount, pastEvents.size());
+        return new AttendanceListResponse(selection, attendances, availabilities, pastAttendancesCount, pastEvents.size());
     }
 
     private Map<Event, Set<Person>> mapEventsToPersonsSet(List<Event> events, Function<Event, Set<Person>> function) {
