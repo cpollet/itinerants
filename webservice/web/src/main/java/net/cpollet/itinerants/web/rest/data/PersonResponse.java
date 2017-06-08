@@ -17,6 +17,6 @@ public class PersonResponse {
     }
 
     public PersonResponse(Person person) {
-        this(person.id(), person.firstName());
+        this(person.id(), person.firstName() + " " + person.lastName());
     }
 }

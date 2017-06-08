@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by cpollet on 13.02.17.
@@ -32,6 +34,7 @@ import javax.validation.Valid;
 @Slf4j
 public class PersonController {
     private static final String AUTHORIZE_OWN_OR_ADMIN = "principal.personId == #personId or hasRole('ADMIN')";
+    private static final String AUTHORIZE_ADMIN = "hasRole('ADMIN')";
 
     private final PersonService personService;
     private final PasswordService passwordService;
@@ -41,6 +44,16 @@ public class PersonController {
         this.personService = personService;
         this.passwordService = passwordService;
         this.sessionController = sessionController;
+    }
+
+    @GetMapping(value = "")
+    @PreAuthorize(AUTHORIZE_ADMIN)
+    public ResponseEntity<List<PersonResponse>> get() {
+        List<PersonResponse> persons = personService.getAll().stream()
+                .map(PersonResponse::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(persons);
     }
 
     @GetMapping(value = "/{personId}")

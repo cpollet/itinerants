@@ -9,8 +9,11 @@ import net.cpollet.itinerants.da.neo4j.repositories.PersonRepository;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by cpollet on 13.02.17.
@@ -25,6 +28,13 @@ public class Neo4jPersonService implements PersonService {
         this.personRepository = personRepository;
         this.passwordFactory = passwordFactory;
         this.notifier = notifier;
+    }
+
+    @Override
+    public List<Person> getAll() {
+        return StreamSupport.stream(personRepository.findAll().spliterator(), false)
+                .map(this::build)
+                .collect(Collectors.toList());
     }
 
     @Override

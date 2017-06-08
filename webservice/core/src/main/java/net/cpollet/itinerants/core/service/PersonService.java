@@ -4,10 +4,14 @@ import net.cpollet.itinerants.core.domain.Person;
 import net.cpollet.itinerants.core.domain.data.EventData;
 import net.cpollet.itinerants.core.domain.data.PersonData;
 
+import java.util.List;
+
 /**
  * Created by cpollet on 13.02.17.
  */
 public interface PersonService {
+    List<Person> getAll();
+
     Person getById(String id);
 
     Person create(PersonData personData);
