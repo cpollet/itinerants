@@ -27,6 +27,7 @@ import AdminMenu from './app/admin/screens/AdminMenu';
 import EditUserContainer from './app/users/edit/containers/EditUserContainer';
 import AppContainer from './app/AppContainer';
 import About from './app/about/screen/About';
+import {loginSuccess} from './app/auth/actions';
 
 document.addEventListener('DOMContentLoaded', function () {
     moment.locale('fr');
@@ -85,7 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
     store.subscribe(syncManager.listenerFactory());
 
     if (sessionStorage.getItem('auth')) {
-        store.dispatch(JSON.parse(sessionStorage.getItem('auth')));
+        const loginInfo = JSON.parse(sessionStorage.getItem('auth'));
+        loginSuccess(loginInfo.username, loginInfo.personId, loginInfo.token, loginInfo.roles)(store.dispatch);
     }
 
     function authData(state) {

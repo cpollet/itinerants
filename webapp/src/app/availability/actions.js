@@ -29,6 +29,8 @@ export function sync() {
 
         const {futureEvents, availabilities, auth} = getState().app;
 
+        const personId = futureEvents.realPersonId || auth.personId;
+
         Promise.all([]
             .concat(futureEvents.items
                 .map((e) => e.eventId)
@@ -37,7 +39,7 @@ export function sync() {
                     action: 'DELETE',
                     data: {
                         eventId: eventId,
-                        personId: auth.personId,
+                        personId: personId,
                     }
                 })))
             .concat(availabilities.events
@@ -45,7 +47,7 @@ export function sync() {
                     action: 'PUT',
                     data: {
                         eventId: eventId,
-                        personId: auth.personId,
+                        personId: personId,
                     }
                 })))
             .map((action) =>

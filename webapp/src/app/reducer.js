@@ -6,6 +6,7 @@ import availabilityReducer from './availability/reducer';
 import attendanceReducer from './attendance/reducer';
 import userCreationReducer from './users/create/reducer';
 import userModificationReducer from './users/edit/reducer';
+import adminStateReducer from './admin/reducer';
 import {FETCH_ERROR} from './actions';
 import {FETCH_ERROR_RESET} from './actions';
 
@@ -30,6 +31,7 @@ function appStateReducer(state = initialState, action) {
 
 export default function reducer(state = {}, action) {
     return {
+        admin: adminStateReducer(state.admin, action),
         appState: appStateReducer(state.appState, action),
         auth: authReducer(state.auth, action),
         futureEvents: futureEventsReducer(state.futureEvents, action),

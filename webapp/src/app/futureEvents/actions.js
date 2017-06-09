@@ -7,13 +7,14 @@ import {
 } from '../actions';
 import {authenticatedFetch, guardedFetch} from '../helpers';
 
-export function fetchFutureEvents() {
+export function fetchFutureEvents(realPersonId = null) {
     return function (dispatch, getState) {
-        dispatch({
-            type: REQUEST_FUTURE_EVENTS
-        });
+        const personId = realPersonId || getState().app.auth.personId;
 
-        const personId = getState().app.auth.personId;
+        dispatch({
+            type: REQUEST_FUTURE_EVENTS,
+            personId: personId,
+        });
 
         guardedFetch(dispatch, authenticatedFetch('/api/events/future', dispatch, getState())
             .then(response => {

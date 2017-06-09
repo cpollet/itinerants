@@ -4,6 +4,7 @@ const initialState = {
     ready: false,
     didInvalidate: false,
     lastUpdated: 0,
+    realPersonId: null,
     items: [
 //          {
 //              eventId,
@@ -17,16 +18,20 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case REQUEST_FUTURE_EVENTS:
-            return initialState;
+            return Object.assign({}, initialState, {
+                realPersonId: action.personId,
+            });
         case RECEIVE_FUTURE_EVENTS:
             return Object.assign({}, initialState, {
                 ready: true,
                 lastUpdated: action.receivedAt,
                 items: action.items,
+                realPersonId: state.realPersonId,
             });
         case FAIL_FUTURE_EVENTS:
             return Object.assign({}, initialState, {
                 ready: true,
+                realPersonId: state.realPersonId,
             });
     }
 

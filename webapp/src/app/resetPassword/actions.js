@@ -1,11 +1,5 @@
-import {
-    LOGIN_SUCCESS,
-    PASSWORD_TOO_SHORT,
-    PASSWORDS_MATCH,
-    RESET_PASSWORD_TOKEN_SENT,
-    TOKEN_VALID,
-    USERNAME_EMPTY
-} from '../actions';
+import {PASSWORD_TOO_SHORT, PASSWORDS_MATCH, RESET_PASSWORD_TOKEN_SENT, TOKEN_VALID, USERNAME_EMPTY} from '../actions';
+import {loginSuccess} from '../auth/actions';
 
 export function resetPassword(username, password1, password2, hash) {
     return function (dispatch) {
@@ -74,13 +68,7 @@ export function resetPassword(username, password1, password2, hash) {
                         });
                         break;
                     case 'SUCCESS':
-                        dispatch({
-                            type: LOGIN_SUCCESS,
-                            username: username,
-                            personId: msg.personId,
-                            token: msg.token,
-                            roles: msg.roles
-                        });
+                        loginSuccess(username, msg.personId, msg.token, msg.roles)(dispatch);
                         break;
                 }
             });

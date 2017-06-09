@@ -1,21 +1,22 @@
 import React from 'react';
 import EventContainer from '../containers/EventContainer';
 import Button from '../../../widgets/Button';
-import {renderIf} from '../../../lib/helpers';
 import styles from './FutureEvents.less';
+import RealPersonChooserContainer from '../containers/RealPersonChooserContainer';
 
 class Events extends React.Component {
     render() {
         return (
             <div className={styles.component}>
                 <h2>{this.props.title}</h2>
+
                 {this.props.events.map((e, i) => <EventContainer key={i} event={e} isAdmin={this.props.isAdmin}/>)}
 
-                {renderIf(this.props.isAdmin,
-                    <div className={styles.right}>
-                        <Button type="primary" onClick={this.props.plan}>Planifier les sélectionnés</Button>
-                    </div>
-                )}
+                {this.props.isAdmin &&
+                <div className={styles.right}>
+                    <RealPersonChooserContainer/>
+                    <Button type="primary" onClick={this.props.plan}>Planifier les sélectionnés</Button>
+                </div>}
             </div>
         );
     }
