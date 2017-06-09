@@ -1,10 +1,10 @@
 import {
-    FETCH_PLAN_PROPOSAL,
-    RECEIVE_PLAN_PROPOSAL,
-    SYNC_PLAN,
-    SYNC_PLAN_SUCCESS,
-    TOGGLE_PLANNING,
-    TOGGLE_SELECTION
+    PLANNING_PROPOSAL_FETCH,
+    PLANNING_PROPOSAL_FETCH_SUCCESS,
+    PLANNING_SAVE_START,
+    PLANNING_SAVE_SUCCESS,
+    PLANNING_TOGGLE_EVENT_SELECTION,
+    PLANNING_TOGGLE_PERSON_SELECTION
 } from '../actions';
 
 const initialState = {
@@ -22,7 +22,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case TOGGLE_PLANNING: {
+        case PLANNING_TOGGLE_EVENT_SELECTION: {
             let eventsArray = state.eventsToPlan;
 
             if (eventsArray.indexOf(action.eventId) == -1) {
@@ -35,7 +35,7 @@ export default function (state = initialState, action) {
                 eventsToPlan: eventsArray
             });
         }
-        case FETCH_PLAN_PROPOSAL:
+        case PLANNING_PROPOSAL_FETCH:
             return Object.assign({}, state, {
                 sync: {
                     pending: state.sync.pending,
@@ -43,7 +43,7 @@ export default function (state = initialState, action) {
                     ready: false
                 }
             });
-        case RECEIVE_PLAN_PROPOSAL:
+        case PLANNING_PROPOSAL_FETCH_SUCCESS:
             return Object.assign({}, state, {
                 proposal: action.payload,
                 sync: {
@@ -52,7 +52,7 @@ export default function (state = initialState, action) {
                     ready: true
                 }
             });
-        case TOGGLE_SELECTION: {
+        case PLANNING_TOGGLE_PERSON_SELECTION: {
             const otherEvents = state.proposal.events.filter(e => e.eventId !== action.eventId);
             const event = state.proposal.events.filter(e => e.eventId === action.eventId)[0];
 
@@ -78,7 +78,7 @@ export default function (state = initialState, action) {
                 proposal: newProposal
             });
         }
-        case SYNC_PLAN: {
+        case PLANNING_SAVE_START: {
             return Object.assign({}, state, {
                 sync: {
                     pending: true,
@@ -87,7 +87,7 @@ export default function (state = initialState, action) {
                 }
             });
         }
-        case SYNC_PLAN_SUCCESS: {
+        case PLANNING_SAVE_SUCCESS: {
             return Object.assign({}, state, {
                 sync: {
                     pending: false,

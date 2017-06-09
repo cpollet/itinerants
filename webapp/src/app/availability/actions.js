@@ -1,22 +1,22 @@
 import {
-    DECREASE_SYNC_TIMEOUT,
-    INVALIDATE_STATE,
-    SYNC_ERROR,
-    SYNC_FAILURE,
-    SYNC_START,
-    SYNC_SUCCESS,
-    TOGGLE_AVAILABILITY
+    AVAILABILITY_DECREASE_SAVE_TIMEOUT,
+    AVAILABILITY_INVALIDATE_STATE,
+    AVAILABILITY_SAVE_RETRY,
+    AVAILABILITY_SAVE_ERROR,
+    AVAILABILITY_SAVE_START,
+    AVAILABILITY_SAVE_SUCCESS,
+    AVAILABILITY_TOGGLE
 } from '../actions';
 import {authenticatedFetch} from '../helpers';
 
 export function toggleAvailability(eventId) {
     return function (dispatch) {
         dispatch({
-            type: TOGGLE_AVAILABILITY,
+            type: AVAILABILITY_TOGGLE,
             eventId: eventId,
         });
         dispatch({
-            type: INVALIDATE_STATE,
+            type: AVAILABILITY_INVALIDATE_STATE,
         });
     };
 }
@@ -24,7 +24,7 @@ export function toggleAvailability(eventId) {
 export function sync() {
     return function (dispatch, getState) {
         dispatch({
-            type: SYNC_START,
+            type: AVAILABILITY_SAVE_START,
         });
 
         const {futureEvents, availabilities, auth} = getState().app;
@@ -70,20 +70,17 @@ export function sync() {
             .then((/* response */) => {
                 // console.log('ok', response);
                 dispatch({
-                    type: SYNC_SUCCESS,
+                    type: AVAILABILITY_SAVE_SUCCESS,
                 });
             })
             .catch((/* error */) => {
-                // console.log('error', error);
                 if (availabilities.serverSync.retryCount === 0) {
-                    // console.log('tried max amount of times');
                     dispatch({
-                        type: SYNC_FAILURE,
+                        type: AVAILABILITY_SAVE_ERROR,
                     });
                 } else {
-                    // console.log('retry in 5sec');
                     setTimeout(() => dispatch({
-                        type: SYNC_ERROR,
+                        type: AVAILABILITY_SAVE_RETRY,
                     }), 5 * 1000);
                 }
             });
@@ -92,6 +89,6 @@ export function sync() {
 
 export function decreaseSyncTimeout() {
     return {
-        type: DECREASE_SYNC_TIMEOUT,
+        type: AVAILABILITY_DECREASE_SAVE_TIMEOUT,
     };
 }

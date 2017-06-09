@@ -1,12 +1,12 @@
 import {
-    DECREASE_SYNC_TIMEOUT,
-    INVALIDATE_STATE,
-    RECEIVE_AVAILABILITIES,
-    SYNC_ERROR,
-    SYNC_FAILURE,
-    SYNC_START,
-    SYNC_SUCCESS,
-    TOGGLE_AVAILABILITY
+    AVAILABILITY_DECREASE_SAVE_TIMEOUT,
+    AVAILABILITY_INVALIDATE_STATE,
+    AVAILABILITIES_FETCH_SUCCESS,
+    AVAILABILITY_SAVE_RETRY,
+    AVAILABILITY_SAVE_ERROR,
+    AVAILABILITY_SAVE_START,
+    AVAILABILITY_SAVE_SUCCESS,
+    AVAILABILITY_TOGGLE
 } from '../actions';
 
 const initialState = {
@@ -30,16 +30,16 @@ function eventsList(events, eventId) {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case TOGGLE_AVAILABILITY:
+        case AVAILABILITY_TOGGLE:
             return Object.assign({}, state, {
                 events: eventsList(state.events, action.eventId)
             });
-        case RECEIVE_AVAILABILITIES:
+        case AVAILABILITIES_FETCH_SUCCESS:
             return Object.assign({}, state, {
                 events: action.availabilities
             });
 
-        case INVALIDATE_STATE:
+        case AVAILABILITY_INVALIDATE_STATE:
             return Object.assign({}, state, {
                 serverSync: Object.assign({}, state.serverSync, {
                     stale: true,
@@ -47,21 +47,21 @@ export default function (state = initialState, action) {
                     syncTimeoutMs: 3000,
                 })
             });
-        case SYNC_START:
+        case AVAILABILITY_SAVE_START:
             return Object.assign({}, state, {
                 serverSync: Object.assign({}, state.serverSync, {
                     stale: false,
                     syncPending: true,
                 })
             });
-        case SYNC_SUCCESS:
+        case AVAILABILITY_SAVE_SUCCESS:
             return Object.assign({}, state, {
                 serverSync: Object.assign({}, state.serverSync, {
                     retryCount: initialState.serverSync.retryCount,
                     syncPending: false,
                 })
             });
-        case SYNC_ERROR:
+        case AVAILABILITY_SAVE_RETRY:
             return Object.assign({}, state, {
                 serverSync: Object.assign({}, state.serverSync, {
                     retryCount: Math.max(0, state.serverSync.retryCount - 1),
@@ -69,7 +69,7 @@ export default function (state = initialState, action) {
                     syncPending: false,
                 })
             });
-        case SYNC_FAILURE:
+        case AVAILABILITY_SAVE_ERROR:
             return Object.assign({}, state, {
                 serverSync: Object.assign({}, state.serverSync, {
                     retryCount: initialState.serverSync.retryCount,
@@ -78,7 +78,7 @@ export default function (state = initialState, action) {
                     syncPending: false,
                 })
             });
-        case DECREASE_SYNC_TIMEOUT:
+        case AVAILABILITY_DECREASE_SAVE_TIMEOUT:
             if (state.serverSync.syncTimeoutMs > 0) {
                 return Object.assign({}, state, {
                     serverSync: Object.assign({}, state.serverSync, {

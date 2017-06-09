@@ -1,9 +1,9 @@
 import {
-    FAIL_FUTURE_EVENTS,
-    RECEIVE_ATTENDANCES,
-    RECEIVE_AVAILABILITIES,
-    RECEIVE_FUTURE_EVENTS,
-    REQUEST_FUTURE_EVENTS
+    FUTURE_EVENTS_FETCH_ERROR,
+    ATTENDANCES_FETCH_SUCCESS,
+    AVAILABILITIES_FETCH_SUCCESS,
+    FUTURE_EVENTS_FETCH_SUCCESS,
+    FUTURE_EVENTS_FETCH
 } from '../actions';
 import {authenticatedFetch, guardedFetch} from '../helpers';
 
@@ -12,7 +12,7 @@ export function fetchFutureEvents(realPersonId = null) {
         const personId = realPersonId || getState().app.auth.personId;
 
         dispatch({
-            type: REQUEST_FUTURE_EVENTS,
+            type: FUTURE_EVENTS_FETCH,
             personId: personId,
         });
 
@@ -29,7 +29,7 @@ export function fetchFutureEvents(realPersonId = null) {
                 }
 
                 dispatch({
-                    type: RECEIVE_FUTURE_EVENTS,
+                    type: FUTURE_EVENTS_FETCH_SUCCESS,
                     items: json.map(e => ({
                         eventId: e.eventId,
                         name: e.name,
@@ -38,13 +38,13 @@ export function fetchFutureEvents(realPersonId = null) {
                     receivedAt: Date.now()
                 });
                 dispatch({
-                    type: RECEIVE_AVAILABILITIES,
+                    type: AVAILABILITIES_FETCH_SUCCESS,
                     availabilities: json
                         .filter(e => e.availablePeople.filter(p => p.personId === personId).length > 0)
                         .map(e => e.eventId),
                 });
                 dispatch({
-                    type: RECEIVE_ATTENDANCES,
+                    type: ATTENDANCES_FETCH_SUCCESS,
                     attendances: json
                         .filter(e => e.attendingPeople.filter(p => p.personId === personId).length > 0)
                         .map(e => e.eventId),
@@ -53,7 +53,7 @@ export function fetchFutureEvents(realPersonId = null) {
             })
             .catch(ex => {
                 dispatch({
-                    type: FAIL_FUTURE_EVENTS,
+                    type: FUTURE_EVENTS_FETCH_ERROR,
                 });
                 throw ex;
             }));

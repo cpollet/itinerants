@@ -1,4 +1,4 @@
-import {LOGIN_EXPIRED, LOGIN_INVALID, LOGIN_SUCCESS, RESET_LOGIN_FORM, RESET_PASSWORD_TOKEN_SENT} from '../actions';
+import {LOGIN_ERROR_EXPIRED, LOGIN_ERROR_INVALID, LOGIN_SUCCESS, LOGIN_RESET_FORM, RESET_PASSWORD_TOKEN_SENT} from '../actions';
 import constants from './constants';
 
 const initialState = {
@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
                 roles: action.roles,
                 error: null
             });
-        case LOGIN_INVALID:
+        case LOGIN_ERROR_INVALID:
             return Object.assign({}, state, {
                 personId: null,
                 username: action.username,
@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
                 roles: [],
                 error: constants.invalidCredentials
             });
-        case LOGIN_EXPIRED:
+        case LOGIN_ERROR_EXPIRED:
             return Object.assign({}, state, {
                 token: null,
                 error: constants.sessionExpired
@@ -38,7 +38,7 @@ export default function (state = initialState, action) {
                 error: null,
                 resetPasswordTokenSent: true,
             });
-        case RESET_LOGIN_FORM:
+        case LOGIN_RESET_FORM:
             return Object.assign({}, state, initialState);
     }
     return state;

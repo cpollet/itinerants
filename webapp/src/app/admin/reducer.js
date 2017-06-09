@@ -1,4 +1,4 @@
-import {RECEIVE_PEOPLE} from '../actions';
+import {PEOPLE_FETCH_SUCCESS} from '../actions';
 
 const initialState = {
     people: [],
@@ -6,7 +6,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case RECEIVE_PEOPLE:
+        case PEOPLE_FETCH_SUCCESS:
             return Object.assign({}, state, {
                 people: action.people,
             });

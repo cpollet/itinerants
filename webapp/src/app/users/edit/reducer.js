@@ -1,11 +1,11 @@
 import {
-    FAIL_PROFILE,
-    FAIL_VALIDATION_PROFILE,
-    FETCH_PROFILE,
-    RECEIVED_PROFILE,
+    PROFILE_FETCH_ERROR,
+    PROFILE_SAVE_ERROR_VALIDATION,
+    PROFILE_FETCH,
+    PROFILE_FETCH_SUCCESS,
     RESET_PASSWORD_TOKEN_SENT,
-    SAVE_PROFILE,
-    SAVED_PROFILE
+    PROFILE_SAVE_START,
+    PROFILE_SAVE_SUCCESS
 } from '../../actions';
 
 const initialState = {
@@ -23,10 +23,10 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case FETCH_PROFILE:
+        case PROFILE_FETCH:
             return initialState;
 
-        case RECEIVED_PROFILE:
+        case PROFILE_FETCH_SUCCESS:
             return Object.assign({}, state, {
                 data: {
                     firstName: action.data.firstName,
@@ -36,13 +36,13 @@ export default function (state = initialState, action) {
                 ready: true,
             });
 
-        case SAVE_PROFILE:
+        case PROFILE_SAVE_START:
             return Object.assign({}, state, {
                 saving: true,
                 errors: {},
             });
 
-        case SAVED_PROFILE:
+        case PROFILE_SAVE_SUCCESS:
             return Object.assign({}, state, {
                 saving: false,
             });
@@ -52,12 +52,12 @@ export default function (state = initialState, action) {
                 resetPasswordTokenSent: true,
             });
 
-        case FAIL_PROFILE:
+        case PROFILE_FETCH_ERROR:
             return Object.assign({}, initialState, {
                 ready: true,
                 saving: false,
             });
-        case FAIL_VALIDATION_PROFILE: {
+        case PROFILE_SAVE_ERROR_VALIDATION: {
             let errors = {};
 
             action.errors.forEach((e) => {

@@ -1,21 +1,13 @@
 import fetch from 'isomorphic-fetch';
-import {
-    LOGIN_ERROR,
-    LOGIN_EXPIRED,
-    LOGIN_INVALID,
-    LOGIN_SUCCESS,
-    LOGOUT,
-    RECEIVE_PEOPLE,
-    RESET_LOGIN_FORM
-} from '../actions';
+import {LOGIN_ERROR_EXPIRED, LOGIN_ERROR_INVALID, LOGIN_SUCCESS, LOGOUT, PEOPLE_FETCH_SUCCESS, LOGIN_RESET_FORM} from '../actions';
 import {authenticatedFetch, guardedFetch} from '../helpers';
 
 export function login(username, password) {
     return function (dispatch/* , getState */) {
         dispatch({
-            type: RESET_LOGIN_FORM
+            type: LOGIN_RESET_FORM
         });
-        fetch('/api/sessions', {
+        guardedFetch(dispatch, fetch('/api/sessions', {
             method: 'PUT',
             body: JSON.stringify({
                 username,
@@ -29,7 +21,7 @@ export function login(username, password) {
                 switch (msg.result) {
                     case 'INVALID_CREDENTIALS':
                         dispatch({
-                            type: LOGIN_INVALID,
+                            type: LOGIN_ERROR_INVALID,
                             username: username,
                         });
                         break;
@@ -38,11 +30,7 @@ export function login(username, password) {
                         break;
                 }
             });
-        }).catch((/* ex */) => {
-            dispatch({
-                type: LOGIN_ERROR
-            });
-        });
+        }));
     };
 }
 
@@ -66,7 +54,7 @@ export function loginSuccess(username, personId, token, roles) {
                 })
                 .then(json => {
                     dispatch({
-                        type: RECEIVE_PEOPLE,
+                        type: PEOPLE_FETCH_SUCCESS,
                         people: json,
                     });
                 });
@@ -77,7 +65,7 @@ export function loginSuccess(username, personId, token, roles) {
 export function loginExpired() {
     return function (dispatch) {
         dispatch({
-            type: LOGIN_EXPIRED
+            type: LOGIN_ERROR_EXPIRED
         });
     };
 }

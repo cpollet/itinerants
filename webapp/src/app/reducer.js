@@ -7,8 +7,8 @@ import attendanceReducer from './attendance/reducer';
 import userCreationReducer from './users/create/reducer';
 import userModificationReducer from './users/edit/reducer';
 import adminStateReducer from './admin/reducer';
-import {FETCH_ERROR} from './actions';
-import {FETCH_ERROR_RESET} from './actions';
+import {SERVER_ERROR} from './actions';
+import {SERVER_ERROR_RESET} from './actions';
 
 const initialState = {
     fetchError: false
@@ -16,11 +16,11 @@ const initialState = {
 
 function appStateReducer(state = initialState, action) {
     switch (action.type) {
-        case FETCH_ERROR:
+        case SERVER_ERROR:
             return Object.assign({}, state, {
                 fetchError: true,
             });
-        case FETCH_ERROR_RESET:
+        case SERVER_ERROR_RESET:
             return Object.assign({}, state, {
                 fetchError: false,
             });

@@ -1,7 +1,7 @@
 import {push} from 'react-router-redux';
 import fetch from 'isomorphic-fetch';
 import {loginExpired} from '../app/auth/actions';
-import {FETCH_ERROR, FETCH_ERROR_RESET} from './actions';
+import {SERVER_ERROR, SERVER_ERROR_RESET} from './actions';
 
 export function authenticatedFetch(url, dispatch, state, options = {}) {
     function extractOr(object, key, defaultValue) {
@@ -21,7 +21,7 @@ export function authenticatedFetch(url, dispatch, state, options = {}) {
     }
 
     dispatch({
-        type: FETCH_ERROR_RESET,
+        type: SERVER_ERROR_RESET,
     });
 
     return fetch(url, options)
@@ -39,7 +39,7 @@ export function guardedFetch(dispatch, fetchPromise) {
     return fetchPromise.catch(ex => {
         console.log('Error:', ex);
         dispatch({
-            type: FETCH_ERROR,
+            type: SERVER_ERROR,
         });
     });
 }
