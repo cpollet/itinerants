@@ -1,5 +1,12 @@
 import fetch from 'isomorphic-fetch';
-import {LOGIN_ERROR_EXPIRED, LOGIN_ERROR_INVALID, LOGIN_SUCCESS, LOGOUT, PEOPLE_FETCH_SUCCESS, LOGIN_RESET_FORM} from '../actions';
+import {
+    LOGIN_ERROR_EXPIRED,
+    LOGIN_ERROR_INVALID,
+    LOGIN_RESET_FORM,
+    LOGIN_SUCCESS,
+    LOGOUT,
+    PEOPLE_FETCH_SUCCESS
+} from '../actions';
 import {authenticatedFetch, guardedFetch} from '../helpers';
 
 export function login(username, password) {
@@ -45,11 +52,9 @@ export function loginSuccess(username, personId, token, roles) {
         });
 
         if (roles.indexOf('admin') > -1) {
-            guardedFetch(dispatch, authenticatedFetch('/api/people', dispatch, {app: {auth: {token: token}}}))
+            guardedFetch(dispatch, authenticatedFetch('/api/people', dispatch, {app: {auth: {token: token}}})
                 .then(response => {
-                    if (!response.ok) {
-                        throw 'Received HTTP status code ' + response.status;
-                    }
+                    console.log('do shit');
                     return response.json();
                 })
                 .then(json => {
@@ -57,7 +62,7 @@ export function loginSuccess(username, personId, token, roles) {
                         type: PEOPLE_FETCH_SUCCESS,
                         people: json,
                     });
-                });
+                }));
         }
     };
 }

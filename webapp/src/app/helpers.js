@@ -26,18 +26,29 @@ export function authenticatedFetch(url, dispatch, state, options = {}) {
 
     return fetch(url, options)
         .then(response => {
-            if (response.status === 401) {
-                loginExpired()(dispatch);
-                dispatch(push('/login'));
-                // fixme: terminate processing
+            if (!response.ok) {
+                console.log('throws ex');
+                throw {
+                    message: 'Received HTTP status code ' + response.status,
+                    response: response,
+                };
             }
+
             return response;
         });
 }
 
 export function guardedFetch(dispatch, fetchPromise) {
     return fetchPromise.catch(ex => {
+        console.log('catch ex');
+        if (ex.hasOwnProperty('response') && ex.response.status === 401) {
+            loginExpired()(dispatch);
+            dispatch(push('/login'));
+            return;
+        }
+
         console.log('Error:', ex);
+
         dispatch({
             type: SERVER_ERROR,
         });

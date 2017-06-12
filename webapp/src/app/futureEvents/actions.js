@@ -1,9 +1,9 @@
 import {
-    FUTURE_EVENTS_FETCH_ERROR,
     ATTENDANCES_FETCH_SUCCESS,
     AVAILABILITIES_FETCH_SUCCESS,
-    FUTURE_EVENTS_FETCH_SUCCESS,
-    FUTURE_EVENTS_FETCH
+    FUTURE_EVENTS_FETCH,
+    FUTURE_EVENTS_FETCH_ERROR,
+    FUTURE_EVENTS_FETCH_SUCCESS
 } from '../actions';
 import {authenticatedFetch, guardedFetch} from '../helpers';
 
@@ -18,9 +18,6 @@ export function fetchFutureEvents(realPersonId = null) {
 
         guardedFetch(dispatch, authenticatedFetch('/api/events/future', dispatch, getState())
             .then(response => {
-                if (!response.ok) {
-                    throw 'Received HTTP status code ' + response.status;
-                }
                 return response.json();
             })
             .then(json => {

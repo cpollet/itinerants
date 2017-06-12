@@ -1,9 +1,9 @@
 import {authenticatedFetch, guardedFetch} from '../../helpers';
 import {
-    PROFILE_FETCH_ERROR,
-    PROFILE_SAVE_ERROR_VALIDATION,
     PROFILE_FETCH,
+    PROFILE_FETCH_ERROR,
     PROFILE_FETCH_SUCCESS,
+    PROFILE_SAVE_ERROR_VALIDATION,
     PROFILE_SAVE_START,
     PROFILE_SAVE_SUCCESS
 } from '../../actions';
@@ -18,9 +18,6 @@ export function fetchProfile() {
 
         guardedFetch(dispatch, authenticatedFetch('/api/people/' + personId, dispatch, getState())
             .then((response) => {
-                if (!response.ok) {
-                    throw 'Received HTTP status code ' + response.status;
-                }
                 return response.json();
             })
             .then((json) => {
@@ -60,13 +57,13 @@ export function saveProfile(data) {
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then((response) => {
-            if (!response.ok && response.status !== 400) {
-                throw 'Received HTTP status code ' + response.status;
-            }
-
-            if (response.status === 400) {
-                response.json().then(json => {
+        }).then((/*response*/) => {
+            dispatch({
+                type: PROFILE_SAVE_SUCCESS,
+            });
+        }).catch(ex => {
+            if (ex.response.status === 400) {
+                ex.response.json().then(json => {
                     dispatch({
                         type: PROFILE_SAVE_ERROR_VALIDATION,
                         errors: json.errors
@@ -76,12 +73,9 @@ export function saveProfile(data) {
             }
 
             dispatch({
-                type: PROFILE_SAVE_SUCCESS,
-            });
-        }).catch(ex => {
-            dispatch({
                 type: PROFILE_FETCH_ERROR,
             });
+
             throw ex;
         }));
     };
