@@ -86,8 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
     store.subscribe(syncManager.listenerFactory());
 
     if (sessionStorage.getItem('auth')) {
-        const loginInfo = JSON.parse(sessionStorage.getItem('auth'));
-        loginSuccess(loginInfo.username, loginInfo.personId, loginInfo.token, loginInfo.roles)(store.dispatch);
+        if (!window.location.href.match(new RegExp('/users/passwords/.*', 'g'))) {
+            const loginInfo = JSON.parse(sessionStorage.getItem('auth'));
+            loginSuccess(loginInfo.username, loginInfo.personId, loginInfo.token, loginInfo.roles)(store.dispatch);
+        }
     }
 
     function authData(state) {
