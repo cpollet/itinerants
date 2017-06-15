@@ -1,5 +1,5 @@
-import {RESET_PASSWORD_ERROR_PASSWORD_TOO_SHORT, RESET_PASSWORD_PASSWORDS_MATCH, RESET_PASSWORD_TOKEN_SENT, RESET_PASSWORD_TOKEN_VALID, RESET_PASSWORD_ERROR_USERNAME_EMPTY} from '../actions';
-
+import {RESET_PASSWORD_ERROR, RESET_PASSWORD_ERROR_RESET, RESET_PASSWORD_TOKEN_SENT} from '../actions';
+import {appCodes} from './constants';
 const initialState = {
     passwordsMatch: true,
     passwordTooShort: false,
@@ -11,26 +11,34 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case RESET_PASSWORD_PASSWORDS_MATCH:
-            return Object.assign({}, initialState, {
-                passwordsMatch: action.value,
-            });
+        case RESET_PASSWORD_ERROR:
+            switch (action.code) {
+                case appCodes.passwordTooShort:
+                    return Object.assign({}, state, {
+                        passwordTooShort: true,
+                    });
 
-        case RESET_PASSWORD_ERROR_PASSWORD_TOO_SHORT:
-            return Object.assign({}, initialState, {
-                passwordTooShort: action.value,
-            });
+                case appCodes.usernameEmpty:
+                    return Object.assign({}, state, {
+                        usernameEmpty: true,
+                    });
 
-        case RESET_PASSWORD_TOKEN_VALID:
-            return Object.assign({}, initialState, {
-                tokenValid: action.value,
-                username: action.username,
-            });
+                case appCodes.passwordsDontMatch:
+                    return Object.assign({}, initialState, {
+                        passwordsMatch: false,
+                    });
 
-        case RESET_PASSWORD_ERROR_USERNAME_EMPTY:
-            return Object.assign({}, initialState, {
-                usernameEmpty: action.value,
-            });
+                case appCodes.invalidToken:
+                    return Object.assign({}, initialState, {
+                        tokenValid: false,
+                        username: action.username,
+                    });
+            }
+            console.log('Error: invalid error code: ' + action.code);
+            return state;
+
+        case RESET_PASSWORD_ERROR_RESET:
+            return initialState;
 
         case RESET_PASSWORD_TOKEN_SENT:
             return Object.assign({}, initialState, {
