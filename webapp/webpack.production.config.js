@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const CompressionPlugin = require("compression-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     context: path.join(__dirname, 'src'),
@@ -9,7 +10,7 @@ module.exports = {
     ],
     output: {
         path: path.join(__dirname, 'www'),
-        filename: 'bundle.js'
+        filename: 'bundle-[chunkhash].js'
     },
     devtool: 'source-map',
     module: {
@@ -72,6 +73,22 @@ module.exports = {
             threshold: 1000,
             minRatio: 0.8
         }),
-        new webpack.NoEmitOnErrorsPlugin()
-    ],
+        new webpack.NoEmitOnErrorsPlugin(),
+        new HtmlWebpackPlugin({
+            filename: 'index-prod.html',
+            template: 'index.ejs',
+            minify: {
+                collapseBooleanAttributes: true,
+                collapseInlineTagWhitespace: true,
+                collapseWhitespace: true,
+                decodeEntities: true,
+                keepClosingSlash: true,
+                quoteCharacter: '"',
+                removeComments: true,
+                removeEmptyAttributes: true,
+                removeOptionalTags: true,
+                removeRedundantAttributes: true,
+            }
+        }),
+    ]
 };

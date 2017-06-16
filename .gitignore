@@ -19,6 +19,8 @@
 **/webapp/node/
 **/webapp/node_modules
 **/webapp/**/bundle.js*
+**/webapp/**/bundle*.js*
+**/webapp/**/index-prod.html
 **/webapp/npm-debug.log
 **/webapp/etc
 cli/bin

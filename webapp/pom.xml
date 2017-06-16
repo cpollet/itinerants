@@ -24,7 +24,8 @@
                         <fileset>
                             <directory>${project.basedir}/www</directory>
                             <includes>
-                                <include>bundle.js*</include>
+                                <include>bundle*.js*</include>
+                                <include>index-prod.html</include>
                             </includes>
                         </fileset>
                     </filesets>
